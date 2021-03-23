@@ -3,7 +3,7 @@ module.exports = {
       return [
         {
           source: '/api/:path*',
-          destination: 'https://opal-ighsa.ondigitalocean.app/:path*',
+          destination: 'https://opal-to.herokuapp.com/:path*',
         },
       ]
     },
