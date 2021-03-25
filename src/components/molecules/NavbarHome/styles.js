@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import SVG from 'components/atoms/SVG'
 import Input from 'components/atoms/Input'
 import IconButton from 'components/atoms/IconButton'
+import {default as UserMenuBase} from 'components/atoms/UserMenu'
 
 export const Container = styled.div`
   height: 57px;
@@ -148,7 +149,7 @@ export const UserTitle = styled.div`
   font-size: ${props => props.theme.fontSize['sm'][0]};
   line-height: ${props => props.theme.fontSize['sm'][1].lineHeight};
 
-  color: 1px solid ${props => props.theme.colors.gray['800']};
+  color: ${props => props.theme.colors.gray['400']};
 
   font-weight: 500;
   user-select: none;
@@ -173,6 +174,14 @@ export const UserLogo = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+`
+
+export const UserMenu = styled(UserMenuBase)`
+  &:hover {
+    ${UserTitle} {
+      color: ${props => props.theme.colors.gray['800']};
+    }
+  }
 `
 
 export const LeftContainer = styled.div`

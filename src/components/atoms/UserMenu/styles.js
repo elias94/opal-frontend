@@ -10,7 +10,8 @@ import {
   MenuLink
 } from "@reach/menu-button"
 
-export const MenuStyled = styled(Menu)``
+export const MenuStyled = styled(Menu)`
+`
 
 export const MenuButtonStyled = styled(MenuButton)`
   display: flex;
@@ -32,6 +33,9 @@ export const MenuButtonStyled = styled(MenuButton)`
 
 export const MenuListStyled = styled(MenuList)`
   border: 1px solid ${props => props.theme.colors.gray['200']};
+  
+  z-index: 99;
+  position: relative;
 
   min-width: 120px;
   padding: 10px 0;

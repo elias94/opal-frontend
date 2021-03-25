@@ -4,13 +4,12 @@ import KeyEvent from 'shared/keyboard'
 
 import { svgImport } from 'components/atoms/SVG'
 import ImportDialog from 'components/molecules/ImportDialog'
-import UserMenu from 'components/atoms/UserMenu'
 
 import {
   Container, SVGSearch,
   SearchInput, SearchContainer,
   UserContainer, UserTitle,
-  UserLogo,
+  UserLogo, UserMenu,
   LeftContainer, CenterContainer, RightContainer,
   TagElement, TagName, RemoveTag,
 } from './styles'

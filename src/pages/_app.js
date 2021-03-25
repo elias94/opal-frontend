@@ -19,6 +19,8 @@ import {
   faPlusSquare as farPlusSquare,
   faBookmark as farBookmark,
   faTrashAlt as farTrashAlt,
+  faEye as farEye,
+  faEyeSlash as farEyeSlash,
 } from '@fortawesome/free-regular-svg-icons'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 
@@ -51,6 +53,8 @@ function App({ Component, pageProps }) {
       faChevronLeft,
       faExpand,
       farTrashAlt,
+      farEye,
+      farEyeSlash,
     )
   }, [])
 

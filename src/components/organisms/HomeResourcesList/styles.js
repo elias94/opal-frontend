@@ -26,7 +26,7 @@ export const ResourcesContainer = styled.div`
 
   background: ${props => props.theme.colors.white};
 
-  border-radius: 6px;
+  border-radius: 0.375rem;
   border: 1px solid ${props => props.theme.colors.gray[200]};
   box-shadow: ${props => props.theme.boxShadow['card']};
 
@@ -72,6 +72,8 @@ export const SectionHeader = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+
+  padding: 0 10px;
 `
 
 export const SectionHeaderIcon = styled(IconButton)`
@@ -220,7 +222,7 @@ export const DateInfo = styled.div`
 export const InfoContainer = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: baseline;
+  align-items: center;
   justify-content: start;
 `
 
@@ -257,6 +259,39 @@ export const Sep = styled.div`
   transition: opacity .2s ease-in-out;
 `
 
+export const ResourcePrivate = styled.div`
+  font-family: ${props => props.theme.fontFamily.sans};
+  font-size: ${props => props.theme.fontSize['sm'][0]};
+  line-height: ${props => props.theme.fontSize['sm'][1].lineHeight};
+  color: ${props => props.theme.colors.gray['400']};
+
+  border-radius: 6px;
+
+  opacity: 0;
+  transition: opacity .2s ease-in-out;
+
+  margin: 0;
+  margin-left: 3px;
+
+  cursor: pointer;
+
+  & > div {
+    padding: 0 4px;
+  }
+
+  & svg {
+    height: 18px;
+  }
+
+  &:hover {
+    color: ${props => props.theme.colors.gray['800']};
+  }
+
+  ${props => props.private && css`
+    opacity: 1;
+  `}
+`
+
 export const ResourceContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -273,7 +308,7 @@ export const ResourceContainer = styled.div`
   position: relative;
 
   &:hover {
-    ${ResourceIcon}, ${Sep} {
+    ${ResourceIcon}, ${Sep}, ${ResourcePrivate} {
       opacity: 1;
     }
   }

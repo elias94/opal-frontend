@@ -9,10 +9,6 @@ export const IconContainer = styled.div`
   cursor: pointer;
 
   color: ${props => props.theme.colors.gray['400']};
-
-  &:hover {
-    background: ${props => props.theme.colors.gray['200']};
-  }
 `
 
 export const IconEl = styled(Icon)``

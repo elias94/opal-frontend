@@ -6,6 +6,7 @@ import { formatContentFlat } from 'shared/libs/formatting'
 import { extractDomainUrl, isURL } from 'shared/utils'
 
 import Tooltip from 'components/atoms/Tooltip'
+import IconButton from 'components/atoms/IconButton'
 
 import {
   Container, ResourceContainer, ResourcesContainer,
@@ -14,6 +15,7 @@ import {
   Section, SectionTitle, TextPart, ResourceImage,
   EmptyList, DateInfo, InfoContainer, ResourceIcon,
   Sep, SectionHeader, SectionHeaderIcon,
+  ResourcePrivate,
 } from './styles'
 
 dayjs.extend(relativeTime)
@@ -45,6 +47,7 @@ function HomeResourcesList({ resources, ...props }) {
         isExternal={isExternalResource}
         deleteResource={props.deleteResource}
         deleteResourceNote={props.deleteResourceNote}
+        hideResource={props.hideResource}
       />
     ))
   }, [resources])
@@ -87,9 +90,8 @@ function getEmptyMessage(isExternalResource) {
 }
 
 function ResourceItem({ resource, excerpt, isExternal, ...props }) {
-  const [moueHover, setMouseHover] = useState(false)
-
   const [article, external, res, saved] = resource
+
   let subtitle, link, image
 
   if (isExternal) {
@@ -112,10 +114,7 @@ function ResourceItem({ resource, excerpt, isExternal, ...props }) {
   const trim = (str) => str.length > 200 ? str.slice(0, 200) + '...' : str
 
   return (
-    <ResourceContainer
-      onMouseEnter={() => setMouseHover(true)}
-      onMouseOut={() => setMouseHover(false)}
-    >
+    <ResourceContainer>
       <TextPart>
         <ResourceHeader>
           <ResourceHeaderLeft>
@@ -136,6 +135,15 @@ function ResourceItem({ resource, excerpt, isExternal, ...props }) {
           <DateInfo>
             {dayjs(saved.date).fromNow()}
           </DateInfo>
+          <Tooltip label={saved.private ? 'Make it visible on your profile' : 'Hide from your profile'}>
+            <ResourcePrivate private={saved.private} onClick={onResourceHideClick}>
+              {saved.private ? (
+                <IconButton icon={['far', 'eye-slash']} />
+              ) : (
+                <IconButton icon={['far', 'eye']} />
+              )}
+            </ResourcePrivate>
+          </Tooltip>
           <Sep>•</Sep>
           {isExternal && (
             <Tooltip label="Open original">
@@ -155,6 +163,12 @@ function ResourceItem({ resource, excerpt, isExternal, ...props }) {
       {image && <ResourceImage style={{ backgroundImage: `url('${image}')` }} />}
     </ResourceContainer>
   )
+
+  function onResourceHideClick() {
+    if (typeof props.hideResource === 'function') {
+      props.hideResource(res.id, !saved.private)
+    }
+  }
 
   function onRemoveClick() {
     if (isExternal) {

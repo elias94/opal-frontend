@@ -198,3 +198,10 @@ export function deleteTag(resourceId, tagName) {
 
   return deleteWithToken(reqPath, token, { name: tagName })
 }
+
+export function hideResource(resourceId, hidden=true) {
+  const token = localStorage.getItem('access_token')
+  const reqPath = `${ROUTE_PATH}/${resourceId}/hide-saved?hidden=${hidden}`
+
+  return postWithToken(reqPath, token)
+}

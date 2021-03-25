@@ -10,6 +10,7 @@ import {
   deleteResource,
   deleteNote,
   onboardUser,
+  hideResource,
 } from 'store'
 
 import HomePage from 'components/templates/HomePage'
@@ -40,11 +41,6 @@ export default function Signup() {
   if (userError) {
     router.push('/')
   }
-
-  // Real time search currently disabled
-  // useEffect(() => {
-  //   mutateResources()
-  // }, [searchValue])
 
   useEffect(() => {
     if (toast) {
@@ -77,9 +73,20 @@ export default function Signup() {
         onRemoveTag={onRemoveTag}
         onEmptySearchBackspace={onEmptySearchBackspace}
         setOnboard={setOnboard}
+        hideResource={hideSavedArticle}
       />
     </div>
   )
+
+  function hideSavedArticle(resourceId, hidden=true) {
+    hideResource(resourceId, hidden)
+    .then(() => {
+      mutateResources()
+    })
+    .catch((e) => {
+      console.error(e)
+    })
+  }
 
   function setOnboard() {
     onboardUser()

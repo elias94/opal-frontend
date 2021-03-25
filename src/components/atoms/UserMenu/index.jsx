@@ -12,7 +12,7 @@ function UserMenu(props) {
 
   return (
     <MenuStyled>
-      <MenuButtonStyled>
+      <MenuButtonStyled {...props}>
         {props.children}
       </MenuButtonStyled>
       <MenuListStyled>

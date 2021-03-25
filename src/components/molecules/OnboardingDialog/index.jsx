@@ -26,7 +26,7 @@ function OnboardingDialog({ onClose }) {
             <strong>Import</strong> all your <em>web article</em> and try all the new features
             <ul className="list-disc list-inside pt-2 leading-8">
               <li>Add your <strong>notes</strong> using <em>Markdown</em></li>
-              <li>Add your <strong>highlights</strong></li>
+              <li><strong>Highlight</strong> content and add it to your notes</li>
               <li>Quote article directly, using <strong>blocks</strong></li>
               <li>Include Twitter status</li>
               <li>Read <em>public</em> notes and citations from the <strong>community</strong></li>
@@ -34,16 +34,16 @@ function OnboardingDialog({ onClose }) {
             </ul>
           </div>
           <div className="pt-6 text-base font-regular leading-7">
-            Opal is currently is <span className="text-base font-medium opacity-50">beta</span>, so expect some bugs!<br/>
-            Please, <strong>reach me out</strong> and tell me about your <em>experience</em>,
-            or <em>features</em> that you really want.
+            Opal is currently in <span className="text-base font-medium opacity-50">beta</span>, so expect some bugs!<br/>
+            Please, feel free to <strong>reach out</strong> and tell me about your <em>experience</em> with the product,
+            or missing <em>features</em>.
           </div>
           <div className="pt-6 text-base font-regular leading-7 flex flex-row items-center justify-center">
-            hello@opal.to
+            hey@opal.to
             <a
               href="https://twitter.com/elia_scotto"
               title="@elia_scotto"
-              className="inline-flex flex-row items-center justify-center ml-8 text-blue-400"
+              className="inline-flex flex-row items-center justify-center ml-8 text-blue-400 focus:outline-none"
             >
               <TwitterIcon className="pr-1"/>
               @elia_scotto

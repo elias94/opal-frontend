@@ -65,7 +65,7 @@ export default function Home() {
               <a
                 href="https://twitter.com/getopal"
                 title="@getopal"
-                className="inline-flex flex-row items-center justify-center ml-8 text-blue-400"
+                className="inline-flex flex-row items-center justify-center ml-8 text-blue-400 focus:outline-none"
               >
                 <TwitterIcon className="pr-1"/>
               </a>
