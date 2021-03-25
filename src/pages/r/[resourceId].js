@@ -86,7 +86,7 @@ function Resource() {
   useEffect(() => {
     if (noteArticleError) {
       // Reset query param in case of error
-      // const routeParam = `/resource/${resourceId}`
+      // const routeParam = `/r/${resourceId}`
       // router.push(routeParam, undefined, { shallow: true })
       console.log(noteArticleError)
     }
@@ -110,38 +110,40 @@ function Resource() {
   }, [resourceId, noteId])
 
   return (
-    <ResourcePage
-      resourceId={resourceId}
-      noteId={noteId}
-      user={user}
-      resource={resource}
-      blocks={blocks}
-      tags={tags}
-      mentions={mentions}
-      isSingleArticle={isSingleArticle}
-      articleNotes={articleNotes}
-      note={noteArticleData && noteArticleData.note}
-      noteArticle={noteArticleData && noteArticleData.article}
-      noteBlocks={noteBlocks}
-      noteHighlights={noteHighlights}
-      loadingNoteBlocks={loadingNoteBlocks}
-      onArticleStarClick={onArticleStarClick}
-      onAddNoteClick={onAddNoteClick}
-      createBlock={createNoteBlock}
-      updateBlock={updateNoteBlock}
-      deleteBlock={deleteNoteBlock}
-      createNoteHighlight={createNoteHighlight}
-      deleteNoteHighlight={deleteNoteHighlight}
-      updateArticle={updateNoteArticle}
-      deleteArticle={deleteNoteArticle}
-      saveTag={saveArticleTag}
-      deleteTag={deleteArticleTag}
-      isInputTagActive={isInputTagActive}
-      tagInputError={tagInputError}
-      onAddTagClick={onAddTagClick}
-      onTagInputCancel={onTagInputCancel}
-      setNotePrivate={setArticleNotePrivate}
-    />
+    <div style={{ height: '100vh' }}>
+      <ResourcePage
+        resourceId={resourceId}
+        noteId={noteId}
+        user={user}
+        resource={resource}
+        blocks={blocks}
+        tags={tags}
+        mentions={mentions}
+        isSingleArticle={isSingleArticle}
+        articleNotes={articleNotes}
+        note={noteArticleData && noteArticleData.note}
+        noteArticle={noteArticleData && noteArticleData.article}
+        noteBlocks={noteBlocks}
+        noteHighlights={noteHighlights}
+        loadingNoteBlocks={loadingNoteBlocks}
+        onArticleStarClick={onArticleStarClick}
+        onAddNoteClick={onAddNoteClick}
+        createBlock={createNoteBlock}
+        updateBlock={updateNoteBlock}
+        deleteBlock={deleteNoteBlock}
+        createNoteHighlight={createNoteHighlight}
+        deleteNoteHighlight={deleteNoteHighlight}
+        updateArticle={updateNoteArticle}
+        deleteArticle={deleteNoteArticle}
+        saveTag={saveArticleTag}
+        deleteTag={deleteArticleTag}
+        isInputTagActive={isInputTagActive}
+        tagInputError={tagInputError}
+        onAddTagClick={onAddTagClick}
+        onTagInputCancel={onTagInputCancel}
+        setNotePrivate={setArticleNotePrivate}
+      />
+    </div>
   )
 
   function onAddNoteClick() {
@@ -156,7 +158,7 @@ function Resource() {
       // Shallow routing adding a parameter for the new note.
       // WARNING: If the user add a query parameter on his own?
       // see: https://nextjs.org/docs/routing/shallow-routing
-      const routeParam = `/resource/${resourceId}?note=${note.id}`
+      const routeParam = `/r/${resourceId}?note=${note.id}`
       router.push(routeParam, undefined, { shallow: true })
     })
     .catch((e) => {

@@ -100,6 +100,7 @@ function ArticleViewer({ resource, blocks, highlightTextMode, ...props }) {
               closeTooltip={closeTooltip}
               removeHighlight={removeHighlight}
               addHighlight={addHighlight}
+              showAddButton={!props.isSingleArticle}
             />
           </Portal>
         )}
@@ -343,6 +344,45 @@ function ArticleViewer({ resource, blocks, highlightTextMode, ...props }) {
      * check the string is the content.
      */
     const selection = document.getSelection()
+
+    function createHighlight(
+      highlightId,
+      startNode,
+      endNode,
+      startOffset,
+      endOffset,
+      blockId,
+      hContent,
+    ) {
+      const { offset, content, raw } = hContent
+      const hcontainer = document.createElement('span')
+      hcontainer.classList.add('highlighter')
+      hcontainer.dataset.highlightId = highlightId
+      hcontainer.innerHTML = raw
+  
+      hcontainer.onclick = (evt) => onHighlightClick(evt, highlightId)
+
+      hcontainer.normalize() // https://developer.mozilla.org/en-US/docs/Web/API/Node/normalize
+
+      const range = document.createRange()
+
+      try {
+        range.setStart(startNode, startOffset)
+        range.setEnd(endNode, endOffset)
+      } catch(e) {
+        console.log(e, hContent, startNode, endNode, startOffset, endOffset)
+        return
+      }
+
+      selection.addRange(range)
+      range.deleteContents()
+      range.insertNode(hcontainer)
+
+      dispatchHighlights({
+        type: 'ADD',
+        payload: { highlightId, blockId, offset, content, raw }
+      })
+    }
   
     highlights.forEach(({ id, note_id: noteId, block_id: blockId, content: hContent }) => {
       const { offset, content, raw } = hContent
@@ -355,6 +395,8 @@ function ArticleViewer({ resource, blocks, highlightTextMode, ...props }) {
       const blockContentEl = blockEl.lastChild.firstChild
       const contentNodes = [...blockContentEl.childNodes]
       let count = 0
+      let startNode, endNode
+      let startCount
   
       let i = 0
       while (1) {
@@ -364,41 +406,67 @@ function ArticleViewer({ resource, blocks, highlightTextMode, ...props }) {
           break
         }
   
-        let textLength
         if (node.nodeType === Node.TEXT_NODE) {
           const nodeLength = node.nodeValue.length
   
-          if (nodeLength > offset.start) {
-            // Text portion is inside
-            const noteContent = node.nodeValue.slice(offset.start, offset.end)
-            const contentText = extractStringFromMdast(content)
+          if (!startNode && count + nodeLength > offset.start) {
+            // If startNode is still not set and the start-offset is inside the current node, save the node
+            startNode = node
+            startCount = offset.start - count
+          }
 
-            console.log(noteContent, contentText)
-  
-            if (noteContent === contentText) {
-              const hcontainer = document.createElement('span')
-              hcontainer.classList.add('highlighter')
-              hcontainer.dataset.highlightId = id
-              hcontainer.innerHTML = raw
-          
-              hcontainer.onclick = (evt) => onHighlightClick(evt, id)
-  
-              hcontainer.normalize() // https://developer.mozilla.org/en-US/docs/Web/API/Node/normalize
-  
-              const range = document.createRange()
-              range.setStart(node, offset.start)
-              range.setEnd(node, offset.end)
-  
-              selection.addRange(range)
-              range.deleteContents()
-              range.insertNode(hcontainer)
-  
-              dispatchHighlights({
-                type: 'ADD',
-                payload: { highlightId: id, blockId, offset, content, raw }
-              })
-            }
-          } // else continue to the next block
+          if (count + nodeLength > offset.end) {
+            // ending-offset is inside the current node, so save the highlight
+            // console.log('startNode', startNode)
+            // console.log('count', count)
+            // console.log('nodeLength', nodeLength)
+            // console.log('node', node)
+            // console.log('content', content)
+            // console.log('offset', offset)
+
+            createHighlight(
+              id,
+              startNode,
+              node,
+              startCount,
+              offset.end - count,
+              blockId,
+              hContent
+            )
+            return
+          }
+
+          count += nodeLength
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
+          const nodeLength = node.innerText.length
+
+          if (!startNode && count + nodeLength > offset.start) {
+            // If startNode is still not set and the start-offset is inside the current node, save the node
+            startNode = node
+            startCount = offset.start - count
+          }
+
+          if (count + nodeLength > offset.end) {
+            // ending-offset is inside the current node, so save the highlight
+            // console.log('startNode', startNode)
+            // console.log('count', count)
+            // console.log('nodeLength', nodeLength)
+            // console.log('node', node)
+            // console.log('content', content)
+            // console.log('offset', offset)
+            createHighlight(
+              id,
+              startNode,
+              node,
+              startCount,
+              offset.end - count,
+              blockId,
+              hContent
+            )
+            return
+          }
+
+          count += nodeLength
         }
   
         i++
@@ -411,7 +479,7 @@ function ArticleViewer({ resource, blocks, highlightTextMode, ...props }) {
 
 export default ArticleViewer
 
-function HighlightPopover({ highlight, closeTooltip, ...props }) {
+function HighlightPopover({ highlight, closeTooltip, showAddButton, ...props }) {
   const node = useRef()
 
   const { position } = highlight
@@ -438,10 +506,14 @@ function HighlightPopover({ highlight, closeTooltip, ...props }) {
       <Tooltip label="Delete highlight" style={{ marginTop: '.5rem'  }}>
         <IconPopover icon={'trash-alt'} onClick={removeHighlight} />
       </Tooltip>
-      <PopoverSeparator />
-      <Tooltip label="Add highlight to note" style={{ marginTop: '.5rem'  }}>
-        <IconPopover icon={['far', 'plus-square']} onClick={addHighlight} />
-      </Tooltip>
+      {showAddButton && (
+        <>
+        <PopoverSeparator />
+        <Tooltip label="Add highlight to note" style={{ marginTop: '.5rem'  }}>
+          <IconPopover icon={['far', 'plus-square']} onClick={addHighlight} />
+        </Tooltip>
+        </>
+      )}
     </HighlightPopoverContainer>
   )
 

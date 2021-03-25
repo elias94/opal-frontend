@@ -7,9 +7,13 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 50vw;
   margin: 0 auto;
   margin-bottom: 6rem;
+  width: 100%;
+
+  @media (min-width: ${props => props.theme.screens.lg}) {
+    width: 60rem;
+  }
 `
 
 export const ResourcesContainer = styled.div`
@@ -62,6 +66,35 @@ export const Section = styled.section`
   margin: 20px 0;
 `
 
+export const SectionHeader = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`
+
+export const SectionHeaderIcon = styled(IconButton)`
+  height: 12px;
+  color: ${props => props.theme.colors.gray[400]};
+  display: inline-block;
+  margin: 0;
+  padding: 0 3px;
+  margin-right: 10px;
+  position: relative;
+
+  &>svg {
+    position: absolute;
+    top: 0px;
+    height: 12px;
+    transform: rotate(180deg);
+  }
+
+  &:hover {
+    background: none;
+  }
+`
+
 export const SectionTitle = styled.h3`
   font-family: ${props => props.theme.fontFamily.sans};
   font-size: ${props => props.theme.fontSize['sm'][0]};
@@ -70,10 +103,24 @@ export const SectionTitle = styled.h3`
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: -.025em;
-  color: ${props => props.theme.colors.gray[300]};
+  color: ${props => props.link ? props.theme.colors.gray[400] : props.theme.colors.gray[300]};
   margin-bottom: 5px;
 
   user-select: none;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  ${props => props.link && css`
+    cursor: pointer;
+    &:hover {
+      color: ${props => props.theme.colors.gray[600]};
+      ${SectionHeaderIcon} {
+        color: ${props => props.theme.colors.gray[600]};
+      }
+    }
+  `}
 `
 
 export const TextPart = styled.div`

@@ -1,12 +1,21 @@
+import { useEffect } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { signupUser, loginUser } from 'store'
+import { signupUser, loginUser, fetchUser } from 'store'
 
 import SignupPage from 'components/templates/SignupPage'
 
 export default function Signup() {
   const router = useRouter()
   let signupError = null
+
+  const { user } = fetchUser()
+
+  useEffect(() => {
+    if (user) {
+      router.push('/home')
+    }
+  }, [user])
 
   function SignupCallback(username, email, password) {
     signupUser(username, email, password).then(() => {
@@ -27,7 +36,7 @@ export default function Signup() {
   }
 
   return (
-    <div style={{ height: '100%' }}>
+    <div style={{ height: '100vh' }}>
       <Head>
         <title>{process.env.NEXT_PUBLIC_APP_NAME} - Signup</title>
         <link rel="icon" href="/favicon.ico" />

@@ -44,7 +44,7 @@ export default ArticleMenuNotes
 function NoteWithExcerpt({ note: { note, article, user, blocks }, resourceId }) {
   const preview = blocks.reduce((acc, b) => `${acc} ${formatContentFlat(b.content)}`, '')
   const trim = (str) => str.length > 220 ? str.slice(0, 220) + '...' : str
-  const routePath = `/resource/${resourceId}?note=${note.id}`
+  const routePath = `/r/${resourceId}?note=${note.id}`
 
   return (
     <NoteContainer>

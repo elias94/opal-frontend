@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Link from 'next/link'
 import KeyEvent from 'shared/keyboard'
 
 import { svgImport } from 'components/atoms/SVG'
@@ -17,7 +18,16 @@ import {
 function NavbarHome(props) {
   return (
     <Container>
-      <LeftContainer></LeftContainer>
+      <LeftContainer>
+        <div className="mx-auto flex flex-row justify-center items-start pl-5 select-none">
+          <Link href="/home">
+            <h3 className="w-min text-3xl font-black tracking-tight color-gradient select-none">
+              {process.env.NEXT_PUBLIC_APP_NAME}
+            </h3>
+          </Link>
+          <span className="text-xs -mr-4 font-medium pl-1 opacity-50">beta</span>
+        </div>
+      </LeftContainer>
       <CenterContainer>
         <ImportDialog onLinkSubmit={props.onLinkSubmit} />
         <SearchContainer>
@@ -28,7 +38,7 @@ function NavbarHome(props) {
             value={props.searchValue}
             onInput={onSearchChange}
             onKeyDown={onSearchKeydown}
-            placeholder="Search or paste url"
+            placeholder="Search or paste url and press Enter"
           />
           <SVGSearch>
             {svgImport`

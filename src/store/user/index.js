@@ -41,7 +41,7 @@ export function fetchUser() {
   // fetch user information
   // should not retry infinite times if user is not authorized
   // WARNING: localStorage only available client-side
-  const { data, error } = useSWR(() => 
+  const { data, mutate, error } = useSWR(() => 
     ['/users/me', localStorage.getItem('access_token')],
     fetchWithToken,
     {
@@ -53,6 +53,14 @@ export function fetchUser() {
   return {
     user: data,
     loading: !data && !error,
+    mutate,
     error,
   }
+}
+
+export function onboardUser() {
+  const token = localStorage.getItem('access_token')
+  const path = '/users/onboard'
+
+  return postWithToken(path, token)
 }

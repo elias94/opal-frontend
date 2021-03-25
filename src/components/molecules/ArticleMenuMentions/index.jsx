@@ -44,7 +44,7 @@ function MentionWithExcerpt({ mention: { resource, user, article, blocks } }) {
   const resourceId = resource.id
   const preview = blocks.reduce((acc, b) => `${acc} ${formatContentFlat(b.content)}`, '')
   const trim = (str) => str.length > 220 ? str.slice(0, 220) + '...' : str
-  const routePath = `/resource/${resourceId}`
+  const routePath = `/r/${resourceId}`
 
   return (
     <NoteContainer>

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const Button = styled.button`
-  background-color: ${props => props.theme.colors.blueGray['800']};
+  background-color: ${props => props.theme.colors.trueGray['900']};
   color: ${props => props.theme.colors.white};
   padding: 10px;
   

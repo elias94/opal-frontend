@@ -33,8 +33,6 @@ export default createGlobalStyle`
     font: inherit;
     vertical-align: baseline;
     line-height: 1;
-
-    height: 100vh;
   }
 
   strong {
@@ -60,5 +58,24 @@ export default createGlobalStyle`
 
   [data-reach-dialog-overlay] {
     z-index: 100;
+  }
+
+  html,
+  body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Inter var', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+      Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  }
+
+  html, body, #__next {
+    height: auto;
+  }
+
+  .color-gradient {
+    background: linear-gradient(to right, #f06844 0%, #ee4c54 25%, #d45e95 50%, #9c6ca6 75%, #6583c1 100%);
+    background-clip: border-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 `

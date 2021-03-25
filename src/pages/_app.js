@@ -4,6 +4,7 @@ import { ThemeProvider } from 'styled-components'
 
 import GlobalStyle from 'styles/globalStyle'
 import Theme from 'styles/theme'
+import 'tailwindcss/tailwind.css'
 
 import { config, library, IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import {

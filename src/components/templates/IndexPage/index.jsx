@@ -47,7 +47,7 @@ function IndexPage() {
           <SectionContent>
             <MainList>
               {mainList.map(i => (
-                <MainListItem>
+                <MainListItem key={`Item_${i}`}>
                   <MainListText>
                     {i}
                   </MainListText>

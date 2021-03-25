@@ -13,12 +13,12 @@ import {
   ResourcePreview, ResourceHeader, ResourceHeaderLeft,
   Section, SectionTitle, TextPart, ResourceImage,
   EmptyList, DateInfo, InfoContainer, ResourceIcon,
-  Sep,
+  Sep, SectionHeader, SectionHeaderIcon,
 } from './styles'
 
 dayjs.extend(relativeTime)
 
-function ResourcesList({ resources, ...props }) {
+function HomeResourcesList({ resources, ...props }) {
   if (!resources) {
     return null
   }
@@ -50,15 +50,25 @@ function ResourcesList({ resources, ...props }) {
   }, [resources])
 
   return (
-    <Container>
+    <Container className="sm:w-full">
       <Section>
-        <SectionTitle>Latest</SectionTitle>
+        <SectionHeader>
+          <SectionTitle>Latest Articles</SectionTitle>
+          <SectionTitle link>
+            All articles <SectionHeaderIcon icon="chevron-left" />
+          </SectionTitle>
+        </SectionHeader>
         <ResourcesContainer>
           {renderResources(externals)}
         </ResourcesContainer>
       </Section>
       <Section>
-        <SectionTitle>Notes</SectionTitle>
+        <SectionHeader>
+          <SectionTitle>Latest Notes</SectionTitle>
+          <SectionTitle link>
+            All Notes <SectionHeaderIcon icon="chevron-left" />
+          </SectionTitle>
+        </SectionHeader>
         <ResourcesContainer>
           {renderResources(notes, false)}
         </ResourcesContainer>
@@ -67,7 +77,7 @@ function ResourcesList({ resources, ...props }) {
   )
 }
 
-export default ResourcesList
+export default HomeResourcesList
 
 function getEmptyMessage(isExternalResource) {
   return isExternalResource ?
@@ -88,10 +98,10 @@ function ResourceItem({ resource, excerpt, isExternal, ...props }) {
     const domain = extractDomainUrl(url)
 
     subtitle = domain ? domain : url
-    link = `/resource/${res.id}`
+    link = `/r/${res.id}`
   } else {
     subtitle = 'Note'
-    link = `/resource/${external.source_id}?note=${external.id}`
+    link = `/r/${external.source_id}?note=${external.id}`
   }
 
   if (article.properties && isURL(article.properties.image)) {

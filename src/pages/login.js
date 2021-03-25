@@ -1,12 +1,21 @@
+import { useEffect } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { loginUser } from 'store'
+import { loginUser, fetchUser } from 'store'
 
 import LoginPage from 'components/templates/LoginPage'
 
-export default function Login() {
+function Login() {
   const router = useRouter()
   let loginError = null
+
+  const { user } = fetchUser()
+
+  useEffect(() => {
+    if (user) {
+      router.push('/home')
+    }
+  }, [user])
 
   const login = (username, password) => {
     loginUser(username, password).then(data => {
@@ -21,7 +30,7 @@ export default function Login() {
   }
 
   return (
-    <div style={{ height: '100%' }}>
+    <div style={{ height: '100vh' }}>
       <Head>
         <title>{process.env.NEXT_PUBLIC_APP_NAME} - Login</title>
         <link rel="icon" href="/favicon.ico" />
@@ -31,3 +40,5 @@ export default function Login() {
     </div>
   )
 }
+
+export default Login

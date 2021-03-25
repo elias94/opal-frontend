@@ -208,7 +208,11 @@ function renderToken(node, extra, deep) {
   }
   else if (type === 'image')
   {
-    render = <Image key={key} src={formatRelativeUrl(node.url, baseUrl)} />
+    render = (
+      <span key={key} className="w-full block mx-auto">
+        <Image src={formatRelativeUrl(node.url, baseUrl)} />
+      </span>
+    )
   }
   else if (type === 'text')
   {

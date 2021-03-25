@@ -91,18 +91,19 @@ export const DialogHeader = styled.div`
 
 export const DialogError = styled.div`
   font-family: ${props => props.theme.fontFamily.sans};
-  font-size: ${props => props.theme.fontSize['sm'][0]};
-  line-height: ${props => props.theme.fontSize['sm'][1].lineHeight};
-  color: ${props => props.theme.colors.red['500']};
-  background: ${props => props.theme.colors.red['100']};
+  font-size: ${props => props.theme.fontSize['base'][0]};
+  line-height: ${props => props.theme.fontSize['base'][1].lineHeight};
+  color: ${props => props.theme.colors.white};
+  background: ${props => props.theme.colors.red['500']};
 
-  width: 80%;
+  width: 100%;
   margin-top: 20px;
   margin-bottom: 0;
   padding: 10px 15px;
   align-self: start;
 
   border-radius: 6px;
+  text-align: center;
 `
 
 export const IconButtonEl = styled(IconButton)`

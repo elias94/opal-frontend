@@ -11,7 +11,7 @@ const ROUTE_PATH = '/highlights'
 
 export function fetchHighlights(resourceId, userId) {
   const { data, mutate, error } = useSWR(
-    () => resourceId ? `${ROUTE_PATH}/resource/${resourceId}/${userId}` : null,
+    () => resourceId && userId ? `${ROUTE_PATH}/resource/${resourceId}/${userId}` : null,
     fetch,
     {
       revalidateOnMount: true,

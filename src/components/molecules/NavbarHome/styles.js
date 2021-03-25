@@ -56,12 +56,19 @@ export const SearchInput = styled(Input)`
   margin: 0;
   padding: 0 0px 4px 7.5px;
 
-  color: ${props => props.theme.colors.gray['600']};
+  color: ${props => props.theme.colors.gray['800']};
 
   font-weight: 400;
   font-size: ${props => props.theme.fontSize['xl'][0]};
 
   width: 40rem;
+
+  &::placeholder {
+    color: ${props => props.theme.colors.gray['300']};
+    font-size: ${props => props.theme.fontSize['lg'][0]};
+    vertical-align: center;
+    line-height: 1.6rem;
+  }
 `
 
 export const TagElement = styled.span`

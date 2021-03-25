@@ -38,11 +38,26 @@ export const RightContainer = styled.div`
   margin-right: 1rem;
 `
 
+export const NavbarArrow = styled(IconButton)`
+  color: ${props => props.theme.colors.gray['400']};
+
+  font-size: 1rem;
+  padding-right: 0.5rem;
+  margin: 0;
+
+  transition: color .15s ease, background .15s ease;
+
+  &:hover {
+    color: ${props => props.theme.colors.gray['600']};
+    background: none;
+  }
+`
+
 export const NavbarIcon = styled(IconButton)`
   color: ${props => props.theme.colors.gray['400']};
 
   font-size: 1rem;
-  padding: 0.5rem 0.5rem;
+  padding: 0.5rem;
   margin: 0 0.5rem;
 
   transition: color .15s ease, background .15s ease;
@@ -59,7 +74,7 @@ export const SVGIcon = styled(SVG)`
   }
 
   padding: 0;
-  height: 22px;
+  height: 20px;
 `
 
 export const HighlightIconContainer = styled.div`

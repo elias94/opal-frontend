@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react'
 import { isURL } from 'shared/utils'
+import KeyEvent from 'shared/keyboard'
 
 import '@reach/dialog/styles.css'
 
@@ -28,13 +29,13 @@ function ImportDialog(props) {
           <IconButtonEl icon="times" onClick={closeDialog} />
         </DialogHeader>
         <DialogContent>
-          <InputUrl ref={inputEl} />
+          <InputUrl ref={inputEl} onKeyDown={onInputKeydown} />
           <ConfirmButton className="close-button" onClick={onImportClick}>
             Import
           </ConfirmButton>
         </DialogContent>
         {error && (
-          <DialogError>
+          <DialogError className="w-full mx-auto">
             {error}
           </DialogError>
         )}
@@ -42,7 +43,16 @@ function ImportDialog(props) {
     </Container>
   )
 
-  function onImportClick(evt) {
+  function onInputKeydown(evt) {
+    const keyEvt = KeyEvent(evt)
+
+    if (keyEvt.isEnter) {
+      const url = inputEl.current.value.trim()
+      submitInput(url)
+    }
+  }
+
+  function onImportClick() {
     const url = inputEl.current.value.trim()
     submitInput(url)
   }
@@ -54,7 +64,7 @@ function ImportDialog(props) {
         closeDialog()
       }
     } else {
-      setError('Url is not valid')
+      setError('Input string is not a valid URL')
     }
   }
 }

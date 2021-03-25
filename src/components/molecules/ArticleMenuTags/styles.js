@@ -12,6 +12,7 @@ export const TagElement = styled.span`
   border-radius: 20px;
   padding: 5px 12.5px;
 
+  margin: 3px 0;
   margin-right: 10px;
 
   &::last-child {

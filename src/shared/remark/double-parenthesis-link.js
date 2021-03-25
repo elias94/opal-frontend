@@ -7,7 +7,7 @@ const BLOCK_UUID_R = /^(\(){2}(\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{
 /**
  * At the moment only support ((ARTICLE_ID))
  */
-const idToURL = (id) => `/resource/${id}`
+const idToURL = (id) => `/r/${id}`
 
 function doubleParenthesisLink(tree) {
   visit(tree, 'text', (node, index, parent) => {

@@ -52,6 +52,21 @@ export const ButtonGroup = styled.div`
   margin-left: 2rem;
 `
 
+export const NavbarArrow = styled(IconButton)`
+  color: ${props => props.theme.colors.gray['400']};
+
+  font-size: 1rem;
+  padding-right: 0.5rem;
+  margin: 0;
+
+  transition: color .15s ease, background .15s ease;
+
+  &:hover {
+    color: ${props => props.theme.colors.gray['600']};
+    background: none;
+  }
+`
+
 export const NavbarIcon = styled(IconButton)`
   color: ${props => props.theme.colors.gray['400']};
 

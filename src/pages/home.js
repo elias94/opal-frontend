@@ -9,6 +9,7 @@ import {
   storeExternalResource,
   deleteResource,
   deleteNote,
+  onboardUser,
 } from 'store'
 
 import HomePage from 'components/templates/HomePage'
@@ -23,7 +24,13 @@ export default function Signup() {
   const [searchValue, setSearchValue] = useState('')
   const [refreshInterval, setRefreshInterval] = useState(DEFAULT_REFRESH)
   
-  const { user, loading: userLoading, error: userError } = fetchUser()
+  const {
+    user,
+    loading: userLoading,
+    mutate: mutateUser,
+    error: userError
+  } = fetchUser()
+
   const {
     resources,
     loading: loadingResources,
@@ -50,7 +57,7 @@ export default function Signup() {
   }, [toast])
 
   return (
-    <div style={{ height: '100%' }}>
+    <div style={{ height: '100vh' }}>
       <Head>
         <title>{process.env.NEXT_PUBLIC_APP_NAME} - Home</title>
         <link rel="icon" href="/favicon.ico" />
@@ -69,9 +76,20 @@ export default function Signup() {
         deleteResourceNote={deleteArticleNote}
         onRemoveTag={onRemoveTag}
         onEmptySearchBackspace={onEmptySearchBackspace}
+        setOnboard={setOnboard}
       />
     </div>
   )
+
+  function setOnboard() {
+    onboardUser()
+    .then(() => {
+      mutateUser()
+    })
+    .catch((e) => {
+      console.error(e)
+    })
+  }
 
   function onEmptySearchBackspace() {
     if (tags.lengt > 0) {
