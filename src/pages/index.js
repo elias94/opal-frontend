@@ -8,7 +8,10 @@ export default function Home() {
     <div className="h-full mx-auto" style={{ background: `rgb(248, 242, 227) none repeat scroll 0% 0%` }}>
       <Head>
         <title>Opal - Enchance your reading experience</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="manifest" href="/site.webmanifest" />
       </Head>
       
       <header className="w-6/12 max-w-6xl pt-6 mx-auto flex flex-row items-center justify-between">
@@ -60,8 +63,8 @@ export default function Home() {
             <div className="text-sm font-regular flex flex-row justify-center">
               hello@opal.to
               <a
-                href="https://twitter.com/elia_scotto"
-                title="@elia_scotto"
+                href="https://twitter.com/getopal"
+                title="@getopal"
                 className="inline-flex flex-row items-center justify-center ml-8 text-blue-400"
               >
                 <TwitterIcon className="pr-1"/>
