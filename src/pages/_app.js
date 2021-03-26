@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { SWRConfig } from 'swr'
 import { ThemeProvider } from 'styled-components'
+import splitbee from '@splitbee/web'
 
 import GlobalStyle from 'styles/globalStyle'
 import Theme from 'styles/theme'
@@ -30,6 +31,9 @@ function App({ Component, pageProps }) {
 
   useEffect(() => {
     // componentDidMount
+    if (process.env.ENV === 'production') {
+      splitbee.init()
+    }
     
     // Declare fontawesome icons used into the project
     // https://fontawesome.com/how-to-use/on-the-web/using-with/react

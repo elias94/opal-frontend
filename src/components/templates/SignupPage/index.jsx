@@ -5,11 +5,7 @@ import { Container } from './styles'
 function SignupPage(props) {
   return (
     <Container>
-      <SignupForm
-        login={props.login}
-        onSignup={props.onSignup}
-        error={props.error}
-      />
+      <SignupForm {...props} />
     </Container>
   )
 }

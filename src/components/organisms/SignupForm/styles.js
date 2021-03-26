@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import Link from 'components/atoms/Link'
 
 export const Container = styled.div`
-  min-width: 25rem;
+  width: 28rem;
+  position: relative;
 
   background: ${props => props.theme.colors.white};
   box-shadow: ${props => props.theme.boxShadow.card};

@@ -16,6 +16,7 @@
     "@reach/menu-button": "^0.13.2",
     "@reach/portal": "^0.13.2",
     "@reach/tooltip": "^0.13.2",
+    "@splitbee/web": "^0.2.4",
     "axios": "^0.21.1",
     "dayjs": "^1.10.4",
     "fast-deep-equal": "^3.1.3",

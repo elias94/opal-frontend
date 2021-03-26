@@ -3,6 +3,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useTimeout, tagsReducer } from 'shared/hooks'
 import { isURL } from 'shared/utils'
+
 import {
   fetchUser,
   fetchUserResources,

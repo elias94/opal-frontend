@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { signupUser, loginUser, fetchUser } from 'store'
@@ -7,7 +7,8 @@ import SignupPage from 'components/templates/SignupPage'
 
 export default function Signup() {
   const router = useRouter()
-  let signupError = null
+  const [isLoading, setIsLoading] = useState(false)
+  const [signupError, setSignupError] = useState(null)
 
   const { user } = fetchUser()
 
@@ -18,20 +19,28 @@ export default function Signup() {
   }, [user])
 
   function SignupCallback(username, email, password) {
-    signupUser(username, email, password).then(() => {
+    setIsLoading(true)
+
+    signupUser(username, email, password)
+    .then(() => {
       // try to login
-      loginUser(username, password).then(data => {
+      loginUser(username, password)
+      .then(data => {
         // save user token to local storage
         localStorage.setItem('access_token', data.access_token)
         // redirect user to /home
         router.push('/home')
-      }).catch(error => {
-        console.error(error.message)
-        signupError = error
+      }).catch(e => {
+        console.error(e.message)
+
+        setSignupError(e.response.data.detail)
+        setIsLoading(false)
       })
-    }).catch(error => {
-      console.error(error.message)
-      signupError = error
+    }).catch(e => {
+      console.error(e.message)
+
+      setSignupError(e.response.data.detail)
+      setIsLoading(false)
     })
   }
 
@@ -42,7 +51,7 @@ export default function Signup() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <SignupPage onSignup={SignupCallback} error={signupError} />
+      <SignupPage onSignup={SignupCallback} error={signupError} isLoading={isLoading} />
     </div>
   )
 }

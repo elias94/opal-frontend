@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { loginUser, fetchUser } from 'store'
@@ -7,7 +7,8 @@ import LoginPage from 'components/templates/LoginPage'
 
 function Login() {
   const router = useRouter()
-  let loginError = null
+  const [isLoading, setIsLoading] = useState(false)
+  const [loginError, setLoginError] = useState(null)
 
   const { user } = fetchUser()
 
@@ -18,14 +19,19 @@ function Login() {
   }, [user])
 
   const login = (username, password) => {
-    loginUser(username, password).then(data => {
+    setIsLoading(true)
+
+    loginUser(username, password)
+    .then(data => {
       // save user token to local storage
       localStorage.setItem('access_token', data.access_token)
       // redirect user to /home
       router.push('/home')
-    }).catch(error => {
-      console.error(error.message)
-      loginError = error
+    }).catch(e => {
+      console.error(e.message)
+
+      setLoginError(e.response.data.detail)
+      setIsLoading(false)
     })
   }
 
@@ -36,7 +42,7 @@ function Login() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <LoginPage login={login} error={loginError} />
+      <LoginPage login={login} error={loginError} isLoading={isLoading} />
     </div>
   )
 }

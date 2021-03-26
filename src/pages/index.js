@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 
 import TwitterIcon from 'components/atoms/TwitterIcon'
+import { useEffect } from 'react'
 
 export default function Home() {
   return (

@@ -5,10 +5,7 @@ import { Container } from './styles'
 function LoginPage(props) {
   return (
     <Container>
-      <LoginForm
-        login={props.login}
-        error={props.error}
-      />
+      <LoginForm {...props} />
     </Container>
   )
 }

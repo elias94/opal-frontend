@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useInput } from 'shared/hooks/input'
 import Link from 'next/link'
 
@@ -7,11 +8,11 @@ import P from 'components/atoms/P'
 import Label from 'components/atoms/Label'
 import Button from 'components/atoms/Button'
 import LinkEl from 'components/atoms/Link'
-
+import LoadingOverlay from 'components/atoms/LoadingOverlay'
 
 import { Container, FormContainer } from './styles'
 
-function LoginForm({ login }) {
+function LoginForm({ login, error, isLoading, ...props }) {
   const [userValue, userBind, userReset] = useInput('')
   const [passwordValue, passwordBind, passwordReset] = useInput('')
 
@@ -21,12 +22,12 @@ function LoginForm({ login }) {
 
       login(userValue, passwordValue)
 
-      userReset()
       passwordReset()
   }
 
   return (
     <Container>
+      {isLoading && <LoadingOverlay />}
       <div className="mx-auto flex flex-row justify-center items-start pb-3">
         <Link href="/">
           <h3 className="w-min text-5xl font-black tracking-tight color-gradient cursor-pointer select-none">
@@ -41,6 +42,11 @@ function LoginForm({ login }) {
         <Input {...userBind} type="text" autocapitalize="off" autocorrect="off" autocomplete="username" autoFocus="autofocus" data-com-onepassword-filled="light" />
         <Label>Password <LinkEl href="/account_reset">Forgot password?</LinkEl></Label>
         <Input {...passwordBind} type="password" autocomplete="current-password" data-com-onepassword-filled="light" />
+        {error && (
+          <div className="bg-red-100 text-red-700 p-4 rounded-md">
+            <span className="text-sm">{error}</span>
+          </div>
+        )}
         <Button>Log in</Button>
       </FormContainer>
       
