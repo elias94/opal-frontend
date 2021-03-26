@@ -4,9 +4,9 @@ import { Container } from './styles'
 
 function LoginPage(props) {
   return (
-    <Container>
+    <div className="w-full h-full mx-auto flex items-center justify-center bg-gray-50">
       <LoginForm {...props} />
-    </Container>
+    </div>
   )
 }
 
