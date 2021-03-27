@@ -32,7 +32,11 @@ function App({ Component, pageProps }) {
   useEffect(() => {
     // componentDidMount
     if (process.env.ENV === 'production') {
-      splitbee.init()
+      splitbee.init({
+        token: process.env.SPLITBEE_TOKEN,
+        scriptUrl: "/bee.js",
+        apiUrl: "/_hive",
+      })
     }
     
     // Declare fontawesome icons used into the project
