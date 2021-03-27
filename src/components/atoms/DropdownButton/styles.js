@@ -20,7 +20,7 @@ export const MenuButtonStyled = styled(MenuButton)`
   border-radius: 6px;
 
   background-color: ${props => props.theme.colors.white};
-  color: ${props => props.theme.colors.gray['500']};
+  color: ${props => props.theme.colors.blueGray['500']};
   border: none;
 
   font-size: 0.9rem;
@@ -47,7 +47,7 @@ export const MenuButtonStyled = styled(MenuButton)`
 export const MenuListStyled = styled(MenuList)`
   position: relative;
   z-index: 5;
-  border: 1px solid ${props => props.theme.colors.gray['100']};
+  border: 1px solid ${props => props.theme.colors.blueGray['100']};
   border-radius: 6px;
 
 
@@ -63,7 +63,7 @@ export const MenuItemStyled = styled(MenuItem)`
   font-family: ${props => props.theme.fontFamily.sans};
   font-size: ${props => props.theme.fontSize['sm'][0]};
   line-height: ${props => props.theme.fontSize['sm'][1].lineHeight};
-  color: ${props => props.theme.colors.gray['700']};
+  color: ${props => props.theme.colors.blueGray['700']};
 
   padding: 5px 20px;
 
@@ -71,13 +71,13 @@ export const MenuItemStyled = styled(MenuItem)`
   user-select: none;
 
   &:hover {
-    color: ${props => props.theme.colors.gray['700']};
-    background: ${props => props.theme.colors.gray['100']};
+    color: ${props => props.theme.colors.blueGray['700']};
+    background: ${props => props.theme.colors.blueGray['100']};
   }
 `
 
 export const Caret = styled(IconButton)`
-  color: ${props => props.theme.colors.gray['400']};
+  color: ${props => props.theme.colors.blueGray['400']};
   display: inline;
 
   height: 8px;

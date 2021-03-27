@@ -27,7 +27,7 @@ export const ResourcesContainer = styled.div`
   background: ${props => props.theme.colors.white};
 
   border-radius: 0.375rem;
-  border: 1px solid ${props => props.theme.colors.gray[200]};
+  border: 1px solid ${props => props.theme.colors.blueGray[100]};
   box-shadow: ${props => props.theme.boxShadow['card']};
 
   font-family: ${props => props.theme.fontFamily.sans};
@@ -78,7 +78,7 @@ export const SectionHeader = styled.div`
 
 export const SectionHeaderIcon = styled(IconButton)`
   height: 12px;
-  color: ${props => props.theme.colors.gray[400]};
+  color: ${props => props.theme.colors.blueGray[400]};
   display: inline-block;
   margin: 0;
   padding: 0 3px;
@@ -89,7 +89,10 @@ export const SectionHeaderIcon = styled(IconButton)`
     position: absolute;
     top: 0px;
     height: 12px;
-    transform: rotate(180deg);
+
+    ${props => props.rotated && css`
+      transform: rotate(180deg);
+    `}
   }
 
   &:hover {
@@ -105,7 +108,7 @@ export const SectionTitle = styled.h3`
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: -.025em;
-  color: ${props => props.link ? props.theme.colors.gray[400] : props.theme.colors.gray[300]};
+  color: ${props => props.link ? props.theme.colors.blueGray[400] : props.theme.colors.blueGray[300]};
   margin-bottom: 5px;
 
   user-select: none;
@@ -117,9 +120,9 @@ export const SectionTitle = styled.h3`
   ${props => props.link && css`
     cursor: pointer;
     &:hover {
-      color: ${props => props.theme.colors.gray[600]};
+      color: ${props => props.theme.colors.blueGray[600]};
       ${SectionHeaderIcon} {
-        color: ${props => props.theme.colors.gray[600]};
+        color: ${props => props.theme.colors.blueGray[600]};
       }
     }
   `}

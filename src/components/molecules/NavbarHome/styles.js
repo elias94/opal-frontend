@@ -18,7 +18,7 @@ export const Container = styled.div`
   z-index: 3;
 
   box-shadow: ${props => props.theme.boxShadow.card};
-  border-bottom: 1px solid ${props => props.theme.colors.gray['200']};
+  border-bottom: 1px solid ${props => props.theme.colors.blueGray['200']};
 `
 
 export const SVGPlus = styled(SVG)`
@@ -26,7 +26,7 @@ export const SVGPlus = styled(SVG)`
   height: 20px;
   width: 20px;
 
-  background: ${props => props.theme.colors.gray['800']};
+  background: ${props => props.theme.colors.blueGray['800']};
   color: #FFF;
 
   padding: 5px;
@@ -47,7 +47,7 @@ export const SVGSearch = styled(SVG)`
 
   & > svg {
     height: 20px;
-    fill: ${props => props.theme.colors.gray['400']};
+    fill: ${props => props.theme.colors.blueGray['400']};
   }
 `
 
@@ -56,8 +56,9 @@ export const SearchInput = styled(Input)`
   border-radius: 0;
   margin: 0;
   padding: 0 0px 4px 7.5px;
+  transition: text-align 1s ease-in;
 
-  color: ${props => props.theme.colors.gray['800']};
+  color: ${props => props.theme.colors.blueGray['800']};
 
   font-weight: 400;
   font-size: ${props => props.theme.fontSize['xl'][0]};
@@ -132,7 +133,7 @@ export const SearchContainer = styled.div`
   align-items: center;
   height: 35px;
 
-  border-bottom: 1px solid ${props => props.theme.colors.gray['200']};
+  border-bottom: 1px solid ${props => props.theme.colors.blueGray['200']};
 `
 
 export const UserContainer = styled.div`
@@ -149,7 +150,7 @@ export const UserTitle = styled.div`
   font-size: ${props => props.theme.fontSize['sm'][0]};
   line-height: ${props => props.theme.fontSize['sm'][1].lineHeight};
 
-  color: ${props => props.theme.colors.gray['400']};
+  color: ${props => props.theme.colors.blueGray['400']};
 
   font-weight: 500;
   user-select: none;
@@ -179,7 +180,7 @@ export const UserLogo = styled.div`
 export const UserMenu = styled(UserMenuBase)`
   &:hover {
     ${UserTitle} {
-      color: ${props => props.theme.colors.gray['800']};
+      color: ${props => props.theme.colors.blueGray['800']};
     }
   }
 `

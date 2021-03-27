@@ -17,7 +17,7 @@ export const Container = styled.div`
   align-items: center;
   justify-content: space-between;
   background: ${props => props.theme.colors.white};
-  border-bottom: 1px solid ${props => props.theme.colors.gray['200']};
+  border-bottom: 1px solid ${props => props.theme.colors.blueGray['200']};
   opacity: .95;
 
   z-index: 3;
@@ -53,7 +53,7 @@ export const ButtonGroup = styled.div`
 `
 
 export const NavbarArrow = styled(IconButton)`
-  color: ${props => props.theme.colors.gray['400']};
+  color: ${props => props.theme.colors.blueGray['400']};
 
   font-size: 1rem;
   padding-right: 0.5rem;
@@ -62,13 +62,13 @@ export const NavbarArrow = styled(IconButton)`
   transition: color .15s ease, background .15s ease;
 
   &:hover {
-    color: ${props => props.theme.colors.gray['600']};
+    color: ${props => props.theme.colors.blueGray['600']};
     background: none;
   }
 `
 
 export const NavbarIcon = styled(IconButton)`
-  color: ${props => props.theme.colors.gray['400']};
+  color: ${props => props.theme.colors.blueGray['400']};
 
   font-size: 1rem;
   padding: 0.5rem 0.5rem;
@@ -77,14 +77,14 @@ export const NavbarIcon = styled(IconButton)`
   transition: color .15s ease, background .15s ease;
 
   &:hover {
-    color: ${props => props.theme.colors.gray['600']};
+    color: ${props => props.theme.colors.blueGray['600']};
     background: none;
   }
 `
 
 export const SVGIcon = styled(SVG)`
   & > svg {
-    fill: ${props => props.theme.colors.gray['400']};
+    fill: ${props => props.theme.colors.blueGray['400']};
   }
 
   padding: 0;
@@ -92,7 +92,7 @@ export const SVGIcon = styled(SVG)`
 `
 
 export const HighlightIconContainer = styled.div`
-  color: ${props => props.theme.colors.gray['600']};
+  color: ${props => props.theme.colors.blueGray['600']};
 
   font-size: 1.15rem;
   padding: 0.5rem 0.5rem;
@@ -107,7 +107,7 @@ export const HighlightIconContainer = styled.div`
 
     ${SVGIcon} {
       & > svg {
-        fill: ${props => props.theme.colors.gray['600']};
+        fill: ${props => props.theme.colors.blueGray['600']};
       }
     }
   }
@@ -115,6 +115,7 @@ export const HighlightIconContainer = styled.div`
 
 export const HeaderButton = styled(Button)`
   display: inline-flex;
+  color: ${props => props.theme.colors.blueGray['500']};
 
   margin: 0 5px;
 `
@@ -130,7 +131,7 @@ export const Tab = styled.div`
   font-family: ${props => props.theme.fontFamily.sans};
   font-size: ${props => props.theme.fontSize['sm'][0]};
   line-height: ${props => props.theme.fontSize['sm'][1].lineHeight};
-  color: ${props => props.theme.colors.gray['400']};
+  color: ${props => props.theme.colors.blueGray['400']};
 
   user-select: none;
 
@@ -144,8 +145,8 @@ export const Tab = styled.div`
   border-radius: 6px;
 
   &:hover {
-    background: ${props => props.theme.colors.gray['100']};
-    color: ${props => props.theme.colors.gray['500']};
+    background: ${props => props.theme.colors.blueGray['100']};
+    color: ${props => props.theme.colors.blueGray['500']};
   }
 
   &:last-child {
@@ -154,11 +155,13 @@ export const Tab = styled.div`
 `
 
 export const AddTab = styled(IconButton)`
-  background: ${props => props.theme.colors.gray['100']};
+  background: ${props => props.theme.colors.blueGray['100']};
   padding: 5px 10px;
   border-radius: 6px;
 
   font-size: 14px;
 
   margin-left: 10px;
+
+  color: ${props => props.theme.colors.blueGray['400']};
 `

@@ -16,14 +16,26 @@ import {
 
 import HomePage from 'components/templates/HomePage'
 
-const DEFAULT_REFRESH = 20 * 1000
+/**
+ * CONSTANTS
+ */
+const DEFAULT_REFRESH = 20 * 1000   // Default refresh rate for resources list
+const PAGE_SIZE = 30                // Initial sizes of a page of resources
+const DEFAULT_LIST_LENGTH = 12      // Default resources list length
 
 export default function Signup() {
   const router = useRouter()
   const timeout = useTimeout()
-  const [tags, dispatchTags] = useReducer(tagsReducer, [])
+
+  // Paging parameters
+  const [skipPaging, setSkipPaging] = useState(0)
+  const [sizePaging, setSizePaging] = useState(PAGE_SIZE)
+  // Toast message on homepage  
   const [toast, setToast] = useState(null)
+  // Applied on the tags
+  const [tags, dispatchTags] = useReducer(tagsReducer, [])
   const [searchValue, setSearchValue] = useState('')
+  // Refresh interval for the resources list
   const [refreshInterval, setRefreshInterval] = useState(DEFAULT_REFRESH)
   
   const {
@@ -37,7 +49,14 @@ export default function Signup() {
     resources,
     loading: loadingResources,
     mutate: mutateResources,
-  } = fetchUserResources(user && user.id, searchValue, tags, refreshInterval)
+  } = fetchUserResources(
+    user && user.id,
+    refreshInterval,
+    searchValue,
+    tags,
+    skipPaging,
+    sizePaging,
+  )
   
   if (userError) {
     router.push('/')
@@ -65,6 +84,9 @@ export default function Signup() {
         resources={resources}
         toast={toast}
         tags={tags}
+        skipPaging={skipPaging}
+        displayListLength={DEFAULT_LIST_LENGTH}
+        loadingResources={loadingResources}
         importArticle={importArticle}
         searchValue={searchValue}
         onSearchEnter={onSearchEnter}
@@ -75,9 +97,23 @@ export default function Signup() {
         onEmptySearchBackspace={onEmptySearchBackspace}
         setOnboard={setOnboard}
         hideResource={hideSavedArticle}
+        updatePaging={updatePaging}
+        resetPaging={resetPaging}
       />
     </div>
   )
+
+  function resetPaging() {
+    setSkipPaging(0)
+  }
+
+  function updatePaging(skipDir=1) {
+    if (skipDir == -1 && skipPaging > 0) {
+      setSkipPaging(skipPaging - PAGE_SIZE)
+    } else {
+      setSkipPaging(skipPaging + PAGE_SIZE)
+    }
+  }
 
   function hideSavedArticle(resourceId, hidden=true) {
     hideResource(resourceId, hidden)

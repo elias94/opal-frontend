@@ -5,5 +5,5 @@ export const Container = styled.div`
   width: 100%;
   overflow: scroll;
 
-  background: ${props => props.theme.colors.white};
+  background: ${props => props.theme.colors.blueGray['50']};
 `

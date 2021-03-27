@@ -77,7 +77,7 @@ export const DialogHeader = styled.div`
   font-family: ${props => props.theme.fontFamily.sans};
   font-size: ${props => props.theme.fontSize['lg'][0]};
   line-height: ${props => props.theme.fontSize['lg'][1].lineHeight};
-  color: ${props => props.theme.colors.gray['800']};
+  color: ${props => props.theme.colors.blueGray['800']};
 
   font-weight: 600;
 
@@ -107,9 +107,9 @@ export const DialogError = styled.div`
 `
 
 export const IconButtonEl = styled(IconButton)`
-  color: ${props => props.theme.colors.gray['300']};
+  color: ${props => props.theme.colors.blueGray['300']};
 
   &:hover {
-    background: ${props => props.theme.colors.gray['100']};
+    background: ${props => props.theme.colors.blueGray['100']};
   }
 `

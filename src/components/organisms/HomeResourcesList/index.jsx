@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -7,6 +7,7 @@ import { extractDomainUrl, isURL } from 'shared/utils'
 
 import Tooltip from 'components/atoms/Tooltip'
 import IconButton from 'components/atoms/IconButton'
+import LoadingOverlay from 'components/atoms/LoadingOverlay'
 
 import {
   Container, ResourceContainer, ResourcesContainer,
@@ -15,25 +16,142 @@ import {
   Section, SectionTitle, TextPart, ResourceImage,
   EmptyList, DateInfo, InfoContainer, ResourceIcon,
   Sep, SectionHeader, SectionHeaderIcon,
-  ResourcePrivate,
+  ResourcePrivate, SectionFooter,
 } from './styles'
 
 dayjs.extend(relativeTime)
 
 function HomeResourcesList({ resources, ...props }) {
   if (!resources) {
-    return null
+    if (props.loadingResources) {
+      return <LoadingOverlay />
+    } else {
+      return (
+        <div className="w-full h-auto pt-60 mx-auto flex items-center justify-center text-center">
+          <span className="text-gray-300 text-lg">
+            Error loading resources.
+            <br /><br />
+            Plese let me know!
+            <br />
+            hey@opal.to
+            <a
+              href="https://twitter.com/elia_scotto"
+              title="@elia_scotto"
+              className="inline-flex flex-row items-center justify-center ml-8 focus:outline-none"
+            >
+              @elia_scotto
+            </a>
+          </span>
+        </div>
+      )
+    }
   }
 
-  const { externals, notes } = resources || {}
+  const [displayMode, setDisplayMode] = useState(null)
 
+  const { externals, notes, info } = resources
 
-  const renderResources = useCallback((resources, isExternalResource=true) => {
+  if (displayMode) {
+    let resourcesList, showNext, showPrev
+
+    if (displayMode === 'articles') {
+      showNext = props.skipPaging + externals[0].length < info['external_count']
+      showPrev = props.skipPaging > 0
+      resourcesList = renderResources(externals, true)
+    } else if (displayMode === 'notes') {
+      showNext = props.skipPaging + notes[0].length < info['notes_count']
+      showPrev = props.skipPaging > 0
+      resourcesList = renderResources(notes, false)
+    } else {
+      return null
+    }
+
+    return (
+      <Container className="sm:w-full">
+        <Section>
+          <SectionHeader>
+            <SectionTitle link onClick={resetMode}>
+              <SectionHeaderIcon icon="chevron-left" /> Back
+            </SectionTitle>
+          </SectionHeader>
+          <ResourcesContainer>
+            {resourcesList}
+          </ResourcesContainer>
+          {(showNext || showPrev) && (
+            <div className="w-full pt-4 flex flex-row items-center justify-center">
+              {showPrev && (
+                <SectionTitle link onClick={() => props.updatePaging(-1)}>
+                  <SectionHeaderIcon icon="chevron-left" /> Newer
+                </SectionTitle>
+              )}
+              {showPrev && showNext && (
+                <div className="px-4">
+
+                </div>
+              )}
+              {showNext && (
+                <SectionTitle link onClick={() => props.updatePaging(1)}>
+                  Older <SectionHeaderIcon icon="chevron-left" rotated />
+                </SectionTitle>
+              )}
+            </div>
+          )}
+        </Section>
+      </Container>
+    )
+  }
+
+  const showAllArticlesLink = props.displayListLength < info['external_count']
+  const showAllNotesLink = props.displayListLength < info['notes_count']
+
+  return (
+    <Container className="sm:w-full">
+      <Section>
+        <SectionHeader>
+          <SectionTitle>Latest Articles</SectionTitle>
+          {showAllArticlesLink && (
+            <SectionTitle link onClick={() => setDisplayMode('articles')}>
+              All articles <SectionHeaderIcon icon="chevron-left" rotated />
+            </SectionTitle>
+          )}
+        </SectionHeader>
+        <ResourcesContainer>
+          {renderResources(externals)}
+        </ResourcesContainer>
+      </Section>
+      <Section>
+        <SectionHeader>
+          <SectionTitle>Latest Notes</SectionTitle>
+          {showAllNotesLink && (
+            <SectionTitle link onClick={() => setDisplayMode('notes')}>
+              All Notes <SectionHeaderIcon icon="chevron-left" rotated />
+            </SectionTitle>
+          )}
+        </SectionHeader>
+        <ResourcesContainer>
+          {renderResources(notes, false)}
+        </ResourcesContainer>
+      </Section>
+    </Container>
+  )
+
+  function resetMode() {
+    setDisplayMode(null)
+    if (typeof props.resetPaging === 'function') {
+      props.resetPaging()
+    }
+  }
+
+  function renderResources(resources, isExternalResource=true) {
     if (!resources) {
       return <EmptyList>{getEmptyMessage(isExternalResource)}</EmptyList>
     }
 
-    const [articles, excerpts] = resources
+    let [articles, excerpts] = resources
+
+    if (displayMode === null) {
+      articles = articles.slice(0, props.displayListLength)
+    }
 
     if (articles.length < 1) {
       return <EmptyList>{getEmptyMessage(isExternalResource)}</EmptyList>
@@ -50,34 +168,7 @@ function HomeResourcesList({ resources, ...props }) {
         hideResource={props.hideResource}
       />
     ))
-  }, [resources])
-
-  return (
-    <Container className="sm:w-full">
-      <Section>
-        <SectionHeader>
-          <SectionTitle>Latest Articles</SectionTitle>
-          <SectionTitle link>
-            All articles <SectionHeaderIcon icon="chevron-left" />
-          </SectionTitle>
-        </SectionHeader>
-        <ResourcesContainer>
-          {renderResources(externals)}
-        </ResourcesContainer>
-      </Section>
-      <Section>
-        <SectionHeader>
-          <SectionTitle>Latest Notes</SectionTitle>
-          <SectionTitle link>
-            All Notes <SectionHeaderIcon icon="chevron-left" />
-          </SectionTitle>
-        </SectionHeader>
-        <ResourcesContainer>
-          {renderResources(notes, false)}
-        </ResourcesContainer>
-      </Section>
-    </Container>
-  )
+  }
 }
 
 export default HomeResourcesList

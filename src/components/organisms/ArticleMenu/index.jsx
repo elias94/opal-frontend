@@ -63,7 +63,7 @@ function ArticleMenu({ resource, ...props }) {
         <ArticleMenuSection
           initialValue={true}
           title="notes"
-          tooltip={`Add your custom tags to categorize documents. We already added some tags for you. More good tag you add, more will be easy to find documents later.`}
+          tooltip={`You can see all the public notes shared by the community. You can read them, annotate and upvote them.`}
           extraHeader={<SectionButton secondary onClick={props.onAddNoteClick}>Add Note</SectionButton>}
         >
           <ArticleMenuNotes articleNotes={props.articleNotes} resourceId={props.resourceId} />
@@ -71,8 +71,7 @@ function ArticleMenu({ resource, ...props }) {
         <ArticleMenuSection
           initialValue={true}
           title="mentions"
-          tooltip={`Add your custom tags to categorize documents.
-          We already added some tags for you.More good tag you add, more will be easy to find documents later.`}
+          tooltip={`In this section you can see all the notes that are linking this article or quoting portions of it. Mentions implement the backlink concept.`}
         >
           <ArticleMenuMentions mentions={props.mentions} />
         </ArticleMenuSection>

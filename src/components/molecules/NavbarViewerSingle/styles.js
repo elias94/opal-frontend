@@ -16,7 +16,7 @@ export const Container = styled.div`
   align-items: center;
   justify-content: space-between;
   background: ${props => props.theme.colors.white};
-  border-bottom: 1px solid ${props => props.theme.colors.gray['200']};
+  border-bottom: 1px solid ${props => props.theme.colors.blueGray['200']};
   opacity: .95;
 `
 
@@ -39,7 +39,7 @@ export const RightContainer = styled.div`
 `
 
 export const NavbarArrow = styled(IconButton)`
-  color: ${props => props.theme.colors.gray['400']};
+  color: ${props => props.theme.colors.blueGray['400']};
 
   font-size: 1rem;
   padding-right: 0.5rem;
@@ -48,13 +48,13 @@ export const NavbarArrow = styled(IconButton)`
   transition: color .15s ease, background .15s ease;
 
   &:hover {
-    color: ${props => props.theme.colors.gray['600']};
+    color: ${props => props.theme.colors.blueGray['600']};
     background: none;
   }
 `
 
 export const NavbarIcon = styled(IconButton)`
-  color: ${props => props.theme.colors.gray['400']};
+  color: ${props => props.theme.colors.blueGray['400']};
 
   font-size: 1rem;
   padding: 0.5rem;
@@ -63,14 +63,14 @@ export const NavbarIcon = styled(IconButton)`
   transition: color .15s ease, background .15s ease;
 
   &:hover {
-    color: ${props => props.theme.colors.gray['600']};
+    color: ${props => props.theme.colors.blueGray['600']};
     background: none;
   }
 `
 
 export const SVGIcon = styled(SVG)`
   & > svg {
-    fill: ${props => props.theme.colors.gray['400']};
+    fill: ${props => props.theme.colors.blueGray['400']};
   }
 
   padding: 0;
@@ -78,7 +78,7 @@ export const SVGIcon = styled(SVG)`
 `
 
 export const HighlightIconContainer = styled.div`
-  color: ${props => props.theme.colors.gray['600']};
+  color: ${props => props.theme.colors.blueGray['600']};
 
   font-size: 1.15rem;
   padding: 0.5rem 0.5rem;
@@ -93,7 +93,7 @@ export const HighlightIconContainer = styled.div`
 
     ${SVGIcon} {
       & > svg {
-        fill: ${props => props.theme.colors.gray['600']};
+        fill: ${props => props.theme.colors.blueGray['600']};
       }
     }
   }

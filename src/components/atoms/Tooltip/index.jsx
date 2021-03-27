@@ -10,7 +10,7 @@ const Tooltip = styled(ReachTooltip)`
   line-height: ${props => props.theme.fontSize['sm'][1].lineHeight};
 
   color: ${props => props.theme.colors.white};
-  background: ${props => props.theme.colors.gray['800']};
+  background: ${props => props.theme.colors.blueGray['800']};
 
   z-index: 99;
   position: absolute;

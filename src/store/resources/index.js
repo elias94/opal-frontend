@@ -76,17 +76,34 @@ export function fetchResourceMentions(resourceId) {
   }
 }
 
-export function fetchUserResources(userId, searchValue, tags, refreshInterval) {
-  let path = ROUTE_PATH + '/user/' + userId + '?'
+export function fetchUserResources(
+  userId,
+  refreshInterval,
+  searchValue,
+  tags,
+  skip=null,
+  limit=40,
+) {
+  const base = ROUTE_PATH + '/user/' + userId + '?'
+  const qp = [] // query params
 
   if (searchValue.length > 1) {
-    path += 'match=' + searchValue + '&'
+    qp.push('match=' + searchValue)
   }
 
   if (tags.length > 0) {
-    const formatted = tags.map(tag => 'tags=' + tag)
-    path += formatted.join('&')
+    qp.push(tags.map(tag => 'tags=' + tag))
   }
+
+  if (skip) {
+    qp.push(`skip=${skip}`)
+  }
+
+  if (limit) {
+    qp.push(`limit=${limit}`)
+  }
+
+  const path = base + qp.join('&')
 
   const { data, mutate, error } = useSWR(() => 
     [userId && path, localStorage.getItem('access_token')],
