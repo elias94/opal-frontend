@@ -11,11 +11,12 @@ import {
   Header, HeaderMenu,
   HeaderTitle, SVGClose, HeaderDetails,
   HeaderDivider, SectionButton, IconClose,
+  HeaderSeparator, Caret,
 } from './styles'
 
 function ArticleMenu({ resource, ...props }) {
 
-  const { content, saved, saved_count } = resource
+  const { content, saved, saved_count, votes, user_vote } = resource
 
   if (!content) {
     return null
@@ -29,9 +30,14 @@ function ArticleMenu({ resource, ...props }) {
         <HeaderContainer>
           <Header>
             <HeaderTitle level="h1">
+              <Tooltip label={user_vote ? 'Unvote' : 'Upvote'}>
+                <Caret icon="caret-up" voted={!!user_vote} onClick={onVoteButtonClick} />
+              </Tooltip>
               {article.title}
             </HeaderTitle>
             <HeaderDetails>
+              {votes} votes
+              <HeaderDivider>•</HeaderDivider>
               {dayjs(article.date_created).format('DD/MM/YYYY')}
               <HeaderDivider>•</HeaderDivider>
               version 1
@@ -85,6 +91,14 @@ function ArticleMenu({ resource, ...props }) {
       </MenuContainer>
     </Container>
   )
+
+  function onVoteButtonClick() {
+    const vote = !user_vote
+
+    if (typeof props.saveUserVote === 'function') {
+      props.saveUserVote(vote)
+    }
+  }
 }
 
 export default ArticleMenu

@@ -54,6 +54,10 @@ export const HeaderTitle = styled(Title)`
   color: ${props => props.theme.colors.blueGray['500']};
   font-weight: 600;
 
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
   margin: 0;
 `
 
@@ -71,11 +75,23 @@ export const HeaderDetails = styled.p`
   line-height: ${props => props.theme.fontSize['xs'][1].lineHeight};
   color: ${props => props.theme.colors.blueGray['400']};
 
+  margin-top: 3px;
+
   font-style: italic;
 `
 
 export const HeaderDivider = styled.span`
   margin: 0 5px;
+`
+
+export const HeaderSeparator = styled.div`
+  width: 40%;
+  height: 0;
+  border: 1px solid ${props => props.theme.colors.blueGray['200']};
+
+  margin: 15px auto;
+
+  border-radius: 6px;
 `
 
 export const SectionButton = styled(Button)`
@@ -87,5 +103,25 @@ export const SectionButton = styled(Button)`
   &:hover {
     color: ${props => props.theme.colors.blueGray['600']};
     background: ${props => props.theme.colors.blueGray['200']};
+  }
+`
+
+export const Caret = styled(IconButton)`
+  color: ${props => props.voted ?
+    props.theme.colors.blueGray['300']
+    :
+    props.theme.colors.blueGray['500']
+  };
+  font-size: 32px;
+  display: inline;
+
+  margin-right: 10px;
+
+  line-height: 0;
+  padding: 0;
+
+  &:hover {
+    background: none;
+    color: ${props => props.theme.colors.blueGray['700']};
   }
 `

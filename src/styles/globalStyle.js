@@ -78,4 +78,16 @@ export default createGlobalStyle`
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+
+  .background-gradient {
+    background: linear-gradient(to right, #f06844 0%, #ee4c54 25%, #d45e95 50%, #9c6ca6 75%, #6583c1 100%);
+  }
+
+  .half-button {
+    background: linear-gradient(to right, #9c6ca6 0%, #6583c1 100%);
+
+    &:hover {
+      background: linear-gradient(to right, #f06844 0%, #ee4c54 100%);
+    }
+  }
 `

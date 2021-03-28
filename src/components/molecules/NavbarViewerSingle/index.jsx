@@ -35,7 +35,7 @@ function NavbarViewer({ url, saved, highlightTextMode, ...props }) {
         </Tooltip>
       </LeftContainer>
       <RightContainer>
-        <Tooltip label={saved ? "Remove from bookmarks" : "Save to bookmarks"}>
+        <Tooltip label={saved ? "Remove from your articles" : "Save to your articles"}>
           <NavbarIcon
             icon={saved ? 'bookmark' : ['far', 'bookmark']}
             onClick={props.onArticleStarClick}
@@ -63,7 +63,7 @@ function NavbarViewer({ url, saved, highlightTextMode, ...props }) {
             onClick={props.onAddNoteClick}
           />
         </Tooltip>
-        <Tooltip label="Open menu">
+        <Tooltip label={props.articleMenuOpen ? 'Close menu' : 'Open menu'}>
           <NavbarIcon
             icon={'bars'}
             onClick={props.onArticleMenuIconClick}

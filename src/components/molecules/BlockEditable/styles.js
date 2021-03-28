@@ -48,4 +48,6 @@ export const EditableElement = styled.div`
   white-space: pre-wrap;
 
   margin: .3em 0;
+
+  caret-color: ${props => props.theme.colors.blueGray['500']};
 `

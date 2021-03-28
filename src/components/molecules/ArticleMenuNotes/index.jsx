@@ -3,10 +3,13 @@ import dayjs from 'dayjs'
 
 import { formatContentFlat } from 'shared/libs/formatting'
 
+import Tooltip from 'components/atoms/Tooltip'
+
 import {
   Container, NoteHeader, NotePreview,
-  NoteTitle, NoteContainer, NoteAuthor,
-  NoteDate, EmptyList,
+  NoteTitleContainer, NoteContainer, NoteAuthor,
+  NoteDate, EmptyList, NoteVotes, Caret,
+  NoteTitle,
 } from './styles'
 
 function ArticleMenuNotes({ articleNotes, resourceId }) {
@@ -41,7 +44,10 @@ function ArticleMenuNotes({ articleNotes, resourceId }) {
 
 export default ArticleMenuNotes
 
-function NoteWithExcerpt({ note: { note, article, user, blocks }, resourceId }) {
+function NoteWithExcerpt({ 
+  note: { note, article, user, blocks, votes },
+  resourceId,
+}) {
   const preview = blocks.reduce((acc, b) => `${acc} ${formatContentFlat(b.content)}`, '')
   const trim = (str) => str.length > 220 ? str.slice(0, 220) + '...' : str
   const routePath = `/r/${resourceId}?note=${note.id}`
@@ -49,13 +55,20 @@ function NoteWithExcerpt({ note: { note, article, user, blocks }, resourceId }) 
   return (
     <NoteContainer>
       <NoteHeader>
+        <Tooltip label="Community rating">
+          <NoteVotes>
+            {votes}
+          </NoteVotes>
+        </Tooltip>
         <Link href={routePath}>
-          <NoteTitle>
-            {article.title}
+          <NoteTitleContainer>
+            <NoteTitle>
+              {article.title}
+            </NoteTitle>
             <NoteAuthor>
               {user.name}
             </NoteAuthor>
-          </NoteTitle>
+          </NoteTitleContainer>
         </Link>
         <NoteDate>
           {dayjs(article.date_modified).format('DD/MM/YYYY')}

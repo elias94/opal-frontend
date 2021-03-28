@@ -61,7 +61,7 @@ function NavbarViewerMultiple({ url, highlightTextMode, isEditable, note, ...pro
         <TabsContainer>
           <Tab>{props.noteArticle.title}</Tab>
           <Tab>{content && content[1].title}</Tab>
-          <AddTab icon="plus" onClick={() => setInfoDialogOpen(true)} />
+          {/* <AddTab icon="plus" onClick={() => setInfoDialogOpen(true)} /> */}
         </TabsContainer>
       </CenterContainer>
       <RightContainer>

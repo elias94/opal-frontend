@@ -124,9 +124,12 @@ export function fetchUserResources(
 }
 
 export function fetcArticleNotes(resourceId) {
-  const { data, mutate, error } = useSWR(
-    () => resourceId ? `${ROUTE_PATH}/${resourceId}/notes` : null,
-    fetch,
+  const { data, mutate, error } = useSWR(() =>
+    resourceId ? [
+      `${ROUTE_PATH}/${resourceId}/notes`,
+      localStorage.getItem('access_token'),
+    ] : null,
+    fetchWithToken,
     {
       initialData: [],
       shouldRetryOnError: true,
@@ -220,5 +223,18 @@ export function hideResource(resourceId, hidden=true) {
   const token = localStorage.getItem('access_token')
   const reqPath = `${ROUTE_PATH}/${resourceId}/hide-saved?hidden=${hidden}`
 
+  return postWithToken(reqPath, token)
+}
+
+export function saveVote(resourceId, vote=true) {
+  const token = localStorage.getItem('access_token')
+  let reqPath
+
+  if (vote) {
+    reqPath = `${ROUTE_PATH}/${resourceId}/vote`
+  } else {
+    reqPath = `${ROUTE_PATH}/${resourceId}/vote?unvote=${true}`
+  }
+  
   return postWithToken(reqPath, token)
 }

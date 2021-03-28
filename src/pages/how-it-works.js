@@ -2,9 +2,8 @@ import Head from 'next/head'
 import Link from 'next/link'
 
 import TwitterIcon from 'components/atoms/TwitterIcon'
-import { useEffect } from 'react'
 
-export default function Home() {
+export default function HowItWorks() {
   return (
     <div className="h-full mx-auto" style={{ background: `rgb(248, 242, 227) none repeat scroll 0% 0%` }}>
       <Head>
@@ -16,12 +15,14 @@ export default function Home() {
       </Head>
       
       <header className="w-6/12 max-w-6xl pt-6 mx-auto flex flex-row items-center justify-between">
-        <div className="flex flex-row justify-start">
-          <div className="text-4xl font-black tracking-tight color-gradient select-none">
-            Opal
+        <Link href="/">
+          <div className="flex flex-row justify-start cursor-pointer">
+            <div className="text-4xl font-black tracking-tight color-gradient select-none">
+              Opal
+            </div>
+            <span className="text-xs font-medium pl-1 opacity-50">beta</span>
           </div>
-          <span className="text-xs font-medium pl-1 opacity-50">beta</span>
-        </div>
+        </Link>
 
         <div className="flex flex-row items-center justify-between">
           <div className="mr-5">
@@ -41,14 +42,53 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto pt-44 flex flex-col justify-around">
-        <h1 className="text-left text-8xl font-black tracking-tight">
-          Enhance your <span className="color-gradient">reading</span><br/>experience
-        </h1>
+      <main className="max-w-3xl mx-auto pt-32 flex flex-col justify-around">
+        <h3 className="text-center text-6xl font-black tracking-tight">
+          How it works
+        </h3>
 
-        <div className="max-w-4xl p-10 mt-20 mx-auto flex flex-col justify-around">
+        <div className="w-0 h-16 mt-14 border-trueGray-300 border border-solid mx-auto rounded-md"></div>
+
+        <div className="w-5/6 mx-auto py-20">
+          <div className="text-left text-semibold font-bold text-4xl">
+            Import web content
+          </div>
+          <div className="text-grey-500 mt-2 font-medium text-2xl">
+            You can read all the articles that you came across in a <strong>clean</strong> and readable interface.
+            Every article is permanently saved and it will always be available.
+            Stop using web links. With the time, they become broken, blank, unintentional, or even malicious pages.
+          </div>
+
+          <div className="text-left pt-16 text-semibold font-bold text-4xl">
+            Add tags
+          </div>
+          <div className="text-grey-500 mt-2 font-medium text-2xl">
+            Group you content easily and find it later using the <strong>search bar</strong>.
+            Forget the old file-folders organization and create your large <strong>personal content</strong> system.
+          </div>
+
+          <div className="text-left pt-16 text-semibold font-bold text-4xl">
+            Take notes
+          </div>
+          <div className="text-grey-500 mt-2 font-medium text-2xl">
+            Annotate and highlight your articles in a interconnected way. Quote articles directly using the block or the highlights.
+          </div>
+
+          <div className="text-left pt-16 text-semibold font-bold text-4xl">
+            Explore community knowledge
+          </div>
+          <div className="text-grey-500 mt-2 font-medium text-2xl">
+            Read article's notes from the community see other users highlights.
+            You can extend the context of every portion of each articles and the platform as a system of collaborative reasoning.
+            Vote useful notes and learn from community personal knowledge.
+          </div>
+        </div>
+
+        <div className="w-0 h-16 border-trueGray-300 border border-solid mx-auto rounded-md"></div>
+
+        <div className="max-w-4xl p-10 mt-8 mx-auto flex flex-col justify-around">
           <div className="max-w-4xl mx-auto text-center text-grey-500 font-medium text-3xl">
-            Opal is the first platform to <strong>annotate</strong> web articles with the power of a community.  
+            Are you ready to create the first <strong className="text-black">collective intelligence</strong> platform together?
           </div>
           <div className="max-w-4xl mx-auto pt-16 text-center text-black font-medium">
             <Link href="/signup">
@@ -62,15 +102,6 @@ export default function Home() {
         </div>
         
       </main>
-
-      <div className="max-w-6xl mx-auto flex flex-col justify-around">
-        <h5 className="text-center text-2xl font-medium tracking-tight text-grey-500">
-          or see <Link href="/how-it-works"><span className=" underline text-grey-700 cursor-pointer">How it works</span></Link>
-        </h5>
-
-        <img className="pt-16" src="/frame_generic_light.png" />
-        <span className="text-gray-400 text-center text-sm">Articles are random and the interface change frequently</span>
-      </div>
 
       <footer className="mt-32">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">

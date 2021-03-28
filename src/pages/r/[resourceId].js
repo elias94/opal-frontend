@@ -21,6 +21,7 @@ import {
   saveTag,
   deleteTag,
   setNotePrivate,
+  saveVote,
 } from 'store'
 
 import ResourcePage from 'components/templates/ResourcePage'
@@ -142,9 +143,20 @@ function Resource() {
         onAddTagClick={onAddTagClick}
         onTagInputCancel={onTagInputCancel}
         setNotePrivate={setArticleNotePrivate}
+        saveUserVote={saveUserVote}
       />
     </div>
   )
+
+  function saveUserVote(vote) {
+    saveVote(resourceId, vote)
+    .then(() => {
+      mutateResource()
+    })
+    .catch((e) => {
+      console.error(e.status)
+    })
+  }
 
   function onAddNoteClick() {
     const [, article] = resource.content
