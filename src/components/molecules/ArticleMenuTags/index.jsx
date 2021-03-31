@@ -26,7 +26,7 @@ function ArticleMenuTags({ tags, isInputTagActive, ...props }) {
 
   function renderTags(tags) {
     if (!isInputTagActive && (!tags || tags.length === 0)) {
-      return <TagsEmpty>No tags found</TagsEmpty>
+      return <TagsEmpty>Add tags for this article</TagsEmpty>
     }
   
     return tags.map(({ resource_tag: tag }) => {

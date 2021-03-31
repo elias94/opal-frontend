@@ -34,7 +34,7 @@ export const Container = styled.div`
   flex-direction: row;
 
   margin: .4em 0;
-  margin-left: -17px;
+  margin-left: ${props => `calc(-17px + ${props.indent * 2}rem)`};
 `
 
 export const EditableElement = styled.div`
@@ -47,7 +47,5 @@ export const EditableElement = styled.div`
 
   white-space: pre-wrap;
 
-  margin: .3em 0;
-
-  caret-color: ${props => props.theme.colors.blueGray['500']};
+  margin: .1em 0;
 `

@@ -7,7 +7,7 @@ import {
   Container
 } from './styles'
 
-function InternalBlock({ blockId }) {
+function InternalBlock({ blockId, ...props }) {
   const { block, loading, mutate, error } = fetchBlock(blockId)
 
   useEffect(() => {
@@ -16,18 +16,18 @@ function InternalBlock({ blockId }) {
 
   if (loading) {
     return (
-      <Container>loading...</Container>
+      <Container {...props}>loading...</Container>
     )
   }
 
   if (error) {
     return (
-      <Container>Error retrieving block: {blockId}</Container>
+      <Container {...props}>Error retrieving block: {blockId}</Container>
     )
   }
 
   return (
-    <Container>
+    <Container {...props}>
       {formatContent(block.content, { blockId })}
     </Container>
   )

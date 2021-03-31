@@ -16,26 +16,7 @@ function NavbarViewer({ url, saved, highlightTextMode, isSingleArticle, ...props
 
   return (
     <Container>
-      <LeftContainer>
-        {isSingleArticle && (
-          <Tooltip label="Return to home">
-            <div className="flex flex-row justify-start items-center">
-              <NavbarArrow
-                icon="chevron-left"
-                onClick={onArticleHomeClick}
-              />
-              <div className="mx-auto flex flex-row justify-center items-start select-none text-gray-400 hover:text-gray-600">
-                <Link href="/home">
-                  <h3 className="w-min text-2xl font-black tracking-tight cursor-pointer select-none ">
-                    {process.env.NEXT_PUBLIC_APP_NAME}
-                  </h3>
-                </Link>
-                <span className="text-xs -mr-4 font-medium pl-1 opacity-70">beta</span>
-              </div>
-            </div>
-          </Tooltip>
-        )}
-      </LeftContainer>
+      <LeftContainer></LeftContainer>
       <RightContainer>
         <Tooltip label={saved ? "Remove from your articles" : "Save to your articles"}>
           <NavbarIcon

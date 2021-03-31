@@ -49,12 +49,14 @@ function BlockEditable({ block, dispatch, ...props }, ref) {
 
   return (
     <Container
+      indent={block.indent}
       onClick={onBlockClick}
       onMouseEnter={() => setMouseHover(true)}
       onMouseLeave={() => setMouseHover(false)}
     >
       <BulletContainer>
-        <Bullet visible={mouseHover} focused={editable} onClick={onBlockBulletClick} />
+        <div style={{ height: '30px', width: '20px' }}></div>
+        {/* <Bullet visible={mouseHover} focused={editable} onClick={onBlockBulletClick} /> */}
       </BulletContainer>
       <Content>
         {editable ? (
@@ -80,7 +82,7 @@ function BlockEditable({ block, dispatch, ...props }, ref) {
   }
 
   function onBlockBulletClick() {
-    dispatch({ type: 'DELETE', payload: block })
+    // dispatch({ type: 'DELETE', payload: block })
   }
 
   function onEditableBlur() {
@@ -98,7 +100,7 @@ function BlockEditable({ block, dispatch, ...props }, ref) {
     let updatedBlock
 
     if (shouldUpdateBlock) {
-      updatedBlock = checkTextForCommands(markdownText, block)
+      updatedBlock = parseContentForMatches(markdownText, block)
       
       if (!updatedBlock) {
         updatedBlock = getUpdatedBlock(markdownText, block)
@@ -139,7 +141,7 @@ function BlockEditable({ block, dispatch, ...props }, ref) {
 
       setShouldUpdateBlock(false)
 
-      const commandBlock = checkTextForCommands(markdownText, block)
+      const commandBlock = parseContentForMatches(markdownText, block)
 
       if (commandBlock) {
         // Command block detected, update the block and add a new one
@@ -172,6 +174,7 @@ function BlockEditable({ block, dispatch, ...props }, ref) {
     {
       // BACKSPACE
       let markdownText = editableEl.current.innerText
+      const { isCursorAtBeginning } = getSelectionInfo()
 
       if (markdownText === '\n') {
         markdownText = ''
@@ -181,12 +184,52 @@ function BlockEditable({ block, dispatch, ...props }, ref) {
         evt.preventDefault()
 
         dispatch({ type: 'DELETE', payload: block })
+      } else if (isCursorAtBeginning && block.position > 0) {
+        evt.preventDefault()
+
+        const prev = props.getPreviousBlock(block)
+        const newContent = prev.properties.raw + markdownText
+        const newBlock = getUpdatedBlock(newContent, prev)
+
+        dispatch({ type: 'DELETE_UPDATE', payload: [block, newBlock] })
       }
     }
     else if (keyEvt.isTab)
     {
       // TAB
       evt.preventDefault()
+
+      if (keyEvt.isShiftPressed) {
+        if (block.indent > 0) {
+          const newBlock = { ...block, indent:  block.indent - 1 }
+          dispatch({ type: 'UPDATE', payload: newBlock })
+        }
+      } else {
+        const prev = props.getPreviousBlock(block)
+
+        if (block.indent < prev.indent + 1) {
+          const newBlock = { ...block, indent: block.indent + 1 }
+          dispatch({ type: 'UPDATE', payload: newBlock })
+        }
+      }
+    }
+    else if (keyEvt.isArrowUp) {
+      const { isCursorAtBeginning } = getSelectionInfo()
+
+      if (isCursorAtBeginning) {
+        evt.preventDefault()
+
+        props.focusPrevBlock(block)
+      }
+    }
+    else if (keyEvt.isArrowDown) {
+      const { isCursorAtTheEnd } = getSelectionInfo()
+
+      if (isCursorAtTheEnd) {
+        evt.preventDefault()
+
+        props.focusNextBlock(block)
+      }
     }
   }
 
@@ -247,6 +290,7 @@ function checkLinks(tree) {
 function getUpdatedBlock(markdownText, block) {
   const _mdast = parseMarkdown(markdownText)
   doubleParenthesisLink(_mdast)
+  
   const links = checkLinks(_mdast)
   const mdast = _mdast.children
   const isEmpty = mdast.length === 0
@@ -311,7 +355,7 @@ function getUpdatedBlock(markdownText, block) {
 const TWITTER_R = /^http(s)?:\/\/twitter\.com\/(?:#!\/)?(\w+)\/status(es)?\/(\d+)(\s){0,2}$/
 const UUID_R = /^(\(){2}(\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b)(\)){2}(\s){0,2}$/
 
-function checkTextForCommands(markdownText, block) {
+function parseContentForMatches(markdownText, block) {
   let match
 
   if ((match = markdownText.match(TWITTER_R)) !== null) {

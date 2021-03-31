@@ -128,6 +128,17 @@ export const SectionTitle = styled.h3`
   `}
 `
 
+export const EyeIcon = styled(IconButton)`
+  & > svg {
+    height: 16px;
+  }
+
+  &:hover {
+    background: none;
+    color: ${props => props.theme.colors.gray['800']};
+  }
+`
+
 export const TextPart = styled.div`
   display: flex;
   flex-direction: column;
@@ -148,6 +159,8 @@ export const ResourceImage = styled.div`
   border-radius: 6px;
   margin-left: 20px;
   border: 1px solid ${props => props.theme.colors.gray['100']};
+
+  cursor: pointer;
 `
 
 export const ResourceCard = styled.div`
@@ -244,10 +257,15 @@ export const ResourceIcon = styled(IconButton)`
     color: ${props => props.theme.colors.gray['800']};
   }
 
+  margin-left: 5px;
   margin-right: 10px;
 
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
   & > svg {
-    height: 14px;
+    height: 16px;
   }
 `
 

@@ -6,8 +6,8 @@ import { formatContentFlat } from 'shared/libs/formatting'
 import { extractDomainUrl, isURL } from 'shared/utils'
 
 import Tooltip from 'components/atoms/Tooltip'
-import IconButton from 'components/atoms/IconButton'
 import LoadingOverlay from 'components/atoms/LoadingOverlay'
+import OkayCancelDialog from 'components/molecules/OkayCancelDialog'
 
 import {
   Container, ResourceContainer, ResourcesContainer,
@@ -16,7 +16,7 @@ import {
   Section, SectionTitle, TextPart, ResourceImage,
   EmptyList, DateInfo, InfoContainer, ResourceIcon,
   Sep, SectionHeader, SectionHeaderIcon,
-  ResourcePrivate, SectionFooter,
+  ResourcePrivate, SectionFooter, EyeIcon,
 } from './styles'
 
 dayjs.extend(relativeTime)
@@ -214,24 +214,28 @@ function ResourceItem({ resource, excerpt, isExternal, ...props }) {
                 {article.title}
               </ResourceTitle>
             </Link>
-            <ResourceSubtitle>
-              {subtitle}
-            </ResourceSubtitle>
+            <Link href={link}>
+              <ResourceSubtitle>
+                {subtitle}
+              </ResourceSubtitle>
+            </Link>
           </ResourceHeaderLeft>
         </ResourceHeader>
         <ResourcePreview>
-          {trim(preview)}
+          <Link href={link}>
+            {trim(preview)}
+          </Link>
         </ResourcePreview>
         <InfoContainer>
           <DateInfo>
             {dayjs(saved.date).fromNow()}
           </DateInfo>
-          <Tooltip label={saved.private ? 'Make it visible on your profile' : 'Hide from your profile'}>
+          <Tooltip label={saved.private ? 'Show on your public profile' : 'Hide on your public profile'}>
             <ResourcePrivate private={saved.private} onClick={onResourceHideClick}>
               {saved.private ? (
-                <IconButton icon={['far', 'eye-slash']} />
+                <EyeIcon icon={['far', 'eye-slash']} />
               ) : (
-                <IconButton icon={['far', 'eye']} />
+                <EyeIcon icon={['far', 'eye']} />
               )}
             </ResourcePrivate>
           </Tooltip>
@@ -243,15 +247,27 @@ function ResourceItem({ resource, excerpt, isExternal, ...props }) {
               </a>
             </Tooltip>
           )}
-          <Tooltip label="Remove article">
-            <ResourceIcon
-              icon={['far', 'trash-alt']}
-              onClick={onRemoveClick}
-            />
+          <Tooltip label={isExternal ? 'Remove article' : 'Delete Note'}>
+            <OkayCancelDialog
+              title={isExternal ? 'Remove article' : 'Delete note'}
+              content={isExternal ?
+                'Are you sure you want to remove this article from your library?'
+                :
+                'Are you sure you want to delete this note permanently?'
+              }
+              buttonText={isExternal ? 'Remove' : 'Delete'}
+              whenConfirmClick={onRemoveClick}
+            >
+              <ResourceIcon icon={['far', 'trash-alt']} />
+            </OkayCancelDialog>
           </Tooltip>
         </InfoContainer>
       </TextPart>
-      {image && <ResourceImage style={{ backgroundImage: `url('${image}')` }} />}
+      {image && (
+        <Link href={link}>
+          <ResourceImage style={{ backgroundImage: `url('${image}')` }} />
+        </Link>
+      )}
     </ResourceContainer>
   )
 

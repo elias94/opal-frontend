@@ -3,6 +3,8 @@ import styled, { css } from 'styled-components'
 import Title from 'components/atoms/Title'
 import Link from 'components/atoms/Link'
 import P from 'components/atoms/P'
+import {default as InternalBlockBase} from 'components/atoms/InternalBlock'
+import {default as TweetBlockBase} from 'components/atoms/TweetBlock'
 
 export const Container = styled.div`
   white-space: pre-wrap;
@@ -14,18 +16,18 @@ export const Container = styled.div`
   display: flex;
   flex-direction: row;
 
-  margin-left: -25px;
+  margin-left: ${props => `calc(-25px + ${props.indent * 2}rem)`};
 `
 
 export const Content = styled.div`
   display: inline-flex;
-  width: auto;
+  width: 100%;
 `
 
 export const ContainerEditable = styled.div`
   white-space: pre-wrap;
 
-  margin: .3em 0;
+  margin: .1em 0;
   min-height: 1rem;
 `
 
@@ -54,6 +56,8 @@ export const Paragraph = styled(P)`
 export const Image = styled.img`
   width: 100%;
   border-radius: 6px;
+
+  margin: 1rem 0;
 `
 
 export const Code = styled.code`
@@ -142,6 +146,18 @@ export const InternalHighlight = styled.div`
   padding: 30px;
 `
 
+export const InternalBlock = styled(InternalBlockBase)`
+  margin: 1.5rem 0;
+
+  ${props => props.editable && css`
+    margin: 0;
+  `}
+`
+
+export const TweetBlock = styled(TweetBlockBase)`
+  flex: 1;
+`
+
 export const ListContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -154,13 +170,13 @@ export const ListContainer = styled.div`
 
 export const ListDecorationElement = styled.div`
   margin-right: 2px;
-  width: 24px;
+  width: 18px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   flex-grow: 0;
   flex-shrink: 0;
-  min-height: calc(1.5em + 3px + 3px);
+  min-height: calc(1.5em);
 `
 
 export const ListDecorationContent = styled.div`

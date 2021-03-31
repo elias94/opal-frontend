@@ -7,6 +7,7 @@ import Icon from 'components/atoms/Icon'
 import Tooltip from 'components/atoms/Tooltip'
 import DropdownButton from 'components/atoms/DropdownButton'
 import InfoDialog from 'components/atoms/InfoDialog'
+import OkayCancelDialog from 'components/molecules/OkayCancelDialog'
 
 import {
   Container, LeftContainer, RightContainer,
@@ -54,6 +55,16 @@ function NavbarViewerMultiple({ url, highlightTextMode, isEditable, note, ...pro
                 {isEditable ? 'Read' : 'Edit'}
               </HeaderButton>
             </Tooltip>
+            <Tooltip label="Delete note">
+              <OkayCancelDialog
+                title="Delete note"
+                content="Are you sure you want to delete this note permanently?"
+                buttonText="Delete"
+                whenConfirmClick={onDeleteNoteClick}
+              >
+                <NavbarIcon icon={['far', 'trash-alt']} />
+              </OkayCancelDialog>
+            </Tooltip>
           </ButtonGroup>
         )}
       </LeftContainer>
@@ -72,7 +83,6 @@ function NavbarViewerMultiple({ url, highlightTextMode, isEditable, note, ...pro
           />
         </Tooltip>
         <Tooltip label="Highlight article">
-          {/* Avoid react error for unmounting component with attached events */}
           <HighlightIconContainer onClick={props.onArticleHighlightClick}>
             {!highlightTextMode ? (
               <SVGIcon>
@@ -113,6 +123,12 @@ function NavbarViewerMultiple({ url, highlightTextMode, isEditable, note, ...pro
       </InfoDialog>
     </Container>
   )
+
+  function onDeleteNoteClick() {
+    props.deleteNote()
+
+    router.push('/home')
+  }
 
   function onArticleExpandClick() {
     router.push(`/r/${props.resourceId}`)

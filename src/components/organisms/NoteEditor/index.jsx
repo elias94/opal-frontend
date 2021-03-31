@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react'
 import isEqual from 'fast-deep-equal'
-import Link from 'next/link'
 
 import BlockEditable from 'components/molecules/BlockEditable'
+import HelpMarkdown from 'components/molecules/HelpMarkdown'
 import Block from 'components/molecules/Block'
 
 import {
@@ -39,6 +39,7 @@ function NoteEditor({ isEditable, noteArticle, noteBlocks, loadingNoteBlocks, ..
 
   return (
     <Container>
+      {/* <NavbarViewerSingleEditor {...props} /> */}
       <EditorContainer>
         <Editor>
           <NoteTitle
@@ -54,8 +55,39 @@ function NoteEditor({ isEditable, noteArticle, noteBlocks, loadingNoteBlocks, ..
           </Content>
         </Editor>
       </EditorContainer>
+      <HelpMarkdown />
     </Container>
   )
+
+  function focusPrevBlock(block) {
+    const { position } = block
+
+    if (position === 0) {
+      return
+    }
+
+    const prevBlock = blocks.find(b => b.position === position - 1)
+
+    setTimeout(() => blocksRef.current[prevBlock.id].focus())
+  }
+
+  function focusNextBlock(block) {
+    const { position } = block
+
+    if (position === blocks.length - 1) {
+      return
+    }
+
+    const nextBlock = blocks.find(b => b.position === position + 1)
+
+    setTimeout(() => blocksRef.current[nextBlock.id].focus())
+  }
+
+  function getPreviousBlock(block) {
+    const { position } = block
+
+    return blocks.find(b => b.position === position - 1)
+  }
 
   function onNoteTitleBlur(evt) {
     let title = evt.target.innerText
@@ -70,22 +102,34 @@ function NoteEditor({ isEditable, noteArticle, noteBlocks, loadingNoteBlocks, ..
   }
 
   function renderBlocks() {
+    let order = null
+
     return blocks.map((blk) => {
+      if (blk.list === 'o') {
+        order = order === null ? 1 : order + 1
+      } else {
+        order = null
+      }
+      const block = { ...blk, order }
+
       if (isEditable) {
         return (
           <BlockEditable
             key={`BlockEditable_${blk.id}`}
             ref={el => blocksRef.current[blk.id] = el}
-            block={blk}
+            block={block}
             dispatch={blocksDispatch}
             url={props.baseUrl}
+            getPreviousBlock={getPreviousBlock}
+            focusPrevBlock={focusPrevBlock}
+            focusNextBlock={focusNextBlock}
           />
         )
       } else {
         return (
           <Block
             key={`BlockNoteRead_${blk.id}`}
-            block={blk}
+            block={block}
             url={props.baseUrl}
             noAdd
           />
@@ -138,6 +182,14 @@ function NoteEditor({ isEditable, noteArticle, noteBlocks, loadingNoteBlocks, ..
         const { id } = blocks[position - 1]
 
         setTimeout(() => blocksRef.current[id].focus())
+        break
+      }
+      case 'DELETE_UPDATE': {
+        const { block, prevBlock } = params
+        props.deleteBlock(block)
+        props.updateBlock(prevBlock)
+
+        setTimeout(() => blocksRef.current[prevBlock.id].focus())
         break
       }
     }

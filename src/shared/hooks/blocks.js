@@ -21,6 +21,8 @@ export function blocksReducer(state, action) {
       return deleteBlock(state, action)
     case 'UPDATE_ADD':
       return updateAndAddBlock(state, action)
+    case 'DELETE_UPDATE':
+      return deleteAndUpdateBlock(state, action)
     case 'INIT':
       return {
         blocks: action.payload,
@@ -146,6 +148,24 @@ export function blocksReducer(state, action) {
     return {
       blocks: [...before, ...after],
       params: { block },
+      lastAction: action,
+    }
+  }
+
+  function deleteAndUpdateBlock({ blocks }, action) {
+    // Delete and update content from previous block
+    const [block, prevBlock] = action.payload
+    const { position } = prevBlock
+
+    const before = blocks.slice(0, position)
+    const after = blocks.slice(position + 2).map(blk => ({
+      ...blk,
+      position: blk.position - 1,
+    }))
+
+    return {
+      blocks: [...before, prevBlock, ...after],
+      params: { block, prevBlock },
       lastAction: action,
     }
   }

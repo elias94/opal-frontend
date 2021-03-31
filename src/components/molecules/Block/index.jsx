@@ -2,17 +2,15 @@ import { useState, forwardRef } from 'react'
 import { decodeHtmlCharCodes, isUrlAbsolute, extractBaseUrl } from 'shared/utils'
 
 import BlockMenu from 'components/molecules/BlockMenu'
-import TweetBlock from 'components/atoms/TweetBlock'
-import InternalBlock from 'components/atoms/InternalBlock'
 import MathBlock from 'components/atoms/MathBLock'
 import InternalLink from 'components/atoms/InternalLink'
 import Tooltip from 'components/atoms/Tooltip'
 
 import {
   Container, Paragraph, LinkStyled, TitleStyled, Blockquote,
-  ContainerEditable, Content, InternalHighlight,
+  ContainerEditable, Content, InternalHighlight, InternalBlock,
   Image, Code, ListContainer, ListContent, ListDecorationContent,
-  ListDecorationElement,
+  ListDecorationElement, TweetBlock,
 } from './styles'
 
 function Block({ block, editable, ...props }) {
@@ -27,6 +25,7 @@ function Block({ block, editable, ...props }) {
   return (
     <Container
       data-block-id={block.id}
+      indent={block.indent}
       onMouseEnter={() => setMouseHover(true)}
       onMouseLeave={() => setMouseHover(false)}
     >
@@ -57,11 +56,11 @@ export function BlockEditableOutput({ block, ...props }) {
 }
 
 function renderBlock(block, otherProps={}) {
-  const { type, content, properties } = block
+  const { type, content, properties, indent } = block
 
   const formatted = formatContent(content, { blockId: block.id, url: otherProps.url })
   const key = `BlockContent_${block.id}`
-  const sharedProps = { ...otherProps, key }
+  const sharedProps = { ...otherProps, key, indent }
 
   let render = null
 
@@ -92,6 +91,7 @@ function renderBlock(block, otherProps={}) {
       <InternalBlock
         key={key}
         blockId={properties.ref['block_id']}
+        {...sharedProps}
       />
     )
   } else if (type === 'internal_highlight') {
@@ -121,7 +121,7 @@ function renderBlock(block, otherProps={}) {
       render = (
         <ListContainer key={key}>
           <Tooltip label="Collapse list">
-            <ListDecoration order={block.list === 'b' ? null : 1} />
+            <ListDecoration order={block.list === 'b' ? null : block.order} />
           </Tooltip>
           <ListContent>
             <Paragraph

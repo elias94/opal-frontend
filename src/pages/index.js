@@ -48,7 +48,7 @@ export default function Home() {
 
         <div className="max-w-4xl p-10 mt-20 mx-auto flex flex-col justify-around">
           <div className="max-w-4xl mx-auto text-center text-grey-500 font-medium text-3xl">
-            Opal is the first platform to <strong>annotate</strong> web articles with the power of a community.  
+            Opal is a <strong>bookmarking platform</strong> with community curated contents. Like Instapaper but on steroids.
           </div>
           <div className="max-w-4xl mx-auto pt-16 text-center text-black font-medium">
             <Link href="/signup">

@@ -4,7 +4,7 @@ import {
   Container, Status,
 } from './styles'
 
-function TweetBlock({ tweetId, editable, content }) {
+function TweetBlock({ tweetId, editable, content, ...props }) {
   const tweetEl = useRef(null)
 
   useEffect(() => {
@@ -19,9 +19,9 @@ function TweetBlock({ tweetId, editable, content }) {
   }, [])
   
   return (
-    <Container>
+    <Container {...props}>
       {editable && <Status>{content}</Status>}
-      <div ref={tweetEl} data-twitter></div>
+      <div ref={tweetEl} data-twitter className=" w-full mx-auto text-sm text-center text-gray-400"></div>
     </Container>
   )
 }

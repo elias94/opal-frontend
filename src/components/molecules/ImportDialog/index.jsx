@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { isURL } from 'shared/utils'
+import { isURL, randomChoice } from 'shared/utils'
 import KeyEvent from 'shared/keyboard'
 
 import '@reach/dialog/styles.css'
@@ -9,6 +9,11 @@ import {
   InputUrl, ConfirmButton, DialogHeader,
   DialogContent, DialogError, IconButtonEl,
 } from './styles'
+
+const LINK_LIST = [
+  'https://blog.readwise.io/stop-reading-junk-and-start-using-instapaper/',
+  'http://paulgraham.com/ds.html',
+]
 
 function ImportDialog(props) {
   const inputEl = useRef(null)
@@ -25,15 +30,18 @@ function ImportDialog(props) {
       </ButtonOpen>
       <Dialog isOpen={open} onDismiss={closeDialog} aria-label="Import dialog">
         <DialogHeader>
-          Paste a link and import an article
+          Import a new resource
           <IconButtonEl icon="times" onClick={closeDialog} />
         </DialogHeader>
         <DialogContent>
-          <InputUrl ref={inputEl} onKeyDown={onInputKeydown} />
+          <InputUrl ref={inputEl} onKeyDown={onInputKeydown} placeholder={randomChoice(LINK_LIST)} />
           <ConfirmButton className="close-button" onClick={onImportClick}>
             Import
           </ConfirmButton>
         </DialogContent>
+        <div className="w-full pt-4 text-gray-400">
+          <div className="text-left text-sm">You can import web articles and tweets at the moment.</div>
+        </div>
         {error && (
           <DialogError className="w-full mx-auto">
             {error}

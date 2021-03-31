@@ -112,4 +112,5 @@ export const NoteTitle = styled(Title)`
 `
 
 export const Content = styled.div`
+  margin-bottom: 10rem;
 `

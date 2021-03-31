@@ -8,6 +8,8 @@ export default function KeyEvent(evt) {
   const isShift = keyCode === 16
   const isEsc = keyCode === 27
   const isSpace = keyCode === 32
+  const isArrowUp = keyCode === 38
+  const isArrowDown = keyCode === 40
   const isSlash = keyCode === 191
   const isBackslash = keyCode === 220
   const isNumeric = keyCode > 47 && keyCode < 58
@@ -35,6 +37,8 @@ export default function KeyEvent(evt) {
     isSpace,
     isBackspace,
     isBackslash,
+    isArrowUp,
+    isArrowDown,
     isSlash,
     isEnter,
     isNumeric,

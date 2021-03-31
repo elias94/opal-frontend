@@ -22,6 +22,7 @@ import {
   deleteTag,
   setNotePrivate,
   saveVote,
+  deleteNote,
 } from 'store'
 
 import ResourcePage from 'components/templates/ResourcePage'
@@ -110,6 +111,15 @@ function Resource() {
     setIsSingleArticle(resourceId && !noteId)
   }, [resourceId, noteId])
 
+  useEffect(() => {
+    // Prevent backspace shortcut for navigate back
+    window.onkeydown = (e) => {
+      if (e.keyCode == 8 && e.target == document.body) {
+        e.preventDefault()
+      }
+    }
+  }, [])
+
   return (
     <div style={{ height: '100vh' }}>
       <ResourcePage
@@ -144,9 +154,20 @@ function Resource() {
         onTagInputCancel={onTagInputCancel}
         setNotePrivate={setArticleNotePrivate}
         saveUserVote={saveUserVote}
+        deleteNote={deleteArticleNote}
       />
     </div>
   )
+
+  function deleteArticleNote() {
+    deleteNote(noteId)
+    .then(() => {
+      mutateResources()
+    })
+    .catch((e) => {
+      console.error(e)
+    })
+  }
 
   function saveUserVote(vote) {
     saveVote(resourceId, vote)

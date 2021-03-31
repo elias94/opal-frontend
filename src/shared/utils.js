@@ -39,3 +39,5 @@ export function extractDomainUrl(url) {
 
   return matches && matches[2]
 }
+
+export const randomChoice = (array) => array[Math.floor(Math.random() * array.length)]
