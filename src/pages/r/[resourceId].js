@@ -95,10 +95,10 @@ function Resource() {
   }, [noteArticleError])
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && resourceError) {
-      // Resource error client-side is not acceptable
-      router.push('/home')
-    }
+    // if (typeof window !== 'undefined' && resourceError) {
+    //   // Resource error client-side is not acceptable
+    //   router.push('/home')
+    // }
   }, [resourceError])
 
   useEffect(() => {
@@ -127,6 +127,7 @@ function Resource() {
         noteId={noteId}
         user={user}
         resource={resource}
+        loadingResource={loadingResource}
         blocks={blocks}
         tags={tags}
         mentions={mentions}
@@ -349,11 +350,9 @@ export default Resource
 function getArticleId(resource) {
   const { content } = resource
 
-  if (!content || content.length < 1) {
+  if (!content) {
     return null
   }
 
-  const [, article] = content
-
-  return article.id
+  return content.id
 }

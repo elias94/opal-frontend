@@ -238,3 +238,10 @@ export function saveVote(resourceId, vote=true) {
   
   return postWithToken(reqPath, token)
 }
+
+export function saveTweet(tweetUrl) {
+  const token = localStorage.getItem('access_token')
+  const reqPath = `${ROUTE_PATH}/externals/tweet?tweet_url=${tweetUrl}`
+
+  return postWithToken(reqPath, token)
+}

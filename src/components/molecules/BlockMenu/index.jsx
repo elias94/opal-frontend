@@ -1,3 +1,5 @@
+import Tooltip from 'components/atoms/Tooltip'
+
 import {
   Container, Icon,
 } from './styles'
@@ -5,20 +7,24 @@ import {
 function BlockMenu({ block, visible, ...props }) {
   return (
     <Container visible={visible}>
+      {!props.noShare && (
+        <Tooltip label="Copy block link">
+          <Icon
+            icon="share"
+            onClick={() => props.copyBlockLinkToClipboard(block.id)}
+          />
+        </Tooltip>
+      )}
       {!props.noAdd && (
-        <Icon
-          icon={['far', 'plus-square']}
-          onClick={onQuoteBlockClick}
-        />
+        <Tooltip label="Add block to note">
+          <Icon
+            icon={['far', 'plus-square']}
+            onClick={() => props.onQuoteBlockClick(block.id)}
+          />
+        </Tooltip>
       )}
     </Container>
   )
-
-  function onQuoteBlockClick() {
-    if (typeof props.onQuoteBlockClick === 'function') {
-      props.onQuoteBlockClick(block)
-    }
-  }
 }
 
 export default BlockMenu

@@ -13,7 +13,7 @@ import {
   faGlobe, faStar, faSearch, faHighlighter,
   faBars, faTimes, faEdit, faCaretRight,
   faTrashAlt, faBookmark, faChevronLeft,
-  faExpand, faCaretUp, faQuestion,
+  faExpand, faCaretUp, faQuestion, faShare,
 } from '@fortawesome/free-solid-svg-icons'
 import { 
   faStar as farStar,
@@ -65,6 +65,7 @@ function App({ Component, pageProps }) {
       farEyeSlash,
       faCaretUp,
       faQuestion,
+      faShare,
     )
   }, [])
 

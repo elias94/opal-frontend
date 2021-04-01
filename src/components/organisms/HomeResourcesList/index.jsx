@@ -1,22 +1,14 @@
 import { useState } from 'react'
-import Link from 'next/link'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { formatContentFlat } from 'shared/libs/formatting'
-import { extractDomainUrl, isURL } from 'shared/utils'
 
-import Tooltip from 'components/atoms/Tooltip'
 import LoadingOverlay from 'components/atoms/LoadingOverlay'
-import OkayCancelDialog from 'components/molecules/OkayCancelDialog'
+import ResourceItem from 'components/molecules/ResourceItem'
 
 import {
-  Container, ResourceContainer, ResourcesContainer,
-  ResourceTitle, ResourceSubtitle,
-  ResourcePreview, ResourceHeader, ResourceHeaderLeft,
-  Section, SectionTitle, TextPart, ResourceImage,
-  EmptyList, DateInfo, InfoContainer, ResourceIcon,
-  Sep, SectionHeader, SectionHeaderIcon,
-  ResourcePrivate, SectionFooter, EyeIcon,
+  Container, ResourcesContainer,
+  Section, SectionTitle,
+  EmptyList, SectionHeader, SectionHeaderIcon,
 } from './styles'
 
 dayjs.extend(relativeTime)
@@ -147,7 +139,12 @@ function HomeResourcesList({ resources, ...props }) {
       return <EmptyList>{getEmptyMessage(isExternalResource)}</EmptyList>
     }
 
-    let [articles, excerpts] = resources
+    let [articles] = resources
+
+    function getExcerpt(article) {
+      const [,excerpts] = resources
+      return excerpts.find(ex => ex[0].article_id === article.id)
+    }
 
     if (displayMode === null) {
       articles = articles.slice(0, props.displayListLength)
@@ -161,7 +158,7 @@ function HomeResourcesList({ resources, ...props }) {
       <ResourceItem
         key={`ResourceItem_${res[0].id}`}
         resource={res}
-        excerpt={excerpts[i]}
+        excerpt={getExcerpt(res[0])}
         isExternal={isExternalResource}
         deleteResource={props.deleteResource}
         deleteResourceNote={props.deleteResourceNote}
@@ -178,111 +175,4 @@ function getEmptyMessage(isExternalResource) {
     'No articles at the moment.\nImport new article and they will appear here!'
     :
     'No notes at the moment.\nTake notes on imported articles and they will appear here!'
-}
-
-function ResourceItem({ resource, excerpt, isExternal, ...props }) {
-  const [article, external, res, saved] = resource
-
-  let subtitle, link, image
-
-  if (isExternal) {
-    const { url } = external
-
-    const domain = extractDomainUrl(url)
-
-    subtitle = domain ? domain : url
-    link = `/r/${res.id}`
-  } else {
-    subtitle = 'Note'
-    link = `/r/${external.source_id}?note=${external.id}`
-  }
-
-  if (article.properties && isURL(article.properties.image)) {
-    image = article.properties.image
-  }
-
-  const preview = excerpt.reduce((acc, e) => `${acc} ${formatContentFlat(e.content)}`, '')
-  const trim = (str) => str.length > 200 ? str.slice(0, 200) + '...' : str
-
-  return (
-    <ResourceContainer>
-      <TextPart>
-        <ResourceHeader>
-          <ResourceHeaderLeft>
-            <Link href={link}>
-              <ResourceTitle>
-                {article.title}
-              </ResourceTitle>
-            </Link>
-            <Link href={link}>
-              <ResourceSubtitle>
-                {subtitle}
-              </ResourceSubtitle>
-            </Link>
-          </ResourceHeaderLeft>
-        </ResourceHeader>
-        <ResourcePreview>
-          <Link href={link}>
-            {trim(preview)}
-          </Link>
-        </ResourcePreview>
-        <InfoContainer>
-          <DateInfo>
-            {dayjs(saved.date).fromNow()}
-          </DateInfo>
-          <Tooltip label={saved.private ? 'Show on your public profile' : 'Hide on your public profile'}>
-            <ResourcePrivate private={saved.private} onClick={onResourceHideClick}>
-              {saved.private ? (
-                <EyeIcon icon={['far', 'eye-slash']} />
-              ) : (
-                <EyeIcon icon={['far', 'eye']} />
-              )}
-            </ResourcePrivate>
-          </Tooltip>
-          <Sep>•</Sep>
-          {isExternal && (
-            <Tooltip label="Open original">
-              <a href={external.url} target="_blank" rel="noopener noreferrer">
-                <ResourceIcon icon="globe" />
-              </a>
-            </Tooltip>
-          )}
-          <Tooltip label={isExternal ? 'Remove article' : 'Delete Note'}>
-            <OkayCancelDialog
-              title={isExternal ? 'Remove article' : 'Delete note'}
-              content={isExternal ?
-                'Are you sure you want to remove this article from your library?'
-                :
-                'Are you sure you want to delete this note permanently?'
-              }
-              buttonText={isExternal ? 'Remove' : 'Delete'}
-              whenConfirmClick={onRemoveClick}
-            >
-              <ResourceIcon icon={['far', 'trash-alt']} />
-            </OkayCancelDialog>
-          </Tooltip>
-        </InfoContainer>
-      </TextPart>
-      {image && (
-        <Link href={link}>
-          <ResourceImage style={{ backgroundImage: `url('${image}')` }} />
-        </Link>
-      )}
-    </ResourceContainer>
-  )
-
-  function onResourceHideClick() {
-    if (typeof props.hideResource === 'function') {
-      props.hideResource(res.id, !saved.private)
-    }
-  }
-
-  function onRemoveClick() {
-    if (isExternal) {
-      props.deleteResource(res.id)
-    } else {
-      // external is note
-      props.deleteResourceNote(external.id)
-    }
-  }
 }

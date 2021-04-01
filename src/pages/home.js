@@ -2,7 +2,7 @@ import { useEffect, useReducer, useState } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useTimeout, tagsReducer } from 'shared/hooks'
-import { isURL } from 'shared/utils'
+import { isURL, isTweet } from 'shared/utils'
 
 import {
   fetchUser,
@@ -12,6 +12,7 @@ import {
   deleteNote,
   onboardUser,
   hideResource,
+  saveTweet,
 } from 'store'
 
 import HomePage from 'components/templates/HomePage'
@@ -189,18 +190,36 @@ export default function Signup() {
   }
 
   function importArticle(url) {
-    storeExternalResource(url)
-    .then(() => {
-      //... start polling the articles
-      setToast('Article added to queue')
-      setRefreshInterval(1500)
+    const isLinkTweet = isTweet(url)
 
-      setTimeout(() => {
-        setRefreshInterval(DEFAULT_REFRESH)
-      }, 10 * 1000)
-    })
-    .catch((e) => {
-      console.error(e.status)
-    })
+    if (isLinkTweet) {
+      saveTweet(url)
+      .then(() => {
+        //... start polling the articles
+        setToast('Tweet added to queue')
+        setRefreshInterval(1500)
+  
+        setTimeout(() => {
+          setRefreshInterval(DEFAULT_REFRESH)
+        }, 10 * 1000)
+      })
+      .catch((e) => {
+        console.error(e.status)
+      })
+    } else {
+      storeExternalResource(url)
+      .then(() => {
+        //... start polling the articles
+        setToast('Article added to queue')
+        setRefreshInterval(1500)
+  
+        setTimeout(() => {
+          setRefreshInterval(DEFAULT_REFRESH)
+        }, 10 * 1000)
+      })
+      .catch((e) => {
+        console.error(e.status)
+      })
+    }
   }
 }

@@ -11,3 +11,9 @@ export const Content = styled.div`
   flex-direction: row;
   height: ${props => props.withNav ? 'calc(100% - 47px)' : '100%'};
 `
+
+export const ContainerContent = styled.div`
+  position: relative;
+  flex: 1;
+  overflow: auto;
+`

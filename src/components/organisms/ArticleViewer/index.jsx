@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useReducer } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import copy from 'copy-to-clipboard'
 import Portal from '@reach/portal'
 import { highlightsReducer } from 'shared/hooks'
 import { extractDomainUrl } from 'shared/utils'
@@ -24,7 +25,7 @@ function ArticleViewer({ resource, blocks, highlightTextMode, ...props }) {
   const [highlights, dispatchHighlights] = useReducer(highlightsReducer, [])
   const [highlightTooltip, setHighlightTooltip] = useState(null)
 
-  const { content, saved } = resource
+  const { resource: external, content: article, saved } = resource
 
   useEffect(() => {
     if (articleRef && articleRef.current) {
@@ -53,12 +54,6 @@ function ArticleViewer({ resource, blocks, highlightTextMode, ...props }) {
       containerRef.current.onscroll = closeTooltip
     }
   }, [containerRef.current])
-  
-  if (!content) {
-    return null
-  }
-
-  const [external, article] = content
 
   return (
     <Container ref={containerRef}>
@@ -89,6 +84,8 @@ function ArticleViewer({ resource, blocks, highlightTextMode, ...props }) {
               key={`Block_${blk.id}`}
               block={blk}
               url={external.url}
+              noAdd={props.isSingleArticle}
+              copyBlockLinkToClipboard={copyBlockLinkToClipboard}
               {...props}
             />
           ))}
@@ -107,6 +104,10 @@ function ArticleViewer({ resource, blocks, highlightTextMode, ...props }) {
       </ArticleContainer>
     </Container>
   )
+
+  function copyBlockLinkToClipboard(blockId) {
+    copy(`((${blockId}))`)
+  }
 
   function addHighlight(highlightId) {
     const h = highlights.find(h => h.highlightId === highlightId)

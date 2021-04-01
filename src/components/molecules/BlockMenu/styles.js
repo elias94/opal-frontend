@@ -3,9 +3,9 @@ import styled, { css } from 'styled-components'
 import IconButton from 'components/atoms/IconButton'
 
 export const Icon = styled(IconButton)`
-  height: 20px;
+  height: 28px;
   color: ${props => props.theme.colors.gray['300']};
-  font-size: 18px;
+  font-size: 16px;
   border-radius: 6px;
   padding: 0;
   padding-top: .75rem;
@@ -23,7 +23,7 @@ export const Icon = styled(IconButton)`
 
 export const Container = styled.div`
   display: inline-flex;
-  flex-direction: column;
+  flex-direction: row;
 
   min-width: 25px;
 

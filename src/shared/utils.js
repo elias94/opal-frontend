@@ -1,9 +1,18 @@
 const URL_R = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/i
+const TWEET_R = /^https?:\/\/twitter\.com\/(?:#!\/)?(\w+)\/status(es)?\/(\d+)/
 
 export function isURL(str) {
   if (typeof str === 'string') {
     return URL_R.test(str)
   }
+  return false
+}
+
+export function isTweet(str) {
+  if (typeof str === 'string') {
+    return TWEET_R.test(str)
+  }
+  return false
 }
 
 export function decodeHtmlCharCodes(str) {

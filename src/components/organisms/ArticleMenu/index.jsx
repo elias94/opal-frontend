@@ -5,6 +5,7 @@ import ArticleMenuNotes from 'components/molecules/ArticleMenuNotes'
 import ArticleMenuMentions from 'components/molecules/ArticleMenuMentions'
 import ArticleMenuTags from 'components/molecules/ArticleMenuTags'
 import Tooltip from 'components/atoms/Tooltip'
+import LoadingOverlay from 'components/atoms/LoadingOverlay'
 
 import {
   Container, MenuContainer, HeaderContainer,
@@ -16,13 +17,15 @@ import {
 
 function ArticleMenu({ resource, ...props }) {
 
-  const { content, saved, saved_count, votes, user_vote } = resource
+  const { resource: external, content: article, saved, saved_count, votes, user_vote } = resource
 
-  if (!content) {
-    return null
+  if (!article) {
+    return (
+      <Container>
+        <LoadingOverlay />
+      </Container>
+    )
   }
-
-  const [, article] = content
 
   return (
     <Container hidden={props.hidden}>
@@ -33,7 +36,7 @@ function ArticleMenu({ resource, ...props }) {
               <Tooltip label={user_vote ? 'Unvote' : 'Upvote'}>
                 <Caret icon="caret-up" voted={!!user_vote} onClick={onVoteButtonClick} />
               </Tooltip>
-              {article.title}
+              {getResourceTitle()}
             </HeaderTitle>
             <HeaderDetails>
               {votes} votes
@@ -91,6 +94,14 @@ function ArticleMenu({ resource, ...props }) {
       </MenuContainer>
     </Container>
   )
+
+  function getResourceTitle() {
+    if (external.type === 'article') {
+      return article.title
+    } else if (external.type === 'tweet') {
+      return `Tweet by ${article.content.author.name}`
+    }
+  }
 
   function onVoteButtonClick() {
     const vote = !user_vote

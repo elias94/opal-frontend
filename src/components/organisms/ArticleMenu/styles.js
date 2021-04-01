@@ -108,9 +108,9 @@ export const SectionButton = styled(Button)`
 
 export const Caret = styled(IconButton)`
   color: ${props => props.voted ?
-    props.theme.colors.blueGray['300']
-    :
     props.theme.colors.blueGray['500']
+    :
+    props.theme.colors.blueGray['300']
   };
   font-size: 32px;
   display: inline;

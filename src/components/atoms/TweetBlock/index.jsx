@@ -7,15 +7,26 @@ import {
 function TweetBlock({ tweetId, editable, content, ...props }) {
   const tweetEl = useRef(null)
 
+  const isTweetLoaded = () => tweetEl.current.hasChildNodes()
+
   useEffect(() => {
     // componentDidMount
-    loadDynamicTwitterWidget(() => {
-      window.twttr.widgets.createTweet(
-        tweetId,
-        tweetEl.current,
-        {} // options
-      ).then(() => console.log(`Tweet: ${tweetId} loaded!`))
-    })
+    if (!isTweetLoaded()) {
+      loadDynamicTwitterWidget(() => {
+        window.twttr.widgets.createTweet(
+          tweetId,
+          tweetEl.current,
+          {} // options
+        ).then(() => {
+          console.log(`Tweet: ${tweetId} loaded!`)
+  
+          // Remove the link
+          const linkEl = tweetEl.current.querySelector('article > a')
+          console.log(linkEl)
+        })
+        .catch((e) => console.log(e))
+      })
+    }
   }, [])
   
   return (

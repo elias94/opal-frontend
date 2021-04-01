@@ -9,8 +9,10 @@ import ArticleViewer from 'components/organisms/ArticleViewer'
 import ArticleMenu from 'components/organisms/ArticleMenu'
 import NoteEditor from 'components/organisms/NoteEditor'
 import NavbarViewerMultiple from 'components/molecules/NavbarViewerMultiple'
+import TweetViewer from 'components/organisms/TweetViewer'
+import LoadingOverlay from 'components/atoms/LoadingOverlay'
 
-import { Container, Content } from './styles'
+import { Container, Content, ContainerContent } from './styles'
 
 function ResourcePage(props) {
   const [isNoteActive, setIsNoteActive] = useState(!!props.noteArticle)
@@ -24,7 +26,7 @@ function ResourcePage(props) {
     blocksDispatch,
   ] = useReducer(blocksReducer, null, initReducer)
 
-  const baseUrl = props.resource.content ? props.resource.content[0].url : ''
+  const baseUrl = props.resource.content ? props.resource.resource.url : ''
 
   useEffect(() => {
     if (props.user && props.noteArticle) {
@@ -75,6 +77,39 @@ function ResourcePage(props) {
             baseUrl={baseUrl}
           />
         )}
+        {getViewer()}
+        {articleMenuOpen && (
+          <ArticleMenu
+            hidden={!articleMenuOpen}
+            onArticleMenuExitClick={() => setArticleMenuOpen(false)}
+            {...props}
+          />
+        )}
+      </Content>
+    </Container>
+  )
+
+  function getViewer() {
+    const { resource, loadingResource } = props
+
+    if (loadingResource) {
+      return (
+        <ContainerContent>
+          <LoadingOverlay />
+        </ContainerContent>
+      )
+    }
+
+    if (resource.resource.type === 'tweet') {
+      return (
+        <TweetViewer
+          onArticleMenuIconClick={openArticleMenu}
+          articleMenuOpen={articleMenuOpen}
+          {...props}
+        />
+      )
+    } else {
+      return (
         <ArticleViewer
           onQuoteBlockClick={onQuoteBlockClick}
           onArticleHighlightClick={onArticleHighlightClick}
@@ -86,16 +121,9 @@ function ResourcePage(props) {
           articleMenuOpen={articleMenuOpen}
           {...props}
         />
-        {articleMenuOpen && (
-          <ArticleMenu
-            hidden={!articleMenuOpen}
-            onArticleMenuExitClick={() => setArticleMenuOpen(false)}
-            {...props}
-          />
-        )}
-      </Content>
-    </Container>
-  )
+      )
+    }
+  }
 
   function openArticleMenu() {
     setArticleMenuOpen(!articleMenuOpen)
