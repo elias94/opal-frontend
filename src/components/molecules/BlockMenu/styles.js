@@ -13,6 +13,15 @@ export const Icon = styled(IconButton)`
   opacity: 0;
   transition: opacity .25s ease-in, color .15s ease;
 
+  padding-left: 5px;
+  &:first-of-type {
+    padding-left: 0;
+  }
+
+  &:last-of-type {
+    padding-right: 5px;
+  }
+
   &:hover {
     background: none;
     color: ${props => props.theme.colors.gray['500']};

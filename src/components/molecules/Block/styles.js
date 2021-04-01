@@ -16,7 +16,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: row;
 
-  margin-left: ${props => `calc(-25px + ${props.indent * 2}rem)`};
+  margin-left: ${props => `calc(-37.5px + ${props.indent * 2}rem)`};
 `
 
 export const Content = styled.div`
