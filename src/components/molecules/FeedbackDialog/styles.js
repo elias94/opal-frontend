@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import Button from 'components/atoms/Button'
 import {default as IconBase} from 'components/atoms/Icon'
@@ -9,27 +9,14 @@ import IconButton from 'components/atoms/IconButton'
 export const Icon = styled(IconBase)``
 
 export const Container = styled.div`
-  padding-right: 50px;
 `
 
-export const ButtonOpen = styled(Button)`
-  margin: 0;
-  border-radius: 25px;
-
-  font-family: ${props => props.theme.fontFamily.sans};
-  font-size: ${props => props.theme.fontSize['sm'][0]};
-  line-height: ${props => props.theme.fontSize['sm'][1].lineHeight};
-
-  padding: 8px 18px;
-
-  ${Icon} {
-    font-size: 14px;
-    padding: 0 5px;
-  }
+export const OpenContainer = styled.div`
+  cursor: pointer;
 `
 
 export const Dialog = styled(DialogBase)`
-  width: 35vw;
+  width: 30vw;
   border-radius: 6px;
   box-shadow: ${props => props.theme.boxShadow['card']};
 
@@ -42,14 +29,35 @@ export const Dialog = styled(DialogBase)`
 `
 
 export const DialogContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
   padding-top: 16px;
 
   width: 100%;
 `
 
-export const InputUrl = styled(Input)`
+export const InputTextArea = styled.textarea`
   width: 100%;
-  margin: 0;
+  height: 8rem;
+
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 16px;
+
+  color: ${props => props.color || 'inerith'};
+  border: 1px solid ${props => props.theme.colors.coolGray['300']};
+  
+  margin-top: 10px;
+  margin-bottom: 20px;
+  background-color: #FFF;
+  filter: none;
+
+  &:focus, &:active {
+      outline: none;
+  }
 `
 
 export const ConfirmButton = styled(Button)`
@@ -61,7 +69,16 @@ export const ConfirmButton = styled(Button)`
   border-radius: 6px;
 
   margin: 0;
-  margin-left: 20px;
+
+  width: 100%;
+
+  &:hover {
+    background: ${props => props.theme.colors.blueGray['900']};
+  }
+
+  ${props => props.small && css`
+    width: 8rem;
+  `}
 `
 
 export const DialogHeader = styled.div`
@@ -82,23 +99,10 @@ export const DialogHeader = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-`
 
-export const DialogError = styled.div`
-  font-family: ${props => props.theme.fontFamily.sans};
-  font-size: ${props => props.theme.fontSize['base'][0]};
-  line-height: ${props => props.theme.fontSize['base'][1].lineHeight};
-  color: ${props => props.theme.colors.white};
-  background: ${props => props.theme.colors.red['500']};
-
-  width: 100%;
-  margin-top: 20px;
-  margin-bottom: 0;
-  padding: 10px 15px;
-  align-self: start;
-
-  border-radius: 6px;
-  text-align: center;
+  ${props => props.end && css`
+    justify-content: end;
+  `}
 `
 
 export const IconButtonEl = styled(IconButton)`

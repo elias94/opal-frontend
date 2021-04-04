@@ -8,7 +8,7 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  margin-bottom: 6rem;
+  margin-bottom: 2rem;
   width: 100%;
 
   @media (min-width: ${props => props.theme.screens.lg}) {

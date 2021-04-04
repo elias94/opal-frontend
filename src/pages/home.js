@@ -13,6 +13,7 @@ import {
   onboardUser,
   hideResource,
   saveTweet,
+  sendFeedback,
 } from 'store'
 
 import HomePage from 'components/templates/HomePage'
@@ -100,9 +101,20 @@ export default function Signup() {
         hideResource={hideSavedArticle}
         updatePaging={updatePaging}
         resetPaging={resetPaging}
+        sendFeedback={sendUserFeedback}
       />
     </div>
   )
+
+  function sendUserFeedback(message) {
+    sendFeedback(message)
+    .then(() => {
+      console.log('Feedback sent!')
+    })
+    .catch((e) => {
+      console.error(e)
+    })
+  }
 
   function resetPaging() {
     setSkipPaging(0)

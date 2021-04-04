@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { loginUser, fetchUser } from 'store'
+import {
+  loginUser,
+  fetchUser,
+  sendFeedback
+} from 'store'
 
 import LoginPage from 'components/templates/LoginPage'
 
@@ -42,9 +46,24 @@ function Login() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <LoginPage login={login} error={loginError} isLoading={isLoading} />
+      <LoginPage
+        login={login}
+        error={loginError}
+        isLoading={isLoading}
+        sendFeedback={sendUserFeedback}
+      />
     </div>
   )
+
+  function sendUserFeedback(message) {
+    sendFeedback(message)
+    .then(() => {
+      console.log('Feedback sent!')
+    })
+    .catch((e) => {
+      console.error(e)
+    })
+  }
 }
 
 export default Login

@@ -23,7 +23,7 @@ function HomeResourcesList({ resources, ...props }) {
           <span className="text-gray-300 text-lg">
             <span className="text-xl">Error loading resources.</span>
             <br /><br /><br />
-            Plese let us know!
+            Plese let me know!
             <br /><br/>
             hey@opal.to
             <a

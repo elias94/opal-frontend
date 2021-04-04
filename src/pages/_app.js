@@ -14,7 +14,7 @@ import {
   faBars, faTimes, faEdit, faCaretRight,
   faTrashAlt, faBookmark, faChevronLeft,
   faExpand, faCaretUp, faQuestion, faShare,
-  faChevronDown,
+  faChevronDown, faCheck,
 } from '@fortawesome/free-solid-svg-icons'
 import { 
   faStar as farStar,
@@ -55,6 +55,7 @@ config.autoAddCss = false
       faCaretUp,
       faQuestion,
       faShare,
+      faCheck,
     )
 
 function App({ Component, pageProps }) {

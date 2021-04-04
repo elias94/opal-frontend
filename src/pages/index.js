@@ -51,7 +51,7 @@ export default function Home() {
 
         <div className="max-w-4xl p-10 mt-20 mx-auto flex flex-col justify-around">
           <div className="max-w-4xl mx-auto text-center text-grey-500 font-light text-3xl">
-            Opal is the first <strong>knowledge container</strong> with an open community. 
+            Opal is a <strong>bookmarking platform</strong> with community annotations. 
           </div>
           <div
             className="max-w-4xl mx-auto mt-16 text-center text-black font-medium z-20"

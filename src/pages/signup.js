@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { signupUser, loginUser, fetchUser } from 'store'
+import {
+  signupUser,
+  loginUser,
+  fetchUser,
+  sendFeedback,
+} from 'store'
 
 import SignupPage from 'components/templates/SignupPage'
 
@@ -51,7 +56,22 @@ export default function Signup() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <SignupPage onSignup={SignupCallback} error={signupError} isLoading={isLoading} />
+      <SignupPage
+        onSignup={SignupCallback}
+        error={signupError}
+        isLoading={isLoading}
+        sendFeedback={sendUserFeedback}
+      />
     </div>
   )
+
+  function sendUserFeedback(message) {
+    sendFeedback(message)
+    .then(() => {
+      console.log('Feedback sent!')
+    })
+    .catch((e) => {
+      console.error(e)
+    })
+  }
 }

@@ -125,7 +125,6 @@ export function fetchUserResources(
 
 export function fetchUserResourcesWithoutToken(
   userId,
-  refreshInterval,
   searchValue,
   tags,
   skip=null,

@@ -12,7 +12,7 @@ import {
 
 const LINK_LIST = [
   'https://blog.readwise.io/stop-reading-junk-and-start-using-instapaper/',
-  'http://paulgraham.com/ds.html',
+  'http://paulgraham.com/ds.html'
 ]
 
 function ImportDialog(props) {
@@ -34,14 +34,16 @@ function ImportDialog(props) {
           <IconButtonEl icon="times" onClick={closeDialog} />
         </DialogHeader>
         <DialogContent>
-          <InputUrl ref={inputEl} onKeyDown={onInputKeydown} placeholder={randomChoice(LINK_LIST)} />
-          <ConfirmButton className="close-button" onClick={onImportClick}>
-            Import
-          </ConfirmButton>
+          <div className="w-full pb-2 text-gray-400">
+            <div className="text-left text-sm">You can import web articles and tweets at the moment.</div>
+          </div>
+          <div className="flex flex-row items-center justify-between">
+            <InputUrl ref={inputEl} onKeyDown={onInputKeydown} placeholder="Insert a complete link" />
+            <ConfirmButton className="close-button" onClick={onImportClick}>
+              Import
+            </ConfirmButton>
+          </div>
         </DialogContent>
-        <div className="w-full pt-4 text-gray-400">
-          <div className="text-left text-sm">You can import web articles and tweets at the moment.</div>
-        </div>
         {error && (
           <DialogError className="w-full mx-auto">
             {error}

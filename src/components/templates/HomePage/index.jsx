@@ -2,6 +2,7 @@ import ResourcesList from 'components/organisms/HomeResourcesList'
 import NavbarHome from 'components/molecules/NavbarHome'
 import Toast from 'components/atoms/Toast'
 import OnboardingDialog from 'components/molecules/OnboardingDialog'
+import FooterHome from 'components/organisms/FooterHome'
 
 import { Container } from './styles'
 
@@ -22,6 +23,7 @@ function HomePage(props) {
       {user && !user.onboard && (
         <OnboardingDialog onClose={props.setOnboard} />
       )}
+      <FooterHome {...props} />
     </Container>
   )
 }

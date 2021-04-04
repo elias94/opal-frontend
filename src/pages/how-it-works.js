@@ -88,7 +88,7 @@ export default function HowItWorks() {
 
         <div className="max-w-4xl p-10 mt-8 mx-auto flex flex-col justify-around">
           <div className="max-w-4xl mx-auto text-center text-grey-500 font-medium text-3xl">
-            Are you ready to create the first <strong className="text-black">collective intelligence</strong> platform together?
+            Are you ready to create a <a href="https://en.wikipedia.org/wiki/Collective_intelligence" target="_blank" className="text-black font-bold hover:underline">collective intelligence</a> platform together?
           </div>
           <div className="max-w-4xl mx-auto pt-16 text-center text-black font-medium">
             <Link href="/signup">
@@ -104,13 +104,15 @@ export default function HowItWorks() {
       </main>
 
       <footer className="mt-32">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto sm:px-6">
           <div className="md:flex md:flex-row md:items-center md:justify-between py-4 md:py-8">
             <div>
               <span className="text-sm font-regular">&copy; 2021 Opal.to - All rights reserved</span>
             </div>
             <div className="text-sm font-regular flex flex-row justify-center">
               hey@opal.to
+            </div>
+            <div>
               <a
                 href="https://twitter.com/getopal"
                 title="@getopal"
@@ -118,11 +120,6 @@ export default function HowItWorks() {
               >
                 <TwitterIcon className="pr-1"/>
               </a>
-            </div>
-            <div>
-              <span className="text-sm font-regular flex flex-row items-center">
-                Made with ♥️ in 🇮🇹 / 🇦🇺
-              </span>
             </div>
           </div>
         </div>
