@@ -185,6 +185,12 @@ function BlockEditable({ block, dispatch, ...props }, ref) {
 
         dispatch({ type: 'DELETE', payload: block })
       } else if (isCursorAtBeginning && block.position > 0) {
+        const selection = document.getSelection()
+
+        if (!selection.isCollapsed) {
+          return
+        }
+
         evt.preventDefault()
 
         const prev = props.getPreviousBlock(block)
