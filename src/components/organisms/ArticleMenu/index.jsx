@@ -21,8 +21,8 @@ function ArticleMenu({ resource, ...props }) {
 
   if (!article) {
     return (
-      <Container>
-        <LoadingOverlay />
+      <Container style={{ height: '100%' }}>
+        <LoadingOverlay transparent />
       </Container>
     )
   }
@@ -79,8 +79,8 @@ function ArticleMenu({ resource, ...props }) {
         </ArticleMenuSection>
         <ArticleMenuSection
           initialValue={true}
-          title="mentions"
-          tooltip={`In this section you can see all the notes that are linking this article or quoting portions of it. Mentions implement the backlink concept.`}
+          title="Linked References"
+          tooltip={`In this section you can see all the notes that are linking this article or quoting portions of it. Linked references are an implementation of the backlink concept.`}
         >
           <ArticleMenuMentions mentions={props.mentions} />
         </ArticleMenuSection>

@@ -22,7 +22,7 @@ function InternalBlock({ blockId, ...props }) {
 
   if (error) {
     return (
-      <Container {...props}>Error retrieving block: {blockId}</Container>
+      <Container {...props}>Error retrieving block {blockId}</Container>
     )
   }
 

@@ -109,6 +109,10 @@ export const TitleStyled = styled(Title)`
   ${props => props.editable && css`
     -webkit-tap-highlight-color: 'transparent';
 
+    ${props => props.level === 'h1' && css`
+      font-size: 1.5rem;
+    `}
+
     /* Header level info on the left */
     &::before {
       content: attr(data-level);
@@ -119,11 +123,17 @@ export const TitleStyled = styled(Title)`
       height: auto;
 
       font-size: 1rem;
-      font-weight: 400;
-      color: ${props => props.theme.colors.gray[200]};
+      font-weight: 500;
+      color: ${props => props.theme.colors.gray[400]};
+      /* text-transform: capitalize; */
+      opacity: .75;
 
       display: inline;
       vertical-align: baseline;
+
+      &::first-letter {
+        initial-letter: 2;
+      }
     }
 
     &:empty:before {

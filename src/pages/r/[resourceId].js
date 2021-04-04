@@ -191,7 +191,7 @@ function Resource() {
     const { display_name } = user
     const { title } = article
     // Article Title - Username's note
-    const noteTitle = `${title} - ${display_name}'s Note`
+    const noteTitle = `${display_name}'s Note - ${title}`
 
     createNote(resourceId, noteTitle)
     .then(({ note }) => {

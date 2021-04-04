@@ -208,7 +208,7 @@ export default function Signup() {
       saveTweet(url)
       .then(() => {
         //... start polling the articles
-        setToast('Tweet added to queue')
+        setToast('Tweet added to queue. Page will reload automatically...')
         setRefreshInterval(1500)
   
         setTimeout(() => {
@@ -222,7 +222,7 @@ export default function Signup() {
       storeExternalResource(url)
       .then(() => {
         //... start polling the articles
-        setToast('Article added to queue')
+        setToast('Article added to queue. Page will reload automatically...')
         setRefreshInterval(1500)
   
         setTimeout(() => {

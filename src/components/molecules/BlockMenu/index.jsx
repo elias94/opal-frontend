@@ -11,7 +11,7 @@ function BlockMenu({ block, visible, ...props }) {
         <Tooltip label="Add block to note">
           <Icon
             icon={['far', 'plus-square']}
-            onClick={() => props.onQuoteBlockClick(block.id)}
+            onClick={() => props.onQuoteBlockClick(block)}
           />
         </Tooltip>
       )}

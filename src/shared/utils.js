@@ -50,3 +50,11 @@ export function extractDomainUrl(url) {
 }
 
 export const randomChoice = (array) => array[Math.floor(Math.random() * array.length)]
+
+export function getArticleTitle(originalTitle) {
+  let title = originalTitle
+
+  
+
+  return title
+}

@@ -20,8 +20,6 @@ function ResourcePage(props) {
   const [isNoteEditable, setIsNoteEditable] = useState(false)
   const [articleMenuOpen, setArticleMenuOpen] = useState(!props.noteId)
 
-  console.log(props.noteId)
-
   // Reducer for client-side blocks management
   const [
     { blocks, params, lastAction },
@@ -38,6 +36,12 @@ function ResourcePage(props) {
       setIsNoteEditable(userId === author)
     }
   }, [props.user, props.noteArticle])
+
+  useEffect(() => {
+    if (props.noteId) {
+      setArticleMenuOpen(false)
+    }
+  }, [props.noteId])
 
   useEffect(() => {
     if (!props.noteId) {
@@ -140,6 +144,7 @@ function ResourcePage(props) {
   }
 
   function onQuoteBlockClick(sourceBlock) {
+    console.log(sourceBlock)
     const intQuoteBlock = generateInternalQuoteBlock(sourceBlock, blocks, props.noteArticle.id)
 
     let lastBlock = null
@@ -147,6 +152,8 @@ function ResourcePage(props) {
     if (blocks.length > 0) {
       lastBlock = blocks[blocks.length - 1]
     }
+
+    console.log(intQuoteBlock)
 
     blocksDispatch({ type: 'APPEND', payload: intQuoteBlock })
   }

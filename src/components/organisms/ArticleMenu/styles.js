@@ -13,6 +13,8 @@ export const Container = styled.div`
 
   background: ${props => props.theme.colors.warmGray['100']};
   transition: width .3s ease-in-out;
+  border-left: 1px solid ${props => props.theme.colors.gray['200']};
+
 
   ${props => props.hidden && css`
     flex-grow: 0;
@@ -28,8 +30,6 @@ export const Container = styled.div`
 
     width: 45rem;
     height: calc(100% - 47px);
-
-    box-shadow: ${props => props.theme.boxShadow['lg']};
   `}
 `
 

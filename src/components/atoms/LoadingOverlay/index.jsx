@@ -4,9 +4,9 @@ import {
   OverlayLoading,
 } from './styles'
 
-function LoadingOverlay() {
+function LoadingOverlay(props) {
   return (
-    <OverlayLoading>
+    <OverlayLoading {...props}>
       <Spinner />
     </OverlayLoading>
   )

@@ -9,6 +9,6 @@ export const OverlayLoading = styled.div`
   height: 100%;
   z-index: 2;
 
-  background: ${props => props.theme.colors.white};
+  background: ${props => props.transparent ? 'transparent' : props.theme.colors.white};
   opacity: .75;
 `
