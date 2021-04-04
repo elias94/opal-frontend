@@ -2,6 +2,8 @@ import { v4 as uuidv4 } from 'uuid'
 
 export function generateNewBlock(previous, article_id, content={}) {
   let newBlock
+  let newContent = content
+  let newProperties = {}
   
   if (!previous) {
     // DEFAULT
@@ -12,10 +14,16 @@ export function generateNewBlock(previous, article_id, content={}) {
       indent: 0,
       article_id: article_id,
       list: null,
-      properties: {},
+      properties: newProperties,
       content,
     }
   } else {
+    if (previous.list === 'b') {
+      newProperties = { raw: '- ' }
+    } else if (previous.list === 'o') {
+      newProperties = { raw: `${parseInt(previous.properties.raw.trim()[0], 10) + 1}. ` }
+    }
+
     // PREVIOUS
     newBlock = {
       id: uuidv4(),
@@ -24,7 +32,7 @@ export function generateNewBlock(previous, article_id, content={}) {
       indent: previous.indent,
       article_id: previous.article_id,
       list: previous.list,
-      properties: {},
+      properties: newProperties,
       content,
     }
   }

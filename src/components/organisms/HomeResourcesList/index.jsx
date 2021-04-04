@@ -21,17 +21,17 @@ function HomeResourcesList({ resources, ...props }) {
       return (
         <div className="w-full h-auto pt-60 mx-auto flex items-center justify-center text-center">
           <span className="text-gray-300 text-lg">
-            Error loading resources.
-            <br /><br />
-            Plese let me know!
-            <br />
+            <span className="text-xl">Error loading resources.</span>
+            <br /><br /><br />
+            Plese let us know!
+            <br /><br/>
             hey@opal.to
             <a
-              href="https://twitter.com/elia_scotto"
-              title="@elia_scotto"
+              href="https://twitter.com/getopal"
+              title="@getopal"
               className="inline-flex flex-row items-center justify-center ml-8 focus:outline-none"
             >
-              @elia_scotto
+              @getopal
             </a>
           </span>
         </div>

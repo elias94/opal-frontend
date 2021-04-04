@@ -5,5 +5,6 @@ export * from './articles'
 export * from './external'
 export * from './highlights'
 export * from './notes'
+export * from './fetchers'
 
 export const isServer = typeof window === 'undefined'

@@ -41,12 +41,12 @@ function OnboardingDialog({ onClose }) {
           <div className="pt-6 text-base font-regular leading-7 flex flex-row items-center justify-center">
             hey@opal.to
             <a
-              href="https://twitter.com/elia_scotto"
-              title="@elia_scotto"
+              href="https://twitter.com/getopal"
+              title="@getopal"
               className="inline-flex flex-row items-center justify-center ml-8 text-blue-400 focus:outline-none"
             >
               <TwitterIcon className="pr-1"/>
-              @elia_scotto
+              @getopal
             </a>
           </div>
           <div className="w-full mx-auto pt-8 flex flex-row justify-center">

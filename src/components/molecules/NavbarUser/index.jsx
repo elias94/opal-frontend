@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import KeyEvent from 'shared/keyboard'
 
-import { svgImport } from 'components/atoms/SVG'
+import SVG, { svgImport } from 'components/atoms/SVG'
 import ImportDialog from 'components/molecules/ImportDialog'
 
 import {
@@ -29,7 +29,7 @@ function NavbarHome(props) {
         </div>
       </LeftContainer>
       <CenterContainer>
-        <ImportDialog onLinkSubmit={props.onLinkSubmit} />
+        {/* <ImportDialog onLinkSubmit={props.onLinkSubmit} />
         <SearchContainer>
           {props.tags.map((tag, idx) => (
             <SearchTag key={`Tag_${tag}${idx}`} tag={tag} onRemoveTag={props.onRemoveTag} />
@@ -47,7 +47,7 @@ function NavbarHome(props) {
               </svg>
             `}
           </SVGSearch>
-        </SearchContainer>
+        </SearchContainer> */}
       </CenterContainer>
       <RightContainer>
         <UserName user={props.user} />
@@ -88,17 +88,17 @@ function SearchTag({ tag, onRemoveTag }) {
 }
 
 function UserName({ user }) {
-  const initial = user ? user.name.slice(0, 1) : ''
+  const initial = user.name.slice(0, 1)
 
   return (
     <UserContainer>
-      <Link href={`/${user ? user.name : ''}`}>
+      <Link href={`/${user.name}`}>
         <UserDisplay>
           <UserLogo>
             {initial}
           </UserLogo>
           <UserTitle>
-            {user ? user.display_name : ''}
+            {user.display_name}
           </UserTitle>
         </UserDisplay>
       </Link>

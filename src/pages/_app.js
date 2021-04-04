@@ -14,6 +14,7 @@ import {
   faBars, faTimes, faEdit, faCaretRight,
   faTrashAlt, faBookmark, faChevronLeft,
   faExpand, faCaretUp, faQuestion, faShare,
+  faChevronDown,
 } from '@fortawesome/free-solid-svg-icons'
 import { 
   faStar as farStar,
@@ -27,19 +28,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 
 config.autoAddCss = false
 
-function App({ Component, pageProps }) {
-
-  useEffect(() => {
-    // componentDidMount
-    if (process.env.ENV === 'production') {
-      splitbee.init({
-        token: process.env.SPLITBEE_TOKEN,
-        scriptUrl: "/bee.js",
-        apiUrl: "/_hive",
-      })
-    }
-    
-    // Declare fontawesome icons used into the project
+// Declare fontawesome icons used into the project
     // https://fontawesome.com/how-to-use/on-the-web/using-with/react
     library.add(
       faPlus,
@@ -67,6 +56,18 @@ function App({ Component, pageProps }) {
       faQuestion,
       faShare,
     )
+
+function App({ Component, pageProps }) {
+
+  useEffect(() => {
+    // componentDidMount
+    if (process.env.ENV === 'production') {
+      splitbee.init({
+        token: process.env.SPLITBEE_TOKEN,
+        scriptUrl: "/bee.js",
+        apiUrl: "/_hive",
+      })
+    }
   }, [])
 
   return (

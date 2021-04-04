@@ -7,6 +7,8 @@ import {
   postWithToken,
 } from '../fetchers'
 
+const ROUTE_PATH = '/users'
+
 export function loginUser(username, password) {
   const formData = new FormData()
   formData.append('username', username)
@@ -44,6 +46,24 @@ export function fetchUser() {
   const { data, mutate, error } = useSWR(() => 
     ['/users/me', localStorage.getItem('access_token')],
     fetchWithToken,
+    {
+      shouldRetryOnError: false,
+      revalidateOnFocus: false,
+    }
+  )
+
+  return {
+    user: data,
+    loading: !data && !error,
+    mutate,
+    error,
+  }
+}
+
+export function fetchUserByName(username) {
+  const { data, mutate, error } = useSWR(() => 
+    `${ROUTE_PATH}/name/${username}`,
+    fetch,
     {
       shouldRetryOnError: false,
       revalidateOnFocus: false,

@@ -20,6 +20,8 @@ function ResourcePage(props) {
   const [isNoteEditable, setIsNoteEditable] = useState(false)
   const [articleMenuOpen, setArticleMenuOpen] = useState(!props.noteId)
 
+  console.log(props.noteId)
+
   // Reducer for client-side blocks management
   const [
     { blocks, params, lastAction },

@@ -12,10 +12,24 @@ export const Container = styled.div`
   z-index: 2;
 
   background: ${props => props.theme.colors.warmGray['100']};
-  transition: flex-grow .3s ease-in-out;
+  transition: width .3s ease-in-out;
 
   ${props => props.hidden && css`
     flex-grow: 0;
+  `}
+
+  ${props => props.hidden && !props.isSingleArticle && css`
+    width: 0;
+  `}
+
+  ${props => !props.isSingleArticle && css`
+    position: absolute;
+    right: 0;
+
+    width: 45rem;
+    height: calc(100% - 47px);
+
+    box-shadow: ${props => props.theme.boxShadow['lg']};
   `}
 `
 

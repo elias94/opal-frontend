@@ -39,11 +39,11 @@ export const MenuListStyled = styled(MenuList)`
 
   min-width: 120px;
   padding: 10px 0;
+  margin-top: 5px;
 
   box-shadow: ${props => props.theme.boxShadow['card']};
 
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
+  border-radius: 6px;
 `
 
 export const MenuItemStyled = styled(MenuItem)`

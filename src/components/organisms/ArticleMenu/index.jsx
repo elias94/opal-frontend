@@ -28,7 +28,7 @@ function ArticleMenu({ resource, ...props }) {
   }
 
   return (
-    <Container hidden={props.hidden}>
+    <Container hidden={props.hidden} {...props}>
       <MenuContainer>
         <HeaderContainer>
           <Header>

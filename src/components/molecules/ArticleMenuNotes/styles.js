@@ -53,6 +53,8 @@ export const NoteTitle = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  max-width: 25rem;
 `
 
 export const NoteAuthor = styled.div`

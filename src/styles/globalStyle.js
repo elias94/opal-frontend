@@ -90,4 +90,8 @@ export default createGlobalStyle`
       background: linear-gradient(to right, #f06844 0%, #ee4c54 100%);
     }
   }
+
+  .opacity-85 {
+    opacity: 85%;
+  }
 `

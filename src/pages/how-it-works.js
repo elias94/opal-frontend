@@ -54,7 +54,8 @@ export default function HowItWorks() {
             Import web content
           </div>
           <div className="text-grey-500 mt-2 font-medium text-2xl">
-            You can read all the articles that you came across in a <strong>clean</strong> and readable interface.
+            Import and save all articles and tweets that you came across.
+            You can read them in a <strong>clean</strong> interface.
             Every article is permanently saved and it will always be available.
             Stop using web links. With the time, they become broken, blank, unintentional, or even malicious pages.
           </div>
@@ -71,7 +72,7 @@ export default function HowItWorks() {
             Take notes
           </div>
           <div className="text-grey-500 mt-2 font-medium text-2xl">
-            Annotate and highlight your articles in a interconnected way. Quote articles directly using the block or the highlights.
+            Annotate and highlight your articles using markdown in documents organized in blocks. Quote articles directly using blocks or highlights.
           </div>
 
           <div className="text-left pt-16 text-semibold font-bold text-4xl">
@@ -79,7 +80,6 @@ export default function HowItWorks() {
           </div>
           <div className="text-grey-500 mt-2 font-medium text-2xl">
             Read article's notes from the community see other users highlights.
-            You can extend the context of every portion of each articles and the platform as a system of collaborative reasoning.
             Vote useful notes and learn from community personal knowledge.
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import Head from 'next/head'
 import {
   fetchUser,
   fetchResource,
@@ -122,6 +123,11 @@ function Resource() {
 
   return (
     <div style={{ height: '100vh' }}>
+      <Head>
+        <title>{process.env.NEXT_PUBLIC_APP_NAME} - {}</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <ResourcePage
         resourceId={resourceId}
         noteId={noteId}
@@ -181,7 +187,7 @@ function Resource() {
   }
 
   function onAddNoteClick() {
-    const [, article] = resource.content
+    const article = resource.content
     const { display_name } = user
     const { title } = article
     // Article Title - Username's note
@@ -217,9 +223,6 @@ function Resource() {
     const articleId = noteArticleData.article.id
 
     createBlock(articleId, newBlock)
-    .then((block) => {
-      console.log(block)
-    })
     .catch((e) => {
       console.error(e.status)
     })
@@ -229,9 +232,6 @@ function Resource() {
     const articleId = noteArticleData.article.id
 
     updateBlock(articleId, updatedBlock)
-    .then((block) => {
-      console.log(block)
-    })
     .catch((e) => {
       console.error(e.status)
     })
@@ -241,9 +241,6 @@ function Resource() {
     const articleId = noteArticleData.article.id
 
     deleteBlock(articleId, deletedBlock)
-    .then((block) => {
-      console.log(block)
-    })
     .catch((e) => {
       console.error(e.status)
     })
@@ -251,9 +248,6 @@ function Resource() {
 
   function createNoteHighlight(highlight) {
     createHighlight(highlight)
-    .then((h) => {
-      console.log(h)
-    })
     .catch((e) => {
       console.error(e.status)
     })
@@ -261,9 +255,6 @@ function Resource() {
 
   function deleteNoteHighlight(highlightId) {
     deleteHighlight(highlightId)
-    .then((h) => {
-      console.log(h)
-    })
     .catch((e) => {
       console.error(e.status)
     })
