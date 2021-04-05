@@ -2,7 +2,6 @@ import styled from 'styled-components'
 
 
 const base = `
-  color: #000000;
   margin-bottom: 1em;
   display: block;
 
@@ -12,6 +11,7 @@ const base = `
 export const Title = {
   h1: styled.h1`
     ${base};
+    color: ${props => props.theme.colors.textColor};
     text-align: ${props => props.center ? 'center' : 'left'};
     line-height: 1;
     font-size: 2.75rem;
@@ -23,6 +23,7 @@ export const Title = {
   `,
   h2: styled.h2`
     ${base};
+    color: ${props => props.theme.colors.textColor};
     text-align: ${props => props.center ? 'center' : 'left'};
     line-height: 2.5rem;
     font-size: 1.95rem;
@@ -31,16 +32,10 @@ export const Title = {
     margin-inline-start: 0px;
     margin-inline-end: 0px;
     font-weight: bold;
-
-    &::before {
-      line-height: 2.5rem;
-      font-size: 1.95rem;
-      margin-block-start: 1.5rem;
-      margin-block-end: .5rem;
-    }
   `,
   h3: styled.h3`
     ${base};
+    color: ${props => props.theme.colors.textColor};
     text-align: ${props => props.center ? 'center' : 'left'};
     line-height: 2rem;
     font-size: 1.5rem;
@@ -52,6 +47,7 @@ export const Title = {
   `,
   h4: styled.h4`
     ${base};
+    color: ${props => props.theme.colors.textColor};
     text-align: ${props => props.center ? 'center' : 'left'};
     font-size: 1.15rem;
     margin-block-start: 0.5rem;
@@ -62,6 +58,7 @@ export const Title = {
   `,
   h5: styled.h5`
     ${base};
+    color: ${props => props.theme.colors.textColor};
     text-align: ${props => props.center ? 'center' : 'left'};
     font-size: 0.95rem;
     margin-block-start: 0.5rem;
@@ -72,6 +69,7 @@ export const Title = {
   `,
   h6: styled.h6`
     ${base};
+    color: ${props => props.theme.colors.textColor};
     text-align: ${props => props.center ? 'center' : 'left'};
     font-size: 0.8rem;
     margin-block-start: 0.5rem;

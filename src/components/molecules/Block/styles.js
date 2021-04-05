@@ -108,16 +108,35 @@ export const TitleStyled = styled(Title)`
 
   ${props => props.editable && css`
     -webkit-tap-highlight-color: 'transparent';
+    font-weight: 600;
+    line-height: 1;
 
     ${props => props.level === 'h1' && css`
       font-size: 1.5rem;
+      line-height: 1.4;
+      margin-block-start: .5rem;
+      margin-block-end: .5rem;
+    `}
+
+    ${props => props.level === 'h2' && css`
+      font-size: 1.4rem;
+      line-height: 1.3;
+      margin-block-start: .5rem;
+      margin-block-end: .5rem;
+    `}
+
+    ${props => props.level === 'h3' && css`
+      font-size: 1.3rem;
+      line-height: 1.3;
+      margin-block-start: .5rem;
+      margin-block-end: .5rem;
     `}
 
     /* Header level info on the left */
     &::before {
       content: attr(data-level);
       position: absolute;
-      bottom: 0;
+      top: 0;
       left: -27.5px;
       margin: 0;
       height: auto;
@@ -134,6 +153,18 @@ export const TitleStyled = styled(Title)`
       &::first-letter {
         initial-letter: 2;
       }
+
+      ${props => props.level === 'h1' && css`
+        top: 9px
+      `}
+
+      ${props => props.level === 'h2' && css`
+        top: 7px;
+      `}
+
+      ${props => props.level === 'h3' && css`
+        top: 5px;
+      `}
     }
 
     &:empty:before {
@@ -190,11 +221,12 @@ export const ListDecorationElement = styled.div`
 `
 
 export const ListDecorationContent = styled.div`
-  font-size: ${props => (props.order ? '16px' : '1.5em')};
+  font-size: ${props => (props.order ? '16px' : '1.2em')};
   line-height: 0;
   margin-bottom: 0.1em;
   cursor: ${props => props.hasChildren ? 'pointer' : 'default'};
   user-select: none;
+  color: ${props => props.theme.colors.active};
 `
 
 export const ListContent = styled.div`

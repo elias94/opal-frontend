@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
+import { getArticleTitle } from 'shared/utils'
 import {
   fetchUser,
   fetchResource,
@@ -191,7 +192,7 @@ function Resource() {
     const { display_name } = user
     const { title } = article
     // Article Title - Username's note
-    const noteTitle = `${display_name}'s Note - ${title}`
+    const noteTitle = `${display_name}'s Note - ${getArticleTitle(title)}`
 
     createNote(resourceId, noteTitle)
     .then(({ note }) => {

@@ -44,9 +44,10 @@ function NoteEditor({ isEditable, noteArticle, noteBlocks, loadingNoteBlocks, ..
         <Editor>
           <NoteTitle
             level="h1"
-            contentEditable
+            contentEditable={isEditable}
             suppressContentEditableWarning
             onBlur={onNoteTitleBlur}
+            editable={isEditable}
           >
             {noteArticle.title}
           </NoteTitle>

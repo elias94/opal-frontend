@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import SVG from 'components/atoms/SVG'
 import Title from 'components/atoms/Title'
@@ -109,6 +109,14 @@ export const NoteTitle = styled(Title)`
   margin: 0;
   margin-bottom: 6rem;
   outline: none;
+
+  ${props => props.editable && css`
+    font-size: ${props => props.theme.fontSize['3xl'][0]};
+    line-height: 2.25rem;
+    font-weight: 600;
+
+    margin-bottom: 2rem;
+  `}
 `
 
 export const Content = styled.div`

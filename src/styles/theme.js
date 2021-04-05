@@ -97,6 +97,10 @@ export default {
     96: '24rem',
   },
   colors: {
+    // theme colors
+    text: '#1b1b1b',
+    active: '#64748b',
+
     background: '#f5f5f7',
     black: '#000',
     white: '#fff',
