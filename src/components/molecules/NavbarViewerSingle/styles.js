@@ -6,6 +6,7 @@ import SVG from 'components/atoms/SVG'
 export const Container = styled.div`
   width: 100%;
   height: 47px;
+  z-index: 10;
 
   position: sticky;
   top: 0;
