@@ -58,7 +58,7 @@ function NavbarViewerMultiple({ url, highlightTextMode, isEditable, note, ...pro
                 </>
               )}
             </DropdownButton>
-            <Tooltip label={"Read the note in article mode"}>
+            <Tooltip label={"Read note in article mode"}>
               <HeaderButton secondary onClick={props.onViewNoteClick}>
                 {isEditable ? (
                 <>
