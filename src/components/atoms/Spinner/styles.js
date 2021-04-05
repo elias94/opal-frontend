@@ -18,7 +18,7 @@ export const SpinnerEl = styled.div`
   height: 30px;
   border: 3px solid transparent;
   border-top-color: transparent;
-  border-top-color: ${props => props.theme.colors.black};
+  border-top-color: ${props => props.theme.colors.text};
   border-radius: 50%;
   animation: ${spinner} 1s linear infinite;
 `

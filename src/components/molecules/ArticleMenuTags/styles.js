@@ -8,7 +8,10 @@ export const Container = styled.div`
 `
 
 export const TagElement = styled.span`
-  background: ${props => props.theme.colors.blueGray['200']};
+  background: ${props => props.theme.colors.white};
+  border: 1px solid ${props => props.theme.colors.gray[200]};
+  box-shadow: ${props => props.theme.boxShadow['sm']};
+
   border-radius: 20px;
   padding: 5px 12.5px;
 
@@ -27,15 +30,16 @@ export const TagElement = styled.span`
   justify-content: center;
 
   font-family: ${props => props.theme.fontFamily.sans};
-  font-size: ${props => props.theme.fontSize['sm'][0]};
+  font-size: ${props => props.theme.fontSize['xs'][0]};
   line-height: 1;
+
   color: ${props => props.theme.colors.blueGray['500']};
   padding-left: 14px;
 `
 
 export const TagName = styled.span`
   font-family: ${props => props.theme.fontFamily.sans};
-  font-size: ${props => props.theme.fontSize['sm'][0]};
+  font-size: ${props => props.theme.fontSize['xs'][0]};
   line-height: 1;
   color: ${props => props.theme.colors.blueGray['500']};
   font-weight: 400;
@@ -56,11 +60,11 @@ export const TagsEmpty = styled.div`
 `
 
 export const RemoveTag = styled(IconButton)`
-  background: ${props => props.theme.colors.blueGray['300']};
+  background: ${props => props.theme.colors.blueGray['200']};
   color: ${props => props.theme.colors.blueGray['400']};
 
   border-radius: 50%;
-  font-size: 12px;
+  font-size: 11px;
   display: inline-flex;
 
   margin-left: 8px;
@@ -94,7 +98,10 @@ export const TagBottomContainer = styled.div`
 `
 
 export const EditableTagContainer = styled.div`
-  background: ${props => props.theme.colors.blueGray['200']};
+  background: ${props => props.theme.colors.white};
+  border: 1px solid ${props => props.theme.colors.gray[200]};
+  box-shadow: ${props => props.theme.boxShadow['sm']};
+  
   color: ${props => props.theme.colors.blueGray['500']};
   font-size: ${props => props.theme.fontSize['base'][0]};
 

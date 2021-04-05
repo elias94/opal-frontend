@@ -43,7 +43,6 @@ function BlockEditable({ block, dispatch, ...props }, ref) {
   useImperativeHandle(ref, () => ({
     focus: () => {
       setEditable(true)
-      editableEl.current.focus()
     },
   }))
 

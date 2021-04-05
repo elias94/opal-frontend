@@ -114,10 +114,17 @@ export const HighlightIconContainer = styled.div`
 `
 
 export const HeaderButton = styled(Button)`
+  font-size: ${props => props.theme.fontSize['sm'][0]};
+  line-height: ${props => props.theme.fontSize['sm'][1].lineHeight};
+
   display: inline-flex;
-  color: ${props => props.theme.colors.blueGray['500']};
+  color: ${props => props.theme.colors.blueGray['400']};
 
   margin: 0 5px;
+
+  &:hover {
+    color: ${props => props.theme.colors.blueGray['500']};
+  }
 `
 
 export const TabsContainer = styled.div`

@@ -5,7 +5,7 @@ import IconButton from 'components/atoms/IconButton'
 export const Icon = styled(IconButton)`
   height: 28px;
   color: ${props => props.theme.colors.gray['300']};
-  font-size: 16px;
+  font-size: 15px;
   border-radius: 6px;
   padding: 0;
   padding-top: .75rem;
@@ -13,14 +13,7 @@ export const Icon = styled(IconButton)`
   opacity: 0;
   transition: opacity .25s ease-in, color .15s ease;
 
-  padding-left: 5px;
-  &:first-of-type {
-    padding-left: 0;
-  }
-
-  &:last-of-type {
-    padding-right: 5px;
-  }
+  padding-right: 7.5px;
 
   &:hover {
     background: none;

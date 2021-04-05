@@ -3,7 +3,10 @@ import styled from 'styled-components'
 import IconButton from 'components/atoms/IconButton'
 
 export const Container = styled.div`
-  background: ${props => props.theme.colors.blueGray['200']};
+  border-radius: 0.375rem;
+  background: ${props => props.theme.colors.white};
+  border: 1px solid ${props => props.theme.colors.gray[200]};
+  
   border-radius: 6px;
 
   padding: 20px;

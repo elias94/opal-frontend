@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
 import IconButton from 'components/atoms/IconButton'
 
 export const Container = styled.div`
-  margin: 15px 0;
+  margin: 10px 0;
 `
 
 export const HeaderContainer = styled.div`
@@ -42,10 +42,10 @@ export const SectionTitle = styled.div`
 export const Caret = styled(IconButton)`
   color: ${props => props.theme.colors.blueGray['400']};
   display: inline;
+  font-size: 16px;
 
   & > svg {
     transition: transform .25s ease;
-    height: 18px;
   }
 
   ${props => props.open && css`
@@ -63,15 +63,15 @@ export const Caret = styled(IconButton)`
 export const InfoElement = styled.div`
   content: "\\201c";
   font-family: ${props => props.theme.fontFamily.sans};
-  font-size: 0.875rem;
-  line-height: ${props => props.theme.fontSize['sm'][1].lineHeight};
+  font-size: 0.65rem;
+  line-height: ${props => props.theme.fontSize['xs'][1].lineHeight};
   background: ${props => props.theme.colors.blueGray['200']};
   color: ${props => props.theme.colors.blueGray['500']};
 
   border-radius: 50%;
   display: inline;
 
-  padding: 2px 8px;
+  padding: 1px 6px;
   margin: .5rem;
 
   cursor: default;
@@ -109,7 +109,9 @@ export const TooltipElement = styled.div`
 
 export const Content = styled.div`
   transition: height 0.25s ease;
+  box-shadow: ${props => props.noShadow ? 'none' : props.theme.boxShadow['cardSm']};
 
   height: ${props => props.open ? 'auto' : 0};
   overflow: hidden;
+  border-radius: 6px;
 `

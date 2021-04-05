@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useImperativeHandle, forwardRef } from 'react'
 
 import Tooltip from 'components/atoms/Tooltip'
 
@@ -9,15 +9,21 @@ import {
   LeftSection, RightSection,
 } from './styles'
 
-function ArticleMenuSection({ title, tooltip, extraHeader, initialValue = false, ...props }) {
+function ArticleMenuSection({ title, tooltip, extraHeader, initialValue = false, ...props }, ref) {
   const [menuOpen, setMenuOpen] = useState(initialValue)
 
   const onSectionClick = () => {
     setMenuOpen(!menuOpen)
   }
 
+  useImperativeHandle(ref, () => ({
+    open: () => {
+      setMenuOpen(true)
+    },
+  }))
+
   return (
-    <Container>
+    <Container ref={ref}>
       <HeaderContainer>
         <LeftSection>
           <Header onClick={onSectionClick}>
@@ -30,12 +36,12 @@ function ArticleMenuSection({ title, tooltip, extraHeader, initialValue = false,
           {extraHeader}
         </RightSection>
       </HeaderContainer>
-      <Content open={menuOpen}>{props.children}</Content>
+      <Content open={menuOpen} noShadow={props.noShadow}>{props.children}</Content>
     </Container>
   )
 }
 
-export default ArticleMenuSection
+export default forwardRef(ArticleMenuSection)
 
 function SectionInfo({ tooltip }) {
   return (

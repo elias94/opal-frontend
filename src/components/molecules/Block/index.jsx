@@ -96,7 +96,7 @@ function renderBlock(block, otherProps={}) {
     )
   } else if (type === 'internal_highlight') {
     render = (
-      <InternalHighlight key={key}>
+      <InternalHighlight key={key} {...sharedProps}>
         {formatted}
       </InternalHighlight>
     )

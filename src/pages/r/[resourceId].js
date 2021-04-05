@@ -156,13 +156,13 @@ function Resource() {
         deleteArticle={deleteNoteArticle}
         saveTag={saveArticleTag}
         deleteTag={deleteArticleTag}
-        isInputTagActive={isInputTagActive}
         tagInputError={tagInputError}
-        onAddTagClick={onAddTagClick}
-        onTagInputCancel={onTagInputCancel}
         setNotePrivate={setArticleNotePrivate}
         saveUserVote={saveUserVote}
         deleteNote={deleteArticleNote}
+        setTagInputError={setTagInputError}
+        isInputTagActive={isInputTagActive}
+        setIsInputTagActive={setIsInputTagActive}
       />
     </div>
   )
@@ -282,14 +282,6 @@ function Resource() {
     })
   }
 
-  function onAddTagClick() {
-    setIsInputTagActive(true)
-  }
-
-  function onTagInputCancel() {
-    setIsInputTagActive(false)
-  }
-
   function saveArticleTag(tagName) {
     if (tagName.length < 2) {
       setTagInputError('Tag is too short')
@@ -304,10 +296,10 @@ function Resource() {
     saveTag(resourceId, tagName)
     .then((a) => {
       mutateTags()
-      setIsInputTagActive(false)
       setTagInputError(null)
     })
     .catch((e) => {
+      console.error(e)
       try {
         setTagInputError(e.response.data.detail)
       } catch {

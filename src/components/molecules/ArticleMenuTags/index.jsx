@@ -7,8 +7,13 @@ import {
   EditableTagContainer, EditableTag, TagBottomContainer,
   TagsEmpty,
 } from './styles'
+import { useEffect } from 'react'
 
 function ArticleMenuTags({ tags, isInputTagActive, ...props }) {
+  useEffect(() => {
+    props.setTagInputError(null)
+  }, [isInputTagActive])
+
   return (
     <Container>
       {renderTags(tags)}
@@ -69,6 +74,7 @@ function InputTag({ saveTag, onTagInputCancel }) {
 
     if (keyEvt.isEnter && value.length > 0) {
       saveTag(value)
+      evt.target.value = ''
     } else if (keyEvt.isEsc) {
       onTagInputCancel()
     }

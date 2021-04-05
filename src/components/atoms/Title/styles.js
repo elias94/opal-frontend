@@ -19,7 +19,7 @@ export const Title = {
     margin-block-end: 1rem;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
-    font-weight: bold;
+    font-weight: 600;
   `,
   h2: styled.h2`
     ${base};
@@ -31,7 +31,7 @@ export const Title = {
     margin-block-end: .5rem;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
-    font-weight: bold;
+    font-weight: 600;
   `,
   h3: styled.h3`
     ${base};
@@ -43,7 +43,7 @@ export const Title = {
     margin-block-end: .25rem;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
-    font-weight: bold;
+    font-weight: 600;
   `,
   h4: styled.h4`
     ${base};
@@ -54,7 +54,7 @@ export const Title = {
     margin-block-end: 0rem;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
-    font-weight: bold;
+    font-weight: 600;
   `,
   h5: styled.h5`
     ${base};
@@ -65,7 +65,7 @@ export const Title = {
     margin-block-end: 0rem;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
-    font-weight: bold;
+    font-weight: 600;
   `,
   h6: styled.h6`
     ${base};
@@ -76,6 +76,6 @@ export const Title = {
     margin-block-end: 0rem;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
-    font-weight: bold;
+    font-weight: 600;
   `
 }

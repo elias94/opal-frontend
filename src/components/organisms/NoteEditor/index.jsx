@@ -4,6 +4,7 @@ import isEqual from 'fast-deep-equal'
 import BlockEditable from 'components/molecules/BlockEditable'
 import HelpMarkdown from 'components/molecules/HelpMarkdown'
 import Block from 'components/molecules/Block'
+import LoadingOverlay from 'components/atoms/LoadingOverlay'
 
 import {
   Container, EditorContainer,
@@ -105,6 +106,12 @@ function NoteEditor({ isEditable, noteArticle, noteBlocks, loadingNoteBlocks, ..
   function renderBlocks() {
     let order = null
 
+    if (!blocks || !blocks.length) {
+      return (
+        <LoadingOverlay />
+      )
+    }
+
     return blocks.map((blk) => {
       if (blk.list === 'o') {
         order = order === null ? 1 : order + 1
@@ -170,7 +177,7 @@ function NoteEditor({ isEditable, noteArticle, noteBlocks, loadingNoteBlocks, ..
         const { position } = updated
         const { id } = blocks[position + 1]
 
-        setTimeout(() => blocksRef.current[id].focus())
+        blocksRef.current[id].focus()
         break
       }
       case 'DELETE': {
@@ -182,7 +189,7 @@ function NoteEditor({ isEditable, noteArticle, noteBlocks, loadingNoteBlocks, ..
         if (position - 1 < 0) return
         const { id } = blocks[position - 1]
 
-        setTimeout(() => blocksRef.current[id].focus())
+        blocksRef.current[id].focus()
         break
       }
       case 'DELETE_UPDATE': {
@@ -190,7 +197,7 @@ function NoteEditor({ isEditable, noteArticle, noteBlocks, loadingNoteBlocks, ..
         props.deleteBlock(block)
         props.updateBlock(prevBlock)
 
-        setTimeout(() => blocksRef.current[prevBlock.id].focus())
+        blocksRef.current[prevBlock.id].focus()
         break
       }
     }

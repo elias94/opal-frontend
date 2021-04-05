@@ -10,6 +10,7 @@ import { generateNewHighlight } from 'shared/libs/highlight'
 import NavbarViewer from 'components/molecules/NavbarViewerSingle'
 import Block from 'components/molecules/Block'
 import Tooltip from 'components/atoms/Tooltip'
+import LoadingOverlay from 'components/atoms/LoadingOverlay'
 
 import {
   Container, ArticleContainer,
@@ -79,7 +80,7 @@ function ArticleViewer({ resource, blocks, highlightTextMode, ...props }) {
               </Tooltip>
             </Source>
           </ArticleHeader>
-          {blocks && blocks.map((blk) => (
+          {blocks ? blocks.map((blk) => (
             <Block
               key={`Block_${blk.id}`}
               block={blk}
@@ -88,7 +89,11 @@ function ArticleViewer({ resource, blocks, highlightTextMode, ...props }) {
               copyBlockLinkToClipboard={copyBlockLinkToClipboard}
               {...props}
             />
-          ))}
+          )) : (
+            <div>
+              <LoadingOverlay />
+            </div>
+          )}
         </ArticleContent>
         {highlightTooltip !== null && (
           <Portal>

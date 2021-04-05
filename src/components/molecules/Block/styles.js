@@ -155,7 +155,7 @@ export const TitleStyled = styled(Title)`
       }
 
       ${props => props.level === 'h1' && css`
-        top: 9px
+        top: 9px;
       `}
 
       ${props => props.level === 'h2' && css`
@@ -185,10 +185,16 @@ export const InternalHighlight = styled.div`
   line-height: ${props => props.theme.fontSize['base'][1].lineHeight};
 
   padding: 30px;
+
+  margin: 1.5rem 0;
+
+  ${props => props.editable && css`
+    margin: 0;
+  `}
 `
 
 export const InternalBlock = styled(InternalBlockBase)`
-  margin: 1.5rem 0;
+  margin: 1rem 0;
 
   ${props => props.editable && css`
     margin: 0;

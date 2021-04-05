@@ -6,15 +6,14 @@ import Button from 'components/atoms/Button'
 import IconButton from 'components/atoms/IconButton'
 
 export const Container = styled.div`
-  flex-grow: .6;
+  flex-grow: .4;
   flex-shrink: 1;
   flex-basis: 0;
   z-index: 2;
 
-  background: ${props => props.theme.colors.warmGray['100']};
+  background: ${props => props.theme.colors.blueGray['50']};
   transition: width .3s ease-in-out;
   border-left: 1px solid ${props => props.theme.colors.gray['200']};
-
 
   ${props => props.hidden && css`
     flex-grow: 0;
@@ -28,7 +27,7 @@ export const Container = styled.div`
     position: absolute;
     right: 0;
 
-    width: 45rem;
+    width: 35rem;
     height: calc(100% - 47px);
   `}
 `
@@ -63,10 +62,10 @@ export const IconClose = styled(IconButton)`
 
 export const HeaderTitle = styled(Title)`
   font-family: ${props => props.theme.fontFamily.sans};
-  font-size: ${props => props.theme.fontSize['2xl'][0]};
-  line-height: ${props => props.theme.fontSize['2xl'][1].lineHeight};
+  font-size: ${props => props.theme.fontSize['xl'][0]};
+  line-height: ${props => props.theme.fontSize['xl'][1].lineHeight};
   color: ${props => props.theme.colors.blueGray['500']};
-  font-weight: 600;
+  font-weight: 500;
 
   display: flex;
   flex-direction: row;
@@ -109,10 +108,15 @@ export const HeaderSeparator = styled.div`
 `
 
 export const SectionButton = styled(Button)`
+  font-size: ${props => props.theme.fontSize['xs'][0]};
+  line-height: ${props => props.theme.fontSize['xs'][1].lineHeight};
+
   color: ${props => props.theme.colors.blueGray['500']};
   font-weight: 500;
   background: none;
   margin: 0;
+
+  padding: 6px 8px;
 
   &:hover {
     color: ${props => props.theme.colors.blueGray['600']};

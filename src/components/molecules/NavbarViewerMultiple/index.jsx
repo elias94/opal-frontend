@@ -48,11 +48,35 @@ function NavbarViewerMultiple({ url, highlightTextMode, isEditable, note, ...pro
               tooltipLabel="Change note to private"
               onSelect={onNoteMenuSelect}
             >
-              {note.private ? 'Private' : 'Public'}
+              {note.private ? (
+               <>
+                <Icon icon="user" /> Private
+              </>
+              ) : (
+                <>
+                  <Icon icon="users" /> Public
+                </>
+              )}
             </DropdownButton>
             <Tooltip label={"Read the note in article mode"}>
               <HeaderButton secondary onClick={props.onViewNoteClick}>
-                {isEditable ? 'Read' : 'Edit'}
+                {isEditable ? (
+                <>
+                  <div className="pr-1">
+                    <Icon icon="book" />
+                  </div> 
+                  Read
+                </>
+                ) : (
+                  <>
+                    <div className="pr-1">
+                      <div className="transform rotate-135">
+                        <Icon icon="pen-nib" />
+                      </div>
+                    </div> 
+                    Edit
+                  </>
+                )}
               </HeaderButton>
             </Tooltip>
             <Tooltip label="Delete note">

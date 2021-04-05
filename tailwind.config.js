@@ -5,6 +5,9 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      rotate: {
+        '135': '135deg',
+      },
       colors: {
         blueGray: colors.blueGray,
         trueGray: colors.trueGray,

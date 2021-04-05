@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react'
 import * as dayjs from 'dayjs'
 
 import ArticleMenuSection from 'components/molecules/ArticleMenuSection'
@@ -16,6 +17,7 @@ import {
 } from './styles'
 
 function ArticleMenu({ resource, ...props }) {
+  const tagsSectionRef = useRef(null)
 
   const { resource: external, content: article, saved, saved_count, votes, user_vote } = resource
 
@@ -55,18 +57,21 @@ function ArticleMenu({ resource, ...props }) {
           </HeaderMenu>
         </HeaderContainer>
         <ArticleMenuSection
+          ref={tagsSectionRef}
           initialValue={true}
           title="tags"
-          tooltip={`Add your custom tags to categorize documents. We already added some tags for you. More good tag you add, more will be easy to find documents later.`}
-          extraHeader={<SectionButton secondary onClick={props.onAddTagClick}>Add Tag</SectionButton>}
+          tooltip={`Add your custom tags to categorize your resources. More good tag you add, more will be easy to find it later.`}
+          extraHeader={<SectionButton secondary onClick={onAddTagClick}>Add Tag</SectionButton>}
+          noShadow
         >
           <ArticleMenuTags
             tags={props.tags}
             isInputTagActive={props.isInputTagActive}
             saveTag={props.saveTag}
             deleteTag={props.deleteTag}
-            onTagInputCancel={props.onTagInputCancel}
+            onTagInputCancel={onTagInputCancel}
             tagInputError={props.tagInputError}
+            setTagInputError={props.setTagInputError}
           />
         </ArticleMenuSection>
         <ArticleMenuSection
@@ -80,7 +85,7 @@ function ArticleMenu({ resource, ...props }) {
         <ArticleMenuSection
           initialValue={true}
           title="Linked References"
-          tooltip={`In this section you can see all the notes that are linking this article or quoting portions of it. Linked references are an implementation of the backlink concept.`}
+          tooltip={`You can see all the notes that are linking this article or quoting portions of it. Linked references are an implementation of the backlink concept.`}
         >
           <ArticleMenuMentions mentions={props.mentions} />
         </ArticleMenuSection>
@@ -94,6 +99,15 @@ function ArticleMenu({ resource, ...props }) {
       </MenuContainer>
     </Container>
   )
+
+  function onAddTagClick() {
+    tagsSectionRef.current.open()
+    props.setIsInputTagActive(true)
+  }
+
+  function onTagInputCancel() {
+    props.setIsInputTagActive(false)
+  }
 
   function getResourceTitle() {
     if (external.type === 'article') {
