@@ -70,6 +70,7 @@ function NavbarHome(props) {
       }
     } else if (keyEvt.isBackspace) {
       if (evt.target.value.length === 0) {
+        evt.preventDefault()
         props.onEmptySearchBackspace()
       }
     }

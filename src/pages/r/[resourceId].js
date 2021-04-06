@@ -35,6 +35,7 @@ function Resource() {
   const [isSingleArticle, setIsSingleArticle] = useState(true)
   const [tagInputError, setTagInputError] = useState(null)
   const [isInputTagActive, setIsInputTagActive] = useState(false)
+  const [pageTitle, setPageTitle] = useState('')
 
   // Extract query parameters from url
   const { resourceId, note: noteId } = router.query
@@ -88,6 +89,14 @@ function Resource() {
   } = fetchHighlights(resourceId, user && user.id)
 
   useEffect(() => {
+    if (typeof resource === 'object' && Object.keys(resource).length > 0) {
+      const { content } = resource
+
+      setPageTitle(content.title)
+    }
+  }, [resource])
+
+  useEffect(() => {
     if (noteArticleError) {
       // Reset query param in case of error
       // const routeParam = `/r/${resourceId}`
@@ -97,19 +106,16 @@ function Resource() {
   }, [noteArticleError])
 
   useEffect(() => {
-    // if (typeof window !== 'undefined' && resourceError) {
-    //   // Resource error client-side is not acceptable
-    //   router.push('/home')
-    // }
+    if (typeof window !== 'undefined' && resourceError) {
+      // Resource error client-side is not acceptable
+      router.push('/home')
+    }
   }, [resourceError])
 
   useEffect(() => {
     if (!noteId, resourceId) {
       mutateArticleNotes()
     }
-  }, [resourceId, noteId])
-
-  useEffect(() => {
     setIsSingleArticle(resourceId && !noteId)
   }, [resourceId, noteId])
 
@@ -125,7 +131,7 @@ function Resource() {
   return (
     <div style={{ height: '100vh' }}>
       <Head>
-        <title>{process.env.NEXT_PUBLIC_APP_NAME} - {}</title>
+        <title>{process.env.NEXT_PUBLIC_APP_NAME} - {pageTitle}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

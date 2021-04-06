@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState, } from 'react'
+import { useEffect, useReducer, useState, useCallback } from 'react'
 import { blocksReducer } from 'shared/hooks'
 import {
   generateInternalQuoteBlock,
@@ -27,6 +27,18 @@ function ResourcePage(props) {
   ] = useReducer(blocksReducer, null, initReducer)
 
   const baseUrl = props.resource.content ? props.resource.resource.url : ''
+
+  const onQuoteBlockClick = useCallback((sourceBlock) => {
+    const intQuoteBlock = generateInternalQuoteBlock(sourceBlock, blocks, props.noteArticle.id)
+
+    let lastBlock = null
+
+    if (blocks.length > 0) {
+      lastBlock = blocks[blocks.length - 1]
+    }
+
+    blocksDispatch({ type: 'APPEND', payload: intQuoteBlock })
+  }, [blocks, props.noteArticle])
 
   useEffect(() => {
     if (props.user && props.noteArticle) {
@@ -141,21 +153,6 @@ function ResourcePage(props) {
 
   function onArticleHighlightClick() {
     setHighlightTextMode(!highlightTextMode)
-  }
-
-  function onQuoteBlockClick(sourceBlock) {
-    console.log(sourceBlock)
-    const intQuoteBlock = generateInternalQuoteBlock(sourceBlock, blocks, props.noteArticle.id)
-
-    let lastBlock = null
-
-    if (blocks.length > 0) {
-      lastBlock = blocks[blocks.length - 1]
-    }
-
-    console.log(intQuoteBlock)
-
-    blocksDispatch({ type: 'APPEND', payload: intQuoteBlock })
   }
 
   function onAddHighlightClick(highlight) {

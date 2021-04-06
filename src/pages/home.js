@@ -149,7 +149,7 @@ export default function Signup() {
   }
 
   function onEmptySearchBackspace() {
-    if (tags.lengt > 0) {
+    if (tags.length > 0) {
       const last = tags[tags.length - 1]
 
       dispatchTags({ type: 'REMOVE_LAST' })

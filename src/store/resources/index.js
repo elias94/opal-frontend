@@ -23,7 +23,7 @@ export function fetchResource(resourceId) {
     () => resourceId ? [`${ROUTE_PATH}/${resourceId}`, token] : null,
     fetchWithToken,
     {
-      initialData: [],
+      initialData: {},
       revalidateOnMount: true,
       revalidateOnFocus: false,
     }
@@ -31,7 +31,7 @@ export function fetchResource(resourceId) {
 
   return {
     resource: data,
-    loading: (!data || data.length === 0) && !error,
+    loading: (!data || Object.keys(data).length === 0) && !error,
     mutate,
     error,
   }

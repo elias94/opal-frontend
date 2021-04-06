@@ -184,12 +184,14 @@ export const InternalHighlight = styled.div`
   font-size: ${props => props.theme.fontSize['base'][0]};
   line-height: ${props => props.theme.fontSize['base'][1].lineHeight};
 
-  padding: 30px;
+  padding: 20px;
 
   margin: 1.5rem 0;
 
   ${props => props.editable && css`
     margin: 0;
+
+    padding: 20px;
   `}
 `
 
@@ -198,6 +200,8 @@ export const InternalBlock = styled(InternalBlockBase)`
 
   ${props => props.editable && css`
     margin: 0;
+
+    padding: 20px;
   `}
 `
 

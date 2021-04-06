@@ -57,7 +57,7 @@ export const NoteTitle = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
 
-  max-width: 25rem;
+  max-width: 300px;
 `
 
 export const NoteAuthor = styled.div`
@@ -92,7 +92,7 @@ export const NoteVotes = styled.div`
   font-size: ${props => props.theme.fontSize['xs'][0]};
   line-height: ${props => props.theme.fontSize['xs'][1].lineHeight};
   color: ${props => props.theme.colors.blueGray['600']};
-  background: ${props => props.theme.colors.blueGray['300']};
+  background: ${props => props.theme.colors.blueGray['200']};
   padding: 0px 3px;
   border-radius: 4px;
 

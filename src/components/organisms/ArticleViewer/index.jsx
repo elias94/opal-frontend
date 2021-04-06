@@ -26,7 +26,7 @@ function ArticleViewer({ resource, blocks, highlightTextMode, ...props }) {
   const [highlights, dispatchHighlights] = useReducer(highlightsReducer, [])
   const [highlightTooltip, setHighlightTooltip] = useState(null)
 
-  const { resource: external, content: article, saved } = resource
+  const { type, resource: external, content: article, saved } = resource
 
   useEffect(() => {
     if (articleRef && articleRef.current) {
@@ -65,6 +65,7 @@ function ArticleViewer({ resource, blocks, highlightTextMode, ...props }) {
           article={article}
           highlightTextMode={highlightTextMode}
           showMenuIcon={!props.articleMenuOpen}
+          hideBookmark={type === 'note'}
           {...props}
         />
       )}

@@ -37,12 +37,14 @@ function NavbarViewer({ url, saved, highlightTextMode, isSingleArticle, ...props
         )}
       </LeftContainer>
       <RightContainer>
-        <Tooltip label={saved ? "Remove from your articles" : "Save to your articles"}>
-          <NavbarIcon
-            icon={saved ? 'bookmark' : ['far', 'bookmark']}
-            onClick={props.onArticleStarClick}
-          />
-        </Tooltip>
+        {!props.hideBookmark && (
+          <Tooltip label={saved ? "Remove from your articles" : "Save to your articles"}>
+            <NavbarIcon
+              icon={saved ? 'bookmark' : ['far', 'bookmark']}
+              onClick={props.onArticleStarClick}
+            />
+          </Tooltip>
+        )}
         {!props.hideHighlight && (
           <Tooltip label="Highlight article">
             {/* Avoid react error for unmounting component with attached events */}
