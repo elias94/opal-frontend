@@ -11,26 +11,11 @@ import {
   Editor, NoteTitle, Content,
 } from './styles'
 
-function NoteEditor({ isEditable, noteArticle, noteBlocks, loadingNoteBlocks, ...props }) {
+function NoteEditor({ isEditable, ...props }) {
   const blocksRef = useRef({})
-  const { blocks, params, lastAction, blocksDispatch } = props
 
-  useEffect(() => {
-    // Update the blocks list ONLY when has been updated server-side
-    if (
-        !loadingNoteBlocks
-        && Array.isArray(noteBlocks)
-        && (!isEqual(noteBlocks, blocks) || noteBlocks.length === 0)
-      ) {
-      if (noteBlocks.length === 0) {
-        // If block list is empty add a first block client-side
-        blocksDispatch({ type: 'ADD_NEW', extra: noteArticle })
-      } else {
-        // Setup client-side list cloning the serverSide
-        blocksDispatch({ type: 'INIT', payload: noteBlocks })
-      }
-    }
-  }, [noteBlocks, loadingNoteBlocks])
+  const { blocks, params, lastAction, blocksDispatch } = props
+  const { content: article, resource: note } = props.resource
 
   useEffect(() => {
     if (lastAction) {
@@ -39,19 +24,28 @@ function NoteEditor({ isEditable, noteArticle, noteBlocks, loadingNoteBlocks, ..
   }, [lastAction, params])
 
   return (
-    <Container>
-      {/* <NavbarViewerSingleEditor {...props} /> */}
+    <Container {...props}>
       <EditorContainer>
-        <Editor>
-          <NoteTitle
-            level="h1"
-            contentEditable={isEditable}
-            suppressContentEditableWarning
-            onBlur={onNoteTitleBlur}
-            editable={isEditable}
-          >
-            {noteArticle.title}
-          </NoteTitle>
+        <Editor editable={isEditable}>
+          <div className={isEditable ? 'mb-8' : 'mb-16'}>
+            <NoteTitle
+              level="h1"
+              contentEditable={isEditable}
+              suppressContentEditableWarning
+              onBlur={onNoteTitleBlur}
+              editable={isEditable}
+            >
+              {article.title}
+            </NoteTitle>
+            {note.source_id && (
+              <div
+                className="text-gray-300 pt-4 cursor-pointer hover:underline font-normal text-base"
+                onClick={openArticle}
+              >
+                Open original resource
+              </div>
+            )}
+          </div>
           <Content>
             {renderBlocks()}
           </Content>
@@ -60,6 +54,10 @@ function NoteEditor({ isEditable, noteArticle, noteBlocks, loadingNoteBlocks, ..
       <HelpMarkdown />
     </Container>
   )
+
+  function openArticle() {
+    props.openResource(note.source_id)
+  }
 
   function focusPrevBlock(block) {
     const { position } = block
@@ -99,14 +97,14 @@ function NoteEditor({ isEditable, noteArticle, noteBlocks, loadingNoteBlocks, ..
     }
 
     if (typeof props.updateArticle === 'function') {
-      props.updateArticle(noteArticle.id, { title })
+      props.updateArticle(article.id, { title })
     }
   }
 
   function renderBlocks() {
     let order = null
 
-    if (!blocks || !blocks.length) {
+    if (props.loadingBlocks) {
       return (
         <LoadingOverlay />
       )
@@ -140,6 +138,7 @@ function NoteEditor({ isEditable, noteArticle, noteBlocks, loadingNoteBlocks, ..
             block={block}
             url={props.baseUrl}
             noAdd
+            openResource={props.openResource}
           />
         )
       }

@@ -24,7 +24,6 @@ export const ArticleContent = styled.div`
   max-width: 660px;
 
   margin: 10rem 0;
-  margin-bottom: 4rem;
 
   padding: 32px;
 `

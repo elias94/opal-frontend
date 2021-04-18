@@ -5,6 +5,13 @@ import {
   Code, Image, Blockquote,
 } from 'components/molecules/Block/styles'
 
+export const HelpIcon = styled(IconButton)`
+  color: ${props => props.theme.colors.blueGray['300']};
+
+  font-size: 14px;
+  transition: color .25 ease-in-out;
+`
+
 export const Container = styled.div`
   position: absolute;
   bottom: 12px;
@@ -15,14 +22,16 @@ export const Container = styled.div`
   border-radius: 50%;
   box-shadow: ${props => props.theme.boxShadow['sm']};
   border: 1px solid ${props => props.theme.colors.blueGray['200']};
+  background: ${props => props.theme.colors.white};
 
   padding: 7px 2px;
-`
+  cursor: pointer;
 
-export const HelpIcon = styled(IconButton)`
-  color: ${props => props.theme.colors.blueGray['400']};
-
-  font-size: 14px;
+  &:hover {
+    ${HelpIcon} {
+      color: ${props => props.theme.colors.blueGray['500']};
+    }
+  }
 `
 
 export const HelpContainer = styled.div`
@@ -76,7 +85,7 @@ export const HelpContent = styled.div`
   }
 
   height: 100%;
-  max-height: 18rem;
+  max-height: 25rem;
 `
 
 export const LinkEl = styled.span`

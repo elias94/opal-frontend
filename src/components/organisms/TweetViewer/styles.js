@@ -4,6 +4,10 @@ export const Container = styled.div`
   position: relative;
   flex: 1;
   overflow: auto;
+
+  min-width: 625px;
+
+  border-right: 1px solid ${props => props.theme.colors.articleBorderRight};
 `
 
 export const TwitterContainer = styled.div`

@@ -11,29 +11,77 @@ import {
   NavbarArrow,
 } from './styles'
 
-function NavbarViewer({ url, saved, highlightTextMode, isSingleArticle, ...props }) {
+function NavbarViewer({ saved, highlightTextMode, isSingleArticle, ...props }) {
   const router = useRouter()
 
   return (
     <Container>
       <LeftContainer>
-        {isSingleArticle && (
-          <Tooltip label="Return to home">
-            <div className="flex flex-row justify-start items-center">
-              <NavbarArrow
-                icon="chevron-left"
-                onClick={onArticleHomeClick}
-              />
-              <div className="mx-auto flex flex-row justify-center items-start select-none text-gray-400 hover:text-gray-600">
-                <Link href="/home">
-                  <h3 className="w-min text-2xl font-black tracking-tight cursor-pointer select-none ">
-                    {process.env.NEXT_PUBLIC_APP_NAME}
-                  </h3>
-                </Link>
-                <span className="text-xs -mr-4 font-medium pl-1 opacity-70">beta</span>
-              </div>
+        <Tooltip label="Return to home">
+          <div className="flex flex-row justify-start items-center">
+            <NavbarArrow
+              icon="chevron-left"
+              onClick={onArticleHomeClick}
+            />
+            <div className="mx-auto flex flex-row justify-center items-start select-none text-gray-400 hover:text-gray-600">
+              <Link href="/home">
+                <h3 className="w-min text-2xl font-black tracking-tight cursor-pointer select-none ">
+                  {process.env.NEXT_PUBLIC_APP_NAME}
+                </h3>
+              </Link>
+              <span className="text-xs -mr-4 font-medium pl-1 opacity-70">beta</span>
             </div>
-          </Tooltip>
+          </div>
+        </Tooltip>
+        {props.showNoteEditButton && (
+          <ButtonGroup>
+            <DropdownButton
+              options={note.private ? ['Public'] : ['Private']}
+              tooltipLabel="Change note to private"
+              onSelect={onNoteMenuSelect}
+            >
+              {note.private ? (
+               <>
+                <Icon icon="user" /> Private
+              </>
+              ) : (
+                <>
+                  <Icon icon="users" /> Public
+                </>
+              )}
+            </DropdownButton>
+            <Tooltip label={"Read note in article mode"}>
+              <HeaderButton secondary onClick={props.onViewNoteClick}>
+                {isEditable ? (
+                <>
+                  <div className="pr-1">
+                    <Icon icon="book" />
+                  </div> 
+                  Read
+                </>
+                ) : (
+                  <>
+                    <div className="pr-1">
+                      <div className="transform rotate-135">
+                        <Icon icon="pen-nib" />
+                      </div>
+                    </div> 
+                    Edit
+                  </>
+                )}
+              </HeaderButton>
+            </Tooltip>
+            <Tooltip label="Delete note">
+              <OkayCancelDialog
+                title="Delete note"
+                content="Are you sure you want to delete this note permanently?"
+                buttonText="Delete"
+                whenConfirmClick={onDeleteNoteClick}
+              >
+                <NavbarIcon icon={['far', 'trash-alt']} />
+              </OkayCancelDialog>
+            </Tooltip>
+          </ButtonGroup>
         )}
       </LeftContainer>
       <RightContainer>
@@ -80,6 +128,20 @@ function NavbarViewer({ url, saved, highlightTextMode, isSingleArticle, ...props
       </RightContainer>
     </Container>
   )
+
+  function onDeleteNoteClick() {
+    props.deleteNote()
+
+    router.push('/home')
+  }
+
+  function onNoteMenuSelect(option) {
+    if (option.toLowerCase() === 'private') {
+      props.setNotePrivate(true)
+    } else {
+      props.setNotePrivate(false)
+    }
+  }
 
   function onArticleHomeClick() {
     router.push('/home')

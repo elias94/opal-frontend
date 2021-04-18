@@ -49,7 +49,7 @@ function FeedbackDialog(props) {
             </DialogHeader>
             <DialogContent>
               <span className="text-left mb-2 text-gray-400 text-sm">Did you like the app? Something missing? Did you get some errors?</span>
-              <InputTextArea ref={inputEl} placeholder="Write a feedback" />
+              <InputTextArea ref={inputEl} placeholder="Everything is appreciated" />
               <ConfirmButton className="close-button" onClick={onSendClick}>
                 Send
               </ConfirmButton>

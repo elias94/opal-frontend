@@ -5,15 +5,12 @@ import {
   MenuList,
   MenuButton,
   MenuItem,
-  MenuItems,
-  MenuPopover,
-  MenuLink
 } from '@reach/menu-button'
 
 import IconButton from 'components/atoms/IconButton'
 
 export const MenuStyled = styled(Menu)`
-z-index: 6;
+  z-index: 6;
 `
 
 export const Caret = styled(IconButton)`
@@ -39,8 +36,13 @@ export const Caret = styled(IconButton)`
 export const MenuButtonStyled = styled(MenuButton)`
   border-radius: 6px;
 
-  background-color: ${props => props.theme.colors.white};
+  background-color: ${props => props.transparent ? 'transparent' : props.theme.colors.white};
   border: none;
+
+  outline: none;
+  &:focus, &:active {
+      outline: none;
+  }
 
   font-size: ${props => props.theme.fontSize['sm'][0]};
   line-height: ${props => props.theme.fontSize['sm'][1].lineHeight};

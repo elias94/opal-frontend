@@ -16,7 +16,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: row;
 
-  margin-left: ${props => `calc(-37.5px + ${props.indent * 2}rem)`};
+  margin-left: ${props => `calc(-20px + ${props.indent * 2}rem)`};
 `
 
 export const Content = styled.div`
@@ -33,8 +33,8 @@ export const ContainerEditable = styled.div`
 
 export const Paragraph = styled(P)`
   font-family: ${props => props.theme.fontFamily.sans};
-  font-size: ${props => props.theme.fontSize['lg'][0]};
-  line-height: ${props => props.theme.fontSize['lg'][1].lineHeight};
+  font-size: ${props => props.theme.fontSize['base'][0]};
+  line-height: ${props => props.theme.fontSize['base'][1].lineHeight};
 
   margin: 0.575em 0;
 
@@ -70,8 +70,8 @@ export const Code = styled.code`
 
 export const Blockquote = styled.blockquote`
   font-family: ${props => props.theme.fontFamily.sans};
-  font-size: ${props => props.theme.fontSize['2xl'][0]};
-  line-height: ${props => props.theme.fontSize['2xl'][1].lineHeight};
+  font-size: ${props => props.theme.fontSize['xl'][0]};
+  line-height: ${props => props.theme.fontSize['xl'][1].lineHeight};
 
   color: ${props => props.theme.colors.gray[500]};
   border-left: 3px solid ${props => props.theme.colors.gray[300]};
@@ -80,11 +80,13 @@ export const Blockquote = styled.blockquote`
   word-break: break-word;
   padding-left: 0.9em;
   padding-right: 0.9em;
-  font-size: 1.2em;
-  margin-top: 4px;
-  margin-bottom: 4px;
+  margin: 1rem 0;
 
   ${props => props.editable && css`
+    font-size: ${props => props.theme.fontSize['base'][0]};
+    line-height: ${props => props.theme.fontSize['base'][1].lineHeight};
+    margin: 5px 0;
+
     -webkit-tap-highlight-color: 'transparent';
     &:empty:before {
       content: attr(data-placeholder);
@@ -177,16 +179,19 @@ export const TitleStyled = styled(Title)`
 
 export const InternalHighlight = styled.div`
   border-radius: 6px;
-  border: 1px solid ${props => props.theme.colors.gray[200]};
-  box-shadow: ${props => props.theme.boxShadow['card']};
+  /* border: 1px solid ${props => props.theme.colors.gray[200]}; */
+  /* box-shadow: ${props => props.theme.boxShadow['card']}; */
 
   font-family: ${props => props.theme.fontFamily.sans};
   font-size: ${props => props.theme.fontSize['base'][0]};
   line-height: ${props => props.theme.fontSize['base'][1].lineHeight};
 
+  background: ${props => props.theme.colors.gray[100]};
+  opacity: .75;
+
   padding: 20px;
 
-  margin: 1.5rem 0;
+  margin: .5rem 0;
 
   ${props => props.editable && css`
     margin: 0;
@@ -244,4 +249,9 @@ export const ListContent = styled.div`
   min-width: 1px;
   display: flex;
   flex-direction: column;
+`
+
+export const HighlightedText = styled.span`
+  background: ${props => props.theme.colors.yellow['300']};
+  padding: 0 3px;
 `

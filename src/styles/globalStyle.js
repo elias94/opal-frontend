@@ -94,4 +94,14 @@ export default createGlobalStyle`
   .opacity-85 {
     opacity: 85%;
   }
+
+  .scrollbar-hide {
+      /* Firefox */
+    scrollbar-width: none;
+  }
+
+  /* Safari and Chrome */
+  .scrollbar-hide::-webkit-scrollbar: {
+    display: none;
+  }
 `

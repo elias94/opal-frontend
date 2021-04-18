@@ -66,4 +66,3 @@ export async function getStaticProps({ params }) {
 
   return { props: { user, info, resources } }
 }
-

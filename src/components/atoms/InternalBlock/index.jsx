@@ -4,11 +4,11 @@ import { fetchBlock } from 'store'
 import { formatContent } from 'components/molecules/Block'
 
 import {
-  Container
+  Container, GoToLink
 } from './styles'
 
-function InternalBlock({ blockId, ...props }) {
-  const { block, loading, mutate, error } = fetchBlock(blockId)
+function InternalBlock({ blockId, openResource, ...props }) {
+  const { block: blockInfo, loading, mutate, error } = fetchBlock(blockId)
 
   useEffect(() => {
     mutate()
@@ -28,9 +28,16 @@ function InternalBlock({ blockId, ...props }) {
 
   return (
     <Container {...props}>
-      {formatContent(block.content, { blockId })}
+      {formatContent(blockInfo.block.content, { blockId })}
+      <GoToLink onClick={openOriginalResource}>
+        Go to source &#8250;
+      </GoToLink>
     </Container>
   )
+
+  function openOriginalResource() {
+    openResource(blockInfo.resource_id)
+  }
 }
 
 export default InternalBlock

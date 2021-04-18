@@ -83,3 +83,13 @@ export function generateInternalHighlight(highlight, blocks, articleId) {
 
   return newBlock
 }
+
+export function updateBlockRawMarkdown(block, markdown) {
+  return {
+    ...block,
+    properties: {
+      ...block.properties,
+      raw: markdown,
+    }
+  }
+}

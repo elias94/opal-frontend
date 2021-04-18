@@ -1,5 +1,7 @@
-import axios from 'axios'
 import useSWR from 'swr'
+import { useSWRList } from 'shared/swr'
+import { partition } from 'shared/utils'
+
 import {
   getUrl,
   fetch,
@@ -55,6 +57,28 @@ export function fetchResourceWithExcerpt(resourceId) {
     loading: !data && !error,
     mutate,
     error,
+  }
+}
+
+export function fetchResources(resources) {
+  const resourcesList = Array.isArray(resources) ? resources : [resources]
+
+  const token = typeof localStorage !== 'undefined' && localStorage.getItem('access_token')
+
+  const resourcesQueries = resourcesList.map(res => {
+    if (!res) return null
+    return `${ROUTE_PATH}/${res}`
+  })
+
+  const fetchFn = fetch
+
+  const { data = [], mutate } = useSWRList(resourcesQueries, fetchFn)
+
+  return {
+    resourcesData: data,
+    loading: !data || data.length === 0,
+    mutate,
+    errors: data ? data.filter((v) => v && v.error) : [],
   }
 }
 
@@ -153,6 +177,52 @@ export function fetchUserResourcesWithoutToken(
 
   const { data, mutate, error } = useSWR(() => 
     userId && path,
+    fetch,
+    {
+      shouldRetryOnError: true,
+      revalidateOnFocus: false,
+    }
+  )
+
+  return {
+    resources: data,
+    loading: !data && !error,
+    mutate,
+    error,
+  }
+}
+
+export function fetchUserResourcesLite(
+  userId,
+  searchValue,
+  tags,
+  resourcesType,
+  skip=null,
+  limit=40,
+) {
+  const base = ROUTE_PATH + '/user/' + userId + '/lite?resources_type=' + resourcesType + '&'
+  const qp = [] // query params
+
+  if (searchValue.length > 1) {
+    qp.push('match=' + searchValue)
+  }
+
+  if (tags.length > 0) {
+    qp.push(tags.map(tag => 'tags=' + tag))
+  }
+
+  if (skip) {
+    qp.push(`skip=${skip}`)
+  }
+
+  if (limit) {
+    qp.push(`limit=${limit}`)
+  }
+
+  const path = base + qp.join('&')
+
+  const { data, mutate, error } = useSWR(() => 
+    [userId && path, localStorage.getItem('access_token')],
     fetchWithToken,
     {
       shouldRetryOnError: true,
@@ -217,15 +287,6 @@ export function deleteResource(resourceId) {
     const reqPath = `${ROUTE_PATH}/${resourceId}`
 
     return deleteWithToken(reqPath, token)
-  }
-}
-
-export function createNote(resourceId, title) {
-  if (typeof resourceId === 'string') {
-    const token = localStorage.getItem('access_token')
-    const reqPath = `${ROUTE_PATH}/${resourceId}/notes/new`
-
-    return postWithToken(reqPath, token, { title })
   }
 }
 

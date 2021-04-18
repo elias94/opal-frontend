@@ -1,6 +1,8 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, forwardRef } from 'react'
 import { isURL, randomChoice } from 'shared/utils'
 import KeyEvent from 'shared/keyboard'
+
+import Tooltip from 'components/atoms/Tooltip'
 
 import '@reach/dialog/styles.css'
 
@@ -15,7 +17,7 @@ const LINK_LIST = [
   'http://paulgraham.com/ds.html'
 ]
 
-function ImportDialog(props) {
+function ImportDialog(props, ref) {
   const inputEl = useRef(null)
   const [open, setOpen] = useState(false)
   const [error, setError] = useState(null)
@@ -25,9 +27,11 @@ function ImportDialog(props) {
 
   return (
     <Container>
-      <ButtonOpen onClick={openDialog}>
-        <Icon icon={"plus"} /> Import
-      </ButtonOpen>
+      <Tooltip label="Import an external resource">
+        <ButtonOpen onClick={openDialog}>
+          <Icon icon={"plus"} /> Import
+        </ButtonOpen>
+      </Tooltip>
       <Dialog isOpen={open} onDismiss={closeDialog} aria-label="Import dialog">
         <DialogHeader>
           Import a new resource
@@ -79,4 +83,4 @@ function ImportDialog(props) {
   }
 }
 
-export default ImportDialog
+export default forwardRef(ImportDialog)

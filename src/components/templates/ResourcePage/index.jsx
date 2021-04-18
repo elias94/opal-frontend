@@ -1,4 +1,5 @@
-import { useEffect, useReducer, useState, useCallback } from 'react'
+import { useEffect, useReducer, useState, useCallback, useMemo } from 'react'
+import isEqual from 'fast-deep-equal'
 import { blocksReducer } from 'shared/hooks'
 import {
   generateInternalQuoteBlock,
@@ -11,14 +12,20 @@ import NoteEditor from 'components/organisms/NoteEditor'
 import NavbarViewerMultiple from 'components/molecules/NavbarViewerMultiple'
 import TweetViewer from 'components/organisms/TweetViewer'
 import LoadingOverlay from 'components/atoms/LoadingOverlay'
+import ExplorerResources from 'components/organisms/ExplorerResources'
+import ArticleViewerLite from 'components/organisms/ArticleViewerLite'
+
 
 import { Container, Content, ContainerContent } from './styles'
 
 function ResourcePage(props) {
-  const [isNoteActive, setIsNoteActive] = useState(!!props.noteArticle)
   const [highlightTextMode, setHighlightTextMode] = useState(false)
-  const [isNoteEditable, setIsNoteEditable] = useState(false)
-  const [articleMenuOpen, setArticleMenuOpen] = useState(!props.noteId)
+  const [isNoteEditable, setNoteEditable] = useState(false)
+  const [isEditingMode, setEditingMode] = useState(false)
+  const [articleMenuOpen, setArticleMenuOpen] = useState(false)
+  const [explorerOpen, setExplorerOpen] = useState(false)
+  const [isNote, setIsNote] = useState(false)
+  const [baseUrl, setBaseUrl] = useState('')
 
   // Reducer for client-side blocks management
   const [
@@ -26,10 +33,60 @@ function ResourcePage(props) {
     blocksDispatch,
   ] = useReducer(blocksReducer, null, initReducer)
 
-  const baseUrl = props.resource.content ? props.resource.resource.url : ''
+  useEffect(() => {
+    // Update the blocks list ONLY when has been updated server-side
+    if (!props.loadingBlocks && Array.isArray(props.blocks) && blocks.length === 0)
+    {
+      if (checkIfNote(props) && blocks.length === 0 && props.blocks.length === 0) {
+        const { content: article } = props.resource
+
+        blocksDispatch({ type: 'ADD_NEW', extra: article })
+      } else if (!isEqual(props.blocks, blocks)) {
+        // Setup client-side list cloning the serverSide
+        blocksDispatch({ type: 'INIT', payload: props.blocks })
+      }
+    }
+  }, [props.blocks, blocks, props.loadingBlocks, props.user, props.resource])
+
+  useEffect(() => {
+    if (checkIfNote(props)) {
+      // Only notes are editable
+      const { id: userId } = props.user
+      const { author } =  props.resource.content
+  
+      setNoteEditable(userId === author)
+      setIsNote(true)
+    } else {
+      setIsNote(false)
+    }
+  }, [props.user, props.resource])
+
+  useEffect(() => {
+    if (props.resource && props.resource.content) {
+      setBaseUrl(props.resource.resource.url)
+    }
+  }, [props.resource])
+
+  useEffect(() => {
+    setEditingMode(props.editable)
+  }, [props.editable])
+
+  const openExplorerResources = useCallback(() => {
+    setExplorerOpen(!explorerOpen)
+    setArticleMenuOpen(false)
+  }, [explorerOpen])
+
+  const openArticleMenu = useCallback(() => {
+    setArticleMenuOpen(!articleMenuOpen)
+    setExplorerOpen(false)
+  }, [articleMenuOpen])
+
+  const onViewNoteClick = useCallback(() => {
+    setEditingMode(!isEditingMode)
+  }, [isEditingMode])
 
   const onQuoteBlockClick = useCallback((sourceBlock) => {
-    const intQuoteBlock = generateInternalQuoteBlock(sourceBlock, blocks, props.noteArticle.id)
+    const intQuoteBlock = generateInternalQuoteBlock(sourceBlock, blocks, props.resourceId)
 
     let lastBlock = null
 
@@ -38,76 +95,60 @@ function ResourcePage(props) {
     }
 
     blocksDispatch({ type: 'APPEND', payload: intQuoteBlock })
-  }, [blocks, props.noteArticle])
+  }, [blocks, props.resourceId])
 
-  useEffect(() => {
-    if (props.user && props.noteArticle) {
-      const { id: userId } = props.user
-      const { author } = props.noteArticle
-  
-      setIsNoteEditable(userId === author)
-    }
-  }, [props.user, props.noteArticle])
+  const onAddHighlightClick = useCallback((highlight) => {
+    const intHighlightBlock = generateInternalHighlight(
+      highlight,
+      blocks,
+      props.resourceId
+    )
 
-  useEffect(() => {
-    if (props.noteId) {
-      setArticleMenuOpen(false)
-    }
-  }, [props.noteId])
+    blocksDispatch({ type: 'APPEND', payload: intHighlightBlock })
+  }, [blocks, props.resourceId])
 
-  useEffect(() => {
-    if (!props.noteId) {
-      setIsNoteActive(false)
-    }
-    setIsNoteActive(!!props.noteArticle)
-  }, [props.noteArticle, props.noteId])
+  const getOtherResourcesViews = useMemo(() => {
+    const { resourcesData } = props
 
-  return (
-    <Container>
-      {!props.isSingleArticle && props.noteArticle && (
-        <NavbarViewerMultiple
-          onViewNoteClick={onViewNoteClick}
-          highlightTextMode={highlightTextMode}
-          isEditable={isNoteEditable}
-          showNoteIcon={!isNoteActive}
-          showMenuIcon
-          showNoteEditButton={props.noteArticle.author === props.user.id}
-          onArticleHighlightClick={onArticleHighlightClick}
-          onArticleMenuIconClick={openArticleMenu}
-          {...props}
-        />
-      )}
-      <Content withNav={isNoteActive}>
-        {isNoteActive && props.noteArticle && (
-          <NoteEditor
-            isEditable={isNoteEditable}
-            blocks={blocks}
-            params={params}
-            lastAction={lastAction}
-            blocksDispatch={blocksDispatch}
-            noteArticle={props.noteArticle}
-            noteBlocks={props.noteBlocks}
-            loadingNoteBlocks={props.loadingNoteBlocks}
-            createBlock={props.createBlock}
-            updateBlock={props.updateBlock}
-            deleteBlock={props.deleteBlock}
-            updateArticle={props.updateArticle}
-            baseUrl={baseUrl}
+    function resourceView(resource) {
+      const { data, key } = resource
+      const { type, resource: ext } = data
+
+      if (type === 'external_resource' && ext.type === 'tweet') {
+        return  <TweetViewer resource={data} />
+      } else {
+        return (
+          <ArticleViewerLite
+            key={`Resource_${key}`}
+            resource={data}
+            isSingleArticle={false}
+            onQuoteBlockClick={onQuoteBlockClick}
+            copyBlockLinkToClipboard={copyBlockLinkToClipboard}
           />
-        )}
-        {getViewer()}
-        {articleMenuOpen && (
-          <ArticleMenu
-            hidden={!articleMenuOpen}
-            onArticleMenuExitClick={() => setArticleMenuOpen(false)}
-            {...props}
-          />
-        )}
-      </Content>
-    </Container>
-  )
+        )
+      }
+    }
 
-  function getViewer() {
+    if (resourcesData) {
+      return resourcesData.map((resource) =>
+        resource && resource.data && resourceView(resource)
+      )
+    }
+  }, [props.resourcesData])
+
+  const getFullView = useCallback(() => {
+    const { resources } = props
+
+    if (!resources || !Array.isArray(resources)) {
+      return 'w-full'
+    }
+  }, [props.resources])
+
+  const copyBlockLinkToClipboard = useCallback((blockId) => {
+    copy(`((${blockId}))`)
+  })
+
+  const getViewer = useCallback(() => {
     const { resource, loadingResource } = props
 
     if (loadingResource) {
@@ -120,54 +161,96 @@ function ResourcePage(props) {
 
     if (resource.resource.type === 'tweet') {
       return (
-        <TweetViewer
-          onArticleMenuIconClick={openArticleMenu}
-          articleMenuOpen={articleMenuOpen}
-          {...props}
-        />
+        <TweetViewer resource={resource} />
       )
     } else {
       return (
         <ArticleViewer
           onQuoteBlockClick={onQuoteBlockClick}
-          onArticleHighlightClick={onArticleHighlightClick}
           highlightTextMode={highlightTextMode}
           onAddHighlightClick={onAddHighlightClick}
           createNoteHighlight={props.createNoteHighlight}
           deleteNoteHighlight={props.deleteNoteHighlight}
-          onArticleMenuIconClick={openArticleMenu}
           articleMenuOpen={articleMenuOpen}
+          copyBlockLinkToClipboard={copyBlockLinkToClipboard}
+          dispatch={blocksDispatch}
           {...props}
+          blocks={blocks}
         />
       )
     }
-  }
+  }, [props, highlightTextMode, articleMenuOpen, blocks])
 
-  function openArticleMenu() {
-    setArticleMenuOpen(!articleMenuOpen)
-  }
+  const getMainView = useCallback(() => {
+    if (isNote) {
+      return (
+        <NoteEditor
+          resource={props.resource}
+          isEditable={isEditingMode}
+          blocks={blocks}
+          params={params}
+          lastAction={lastAction}
+          blocksDispatch={blocksDispatch}
+          createBlock={props.createBlock}
+          updateBlock={props.updateBlock}
+          deleteBlock={props.deleteBlock}
+          updateArticle={props.updateArticle}
+          baseUrl={baseUrl}
+          sticky={props.resources && Array.isArray(props.resources)}
+          openResource={props.openResource}
+        />
+      )
+    } else {
+      return getViewer()
+    }
+  }, [props, isNote, blocks, params, lastAction, baseUrl, isEditingMode, highlightTextMode])
 
-  function onViewNoteClick() {
-    setIsNoteEditable(!isNoteEditable)
-  }
-
-  function onArticleHighlightClick() {
-    setHighlightTextMode(!highlightTextMode)
-  }
-
-  function onAddHighlightClick(highlight) {
-    const intHighlightBlock = generateInternalHighlight(
-      highlight,
-      blocks,
-      props.noteArticle.id
-    )
-
-    blocksDispatch({ type: 'APPEND', payload: intHighlightBlock })
-  }
+  return (
+    <Container>
+      <NavbarViewerMultiple
+        onViewNoteClick={onViewNoteClick}
+        highlightTextMode={highlightTextMode}
+        isEditable={isEditingMode}
+        showNoteIcon={!isNote}
+        showHighlightIcon={!isNote}
+        showBookmarksIcon={!isNote}
+        showOpenResourceIcon="true"
+        showMenuIcon
+        showNoteButtons={isNoteEditable}
+        onArticleHighlightClick={() => setHighlightTextMode(!highlightTextMode)}
+        onArticleMenuIconClick={openArticleMenu}
+        onArticleOpenIconClick={openExplorerResources}
+        hideBookmark={isNote}
+        {...props}
+      />
+      <Content withNav={isNote}>
+        <div className={`flex overflow-x-auto hide-scroll-bar ${getFullView()}`}>
+          <div className={`flex flex-row ${getFullView()}`}>
+            {getMainView()}
+            {getOtherResourcesViews}
+          </div>
+        </div>
+        <ArticleMenu
+          hidden={!articleMenuOpen}
+          onArticleMenuExitClick={() => setArticleMenuOpen(false)}
+          {...props}
+        />
+        <ExplorerResources
+          hidden={!explorerOpen}
+          setExplorerOpen={setExplorerOpen}
+          {...props}
+        />
+      </Content>
+    </Container>
+  )
 }
 
 export default ResourcePage
 
 function initReducer() {
   return { blocks: [], lastAction: null }
+}
+
+function checkIfNote(props) {
+  return props.user && props.resource && props.resource.type === 'note'
 }

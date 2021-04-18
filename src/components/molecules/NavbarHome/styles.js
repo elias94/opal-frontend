@@ -224,3 +224,41 @@ export const UserDisplay = styled.div`
     background: ${props => props.theme.colors.gray['100']};
   }
 `
+
+export const WriteIcon = styled(IconButton)`
+  font-size: 16px;
+  color: ${props => props.theme.colors.blueGray['400']};
+
+  padding-left: 2px;
+`
+
+export const WriteButton = styled.div`
+  margin: 0;
+  border-radius: 25px;
+
+  border: 1px solid ${props => props.theme.colors.blueGray['200']};
+  
+  font-family: ${props => props.theme.fontFamily.sans};
+  font-size: ${props => props.theme.fontSize['sm'][0]};
+  line-height: ${props => props.theme.fontSize['sm'][1].lineHeight};
+  font-weight: 500;
+
+  color: ${props => props.theme.colors.blueGray['400']};
+
+  padding: 8px 18px;
+
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &:hover {
+    border: 1px solid ${props => props.theme.colors.blueGray['300']};
+
+    color: ${props => props.theme.colors.blueGray['500']};
+    ${WriteIcon} {
+      color: ${props => props.theme.colors.blueGray['500']};
+    }
+  }
+`

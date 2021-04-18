@@ -19,12 +19,12 @@ import {
 function ArticleMenu({ resource, ...props }) {
   const tagsSectionRef = useRef(null)
 
-  const { resource: external, content: article, saved, saved_count, votes, user_vote } = resource
+  const { type, resource: external, content: article, saved, saved_count, votes, user_vote } = resource
 
   if (!article) {
     return (
       <Container style={{ height: '100%' }}>
-        <LoadingOverlay transparent />
+        <LoadingOverlay transparent="true" />
       </Container>
     )
   }
@@ -110,7 +110,7 @@ function ArticleMenu({ resource, ...props }) {
   }
 
   function getResourceTitle() {
-    if (external.type === 'article') {
+    if (type === 'note' || external.type === 'article') {
       return article.title
     } else if (external.type === 'tweet') {
       return `Tweet by ${article.content.author.name}`

@@ -7,15 +7,15 @@ import GlobalStyle from 'styles/globalStyle'
 import Theme from 'styles/theme'
 import 'tailwindcss/tailwind.css'
 
-import { config, library, IconDefinition } from '@fortawesome/fontawesome-svg-core'
+import { config, library } from '@fortawesome/fontawesome-svg-core'
 import {
   faPlus, faExternalLinkAlt, faNetworkWired,
   faGlobe, faStar, faSearch, faHighlighter,
   faBars, faTimes, faEdit, faCaretRight,
   faTrashAlt, faBookmark, faChevronLeft,
   faExpand, faCaretUp, faQuestion, faShare,
-  faChevronDown, faCheck, faUser, faUsers,
-  faPenNib, faBook,
+  faCheck, faUser, faUsers,
+  faPenNib, faBook, faCopy, faEllipsisV,
 } from '@fortawesome/free-solid-svg-icons'
 import { 
   faStar as farStar,
@@ -61,6 +61,8 @@ config.autoAddCss = false
       faUsers,
       faPenNib,
       faBook,
+      faCopy,
+      faEllipsisV,
     )
 
 function App({ Component, pageProps }) {

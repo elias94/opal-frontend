@@ -3,15 +3,15 @@ import Tooltip from 'components/atoms/Tooltip'
 import "@reach/menu-button/styles.css"
 
 import {
-  MenuStyled, MenuButtonStyled, MenuListStyled, MenuItemStyled,
-  Caret,
+  MenuStyled, MenuButtonStyled, MenuListStyled,
+  MenuItemStyled, Caret,
 } from './styles'
 
-function DrodpdownButton(props) {
+function DrodpdownButton({ tooltipLabel, ...props }) {
   return (
     <MenuStyled>
-      <Tooltip label={props.tooltipLabel}>
-        <MenuButtonStyled>
+      <Tooltip label={tooltipLabel}>
+        <MenuButtonStyled {...props}>
           {props.children}
           <Caret icon="caret-right" />
         </MenuButtonStyled>

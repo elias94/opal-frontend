@@ -29,6 +29,20 @@ export function fetchNoteArticle(noteId) {
   }
 }
 
+export function createNote(title, resourceId=null) {
+  let reqPath = ROUTE_PATH + '/new'
+  
+  // A note doesn't need to be connected to an article
+  if (resourceId) {
+    reqPath = reqPath + '?resource_id=' + resourceId
+  }
+
+  const token = localStorage.getItem('access_token')
+
+  console.log(reqPath)
+  return postWithToken(reqPath, token, { title })
+}
+
 export function setNotePrivate(noteId, isPrivate=false) {
   const token = localStorage.getItem('access_token')
   const blockPath = `${ROUTE_PATH}/${noteId}/set`

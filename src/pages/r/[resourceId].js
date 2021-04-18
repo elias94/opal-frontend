@@ -1,14 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useReducer } from 'react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
-import { getArticleTitle } from 'shared/utils'
+import { getArticleTitle, isURL } from 'shared/utils'
+import { tagsReducer } from 'shared/hooks'
 import {
   fetchUser,
   fetchResource,
+  fetchResources,
   fetchBlocks,
   saveResource,
   createNote,
-  fetchNoteArticle,
   createBlock,
   updateBlock,
   deleteBlock,
@@ -25,9 +26,12 @@ import {
   setNotePrivate,
   saveVote,
   deleteNote,
+  fetchUserResourcesLite,
+  sendFeedback,
 } from 'store'
 
 import ResourcePage from 'components/templates/ResourcePage'
+import { PAGE_SIZE } from '../home'
 
 
 function Resource() {
@@ -38,13 +42,17 @@ function Resource() {
   const [pageTitle, setPageTitle] = useState('')
 
   // Extract query parameters from url
-  const { resourceId, note: noteId } = router.query
+  // `/r/{resource_id}?active={resource_id}&resources={resource_id}`
+  const { resourceId, resources, editable } = router.query
+
+  //
+  // User - current
+  //
+  const { user, loading: userLoading, error: userError } = fetchUser() 
 
   //
   // Resource
   //
-  const { user, loading: userLoading, error: userError } = fetchUser() 
-
   const {
     resource,
     mutate: mutateResource,
@@ -52,41 +60,72 @@ function Resource() {
     error: resourceError,
   } = fetchResource(resourceId)
 
-  const { blocks } = fetchBlocks(getArticleId(resource))
+  //
+  // Blocks
+  //
+  const { blocks, loading: loadingBlocks } = fetchBlocks(getArticleId(resource))
 
   //
-  // Resource extra
+  // Other resources
+  //
+  const {
+    resourcesData,
+    loading: resourcesLoading,
+    errors: resourcesErrors,
+  } = fetchResources(resources)
+
+  //
+  // Resource notes
   //
   const {
     notes: articleNotes,
     mutate: mutateArticleNotes,
   } = fetcArticleNotes(resourceId ? resourceId : null)
 
+  //
+  // Resource mentions
+  //
   const { mentions } = fetchResourceMentions(resourceId ? resourceId : null)
 
+  //
+  // Resource tags
+  //
   const {
     tags,
     mutate: mutateTags,
-    error: tagsError
+    error: tagsError,
   } = fetcArticleTags(resourceId ? resourceId : null)
 
   //
-  // Note
+  // Resource highlights
   //
-  const {
-    data: noteArticleData,
-    mutate: mutateNoteArticle,
-    error: noteArticleError,
-  } = fetchNoteArticle(noteId)
-
-  const {
-    blocks: noteBlocks,
-    loading: loadingNoteBlocks,
-  } = fetchBlocks(noteArticleData ? noteArticleData.article.id : null)
-
   const {
     highlights: noteHighlights,
   } = fetchHighlights(resourceId, user && user.id)
+
+  // Paging parameters
+  const [skipPaging, setSkipPaging] = useState(0)
+  const [sizePaging, setSizePaging] = useState(PAGE_SIZE)
+  // Applied on the tags
+  const [searchTags, dispatchTags] = useReducer(tagsReducer, [])
+  const [searchValue, setSearchValue] = useState('')
+  const [resourcesType, setResourcesType] = useState('external')  // 'external' or 'note'
+
+  //
+  // Resources Menu List
+  //
+  const {
+    resources: resourcesInfoList,
+    loading: loadingResourcesInfoList,
+    mutate: mutateResourcesInfoList,
+  } = fetchUserResourcesLite(
+    user && user.id,
+    searchValue,
+    searchTags,
+    resourcesType,
+    skipPaging,
+    sizePaging,
+  )
 
   useEffect(() => {
     if (typeof resource === 'object' && Object.keys(resource).length > 0) {
@@ -97,15 +136,6 @@ function Resource() {
   }, [resource])
 
   useEffect(() => {
-    if (noteArticleError) {
-      // Reset query param in case of error
-      // const routeParam = `/r/${resourceId}`
-      // router.push(routeParam, undefined, { shallow: true })
-      console.log(noteArticleError)
-    }
-  }, [noteArticleError])
-
-  useEffect(() => {
     if (typeof window !== 'undefined' && resourceError) {
       // Resource error client-side is not acceptable
       router.push('/home')
@@ -113,11 +143,9 @@ function Resource() {
   }, [resourceError])
 
   useEffect(() => {
-    if (!noteId, resourceId) {
-      mutateArticleNotes()
-    }
-    setIsSingleArticle(resourceId && !noteId)
-  }, [resourceId, noteId])
+    const hasResources = typeof resources !== 'undefined'
+    setIsSingleArticle(resourceId && !hasResources)
+  }, [resourceId, resources])
 
   useEffect(() => {
     // Prevent backspace shortcut for navigate back
@@ -137,20 +165,18 @@ function Resource() {
 
       <ResourcePage
         resourceId={resourceId}
-        noteId={noteId}
+        resources={resources}
         user={user}
         resource={resource}
+        editable={editable}
         loadingResource={loadingResource}
         blocks={blocks}
+        loadingBlocks={loadingBlocks}
         tags={tags}
         mentions={mentions}
         isSingleArticle={isSingleArticle}
         articleNotes={articleNotes}
-        note={noteArticleData && noteArticleData.note}
-        noteArticle={noteArticleData && noteArticleData.article}
-        noteBlocks={noteBlocks}
         noteHighlights={noteHighlights}
-        loadingNoteBlocks={loadingNoteBlocks}
         onArticleStarClick={onArticleStarClick}
         onAddNoteClick={onAddNoteClick}
         createBlock={createNoteBlock}
@@ -169,14 +195,117 @@ function Resource() {
         setTagInputError={setTagInputError}
         isInputTagActive={isInputTagActive}
         setIsInputTagActive={setIsInputTagActive}
+        resourcesInfoList={resourcesInfoList}
+        searchTags={searchTags}
+        searchValue={searchValue}
+        onSearchEnter={onSearchEnter}
+        onSearchChange={onSearchChange}
+        onRemoveTag={onRemoveTag}
+        onEmptySearchBackspace={onEmptySearchBackspace}
+        resourcesType={resourcesType}
+        selectResourceType={selectResourceType}
+        openResource={openResource}
+        resourcesData={resourcesData}
+        closeResource={closeResource}
+        sendFeedback={sendUserFeedback}
       />
     </div>
   )
 
+  function sendUserFeedback(message) {
+    sendFeedback(message)
+    .then(() => {
+      console.log('Feedback sent!')
+    })
+    .catch((e) => {
+      console.error(e)
+    })
+  }
+
+  function closeResource(resourceId) {
+    const { resources } = router.query
+    
+    if (Array.isArray(resources)) {
+      let localResources = resources
+
+      const index = localResources.indexOf(resourceId)
+
+      if (index > -1) {
+        localResources.splice(index, 1)
+      }
+
+      router.query.resources = localResources
+    } else {
+      delete router.query.resources
+    }
+
+    router.push(router)
+  }
+
+  function openResource(resourceId) {
+    const { resources } = router.query
+
+    if (Array.isArray(resources)) {
+      if (resources.indexOf(resourceId) > -1) {
+        return
+      }
+
+      router.query.resources = resources.concat([resourceId])
+    } else if (resources) {
+      if (resources === resourceId) {
+        return
+      }
+      router.query.resources = [resources, resourceId]
+    } else {
+      router.query.resources = resourceId
+    }
+
+    router.push(router)
+  }
+
+  function selectResourceType(type) {
+    setResourcesType(type)
+  }
+
+  function onEmptySearchBackspace() {
+    if (searchTags.length > 0) {
+      const last = searchTags[searchTags.length - 1]
+
+      dispatchTags({ type: 'REMOVE_LAST' })
+      setSearchValue(last)
+    }
+  }
+
+  function onRemoveTag(tag) {
+    dispatchTags({ type: 'REMOVE', payload: tag })
+  }
+
+  function onSearchEnter(value) {
+    const trimmedValue = value.trim()
+
+    if (isURL(trimmedValue)) {
+      // Clear search input
+      importArticle(trimmedValue)
+      setSearchValue('')
+    } else if (trimmedValue.length > 1) {
+      // Remove all spaces
+      const clean = trimmedValue.replace(/\s+/g, '')
+
+      dispatchTags({ type: 'ADD', payload: clean })
+      setSearchValue('')
+    }
+  }
+
+  function onSearchChange(value) {
+    setSearchValue(value)
+  }
+
   function deleteArticleNote() {
+    const noteId = getNoteId(resource)
+
     deleteNote(noteId)
     .then(() => {
-      mutateResources()
+      mutateResource()
     })
     .catch((e) => {
       console.error(e)
@@ -200,12 +329,18 @@ function Resource() {
     // Article Title - Username's note
     const noteTitle = `${display_name}'s Note - ${getArticleTitle(title)}`
 
-    createNote(resourceId, noteTitle)
-    .then(({ note }) => {
+    createNote(noteTitle, resourceId)
+    .then(({ note, article, resource_id }) => {
       // Shallow routing adding a parameter for the new note.
       // WARNING: If the user add a query parameter on his own?
       // see: https://nextjs.org/docs/routing/shallow-routing
-      const routeParam = `/r/${resourceId}?note=${note.id}`
+      const hasResources = typeof resources !== 'undefined'
+      let routeParam = '/r/' + resource_id + '?editable="true"&resources=' + resourceId
+      
+      if (hasResources) {
+        routeParam += '&' + resources.map(res => 'resources=' + res).join('&')
+      }
+      
       router.push(routeParam, undefined, { shallow: true })
     })
     .catch((e) => {
@@ -227,7 +362,7 @@ function Resource() {
   }
 
   function createNoteBlock(newBlock) {
-    const articleId = noteArticleData.article.id
+    const articleId = getArticleId(resource)
 
     createBlock(articleId, newBlock)
     .catch((e) => {
@@ -236,7 +371,7 @@ function Resource() {
   }
 
   function updateNoteBlock(updatedBlock) {
-    const articleId = noteArticleData.article.id
+    const articleId = getArticleId(resource)
 
     updateBlock(articleId, updatedBlock)
     .catch((e) => {
@@ -245,7 +380,7 @@ function Resource() {
   }
 
   function deleteNoteBlock(deletedBlock) {
-    const articleId = noteArticleData.article.id
+    const articleId = getArticleId(resource)
 
     deleteBlock(articleId, deletedBlock)
     .catch((e) => {
@@ -268,7 +403,7 @@ function Resource() {
   }
 
   function updateNoteArticle(articleId, article) {
-    mutateNoteArticle()
+    mutateResource()
     updateArticle(articleId, article)
     .then((a) => {
       console.log(a)
@@ -325,12 +460,14 @@ function Resource() {
   }
 
   function setArticleNotePrivate(isPrivate=false) {
+    const noteId = getNoteId(resource)
+
     setNotePrivate(noteId, isPrivate)
     .then((n) => {
-      mutateNoteArticle()
+      mutateResource()
     })
     .catch((e) => {
-      console.error(e.status)
+      console.error(e)
     })
   }
 }
@@ -345,4 +482,8 @@ function getArticleId(resource) {
   }
 
   return content.id
+}
+
+function getNoteId(resource) {
+  return resource.resource.id
 }

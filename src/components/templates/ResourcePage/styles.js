@@ -9,7 +9,7 @@ export const Container = styled.div`
 export const Content = styled.div`
   display: flex;
   flex-direction: row;
-  height: ${props => props.withNav ? 'calc(100% - 47px)' : '100%'};
+  height: calc(100% - 47px);
 `
 
 export const ContainerContent = styled.div`

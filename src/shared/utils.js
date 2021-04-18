@@ -27,13 +27,15 @@ export function decodeHtmlCharCodes(str) {
 
 // https://stackoverflow.com/questions/10687099/how-to-test-if-a-url-string-is-absolute-or-relative
 export function isUrlAbsolute(url) {
-  if (url.indexOf('//') === 0) {return true;} // URL is protocol-relative (= absolute)
-  if (url.indexOf('://') === -1) {return false;} // URL has no protocol (= relative)
-  if (url.indexOf('.') === -1) {return false;} // URL does not contain a dot, i.e. no TLD (= relative, possibly REST)
-  if (url.indexOf('/') === -1) {return false;} // URL does not contain a single slash (= relative)
-  if (url.indexOf(':') > url.indexOf('/')) {return false;} // The first colon comes after the first slash (= relative)
-  if (url.indexOf('://') < url.indexOf('.')) {return true;} // Protocol is defined before first dot (= absolute)
-  return false; // Anything else must be relative
+  return url.indexOf('http://') === 0 || url.indexOf('https://') === 0
+
+  // if (url.indexOf('//') === 0) {return true;} // URL is protocol-relative (= absolute)
+  // if (url.indexOf('://') === -1) {return false;} // URL has no protocol (= relative)
+  // if (url.indexOf('.') === -1) {return false;} // URL does not contain a dot, i.e. no TLD (= relative, possibly REST)
+  // if (url.indexOf('/') === -1) {return false;} // URL does not contain a single slash (= relative)
+  // if (url.indexOf(':') > url.indexOf('/')) {return false;} // The first colon comes after the first slash (= relative)
+  // if (url.indexOf('://') < url.indexOf('.')) {return true;} // Protocol is defined before first dot (= absolute)
+  // return false; // Anything else must be relative
 }
 
 export function extractBaseUrl(url) {
@@ -50,6 +52,12 @@ export function extractDomainUrl(url) {
 }
 
 export const randomChoice = (array) => array[Math.floor(Math.random() * array.length)]
+
+export function partition(array, filter) {
+  let pass = [], fail = []
+  array.forEach((e, idx, arr) => (filter(e, idx, arr) ? pass : fail).push(e))
+  return [pass, fail]
+}
 
 export function getArticleTitle(originalTitle) {
   let title = originalTitle

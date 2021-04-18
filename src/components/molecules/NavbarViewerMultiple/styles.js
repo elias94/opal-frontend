@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import IconButton from 'components/atoms/IconButton'
 import SVG from 'components/atoms/SVG'
@@ -76,6 +76,12 @@ export const NavbarIcon = styled(IconButton)`
 
   transition: color .15s ease, background .15s ease;
 
+  ${props => props.withText && css`
+    margin: 0;
+    padding: 0;
+    padding-right: 0.25rem;
+  `}
+
   &:hover {
     color: ${props => props.theme.colors.blueGray['600']};
     background: none;
@@ -91,7 +97,7 @@ export const SVGIcon = styled(SVG)`
   height: 22px;
 `
 
-export const HighlightIconContainer = styled.div`
+export const IconContainer = styled.div`
   color: ${props => props.theme.colors.blueGray['600']};
 
   font-size: 1.15rem;
@@ -134,17 +140,50 @@ export const TabsContainer = styled.div`
   justify-content: center;
 `
 
-export const Tab = styled.div`
+export const CloseTab = styled(IconButton)`
+  background: ${props => props.theme.colors.blueGray['200']};
+  color: ${props => props.theme.colors.blueGray['400']};
+
+  position: absolute;
+  right: -4px;
+  top: -4px;
+  opacity: 0;
+
+  border-radius: 50%;
+  font-size: 11px;
+  display: inline-flex;
+
+  margin-left: 8px;
+  min-height: 20px;
+  min-width: 20px;
+
+  padding: 0;
+
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  transition: border .15s ease-in-out,
+              background .15s ease-in-out,
+              opacity .15s ease-in-out;
+
+  &:hover {
+    color: ${props => props.theme.colors.blueGray['700']};
+    background: ${props => props.theme.colors.blueGray['300']};
+  }
+`
+
+export const TabContainer = styled.div`
   font-family: ${props => props.theme.fontFamily.sans};
   font-size: ${props => props.theme.fontSize['sm'][0]};
   line-height: ${props => props.theme.fontSize['sm'][1].lineHeight};
   color: ${props => props.theme.colors.blueGray['400']};
 
+  position: relative;
+
   user-select: none;
 
   max-width: 230px;
-  overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
 
   padding: 5px 10px;
@@ -154,6 +193,10 @@ export const Tab = styled.div`
   &:hover {
     background: ${props => props.theme.colors.blueGray['100']};
     color: ${props => props.theme.colors.blueGray['500']};
+
+    ${CloseTab} {
+      opacity: 1;
+    }
   }
 
   &:last-child {

@@ -27,7 +27,7 @@ function ResourceItem({ resource, excerpt, isExternal, ...props }) {
     link = `/r/${res.id}`
   } else {
     subtitle = 'Note'
-    link = `/r/${external.source_id}?note=${external.id}`
+    link = `/r/${res.id}`
   }
 
   if (article.properties && isURL(article.properties.image)) {
@@ -105,9 +105,13 @@ function ResourceItem({ resource, excerpt, isExternal, ...props }) {
     const trim = (str) => str.length > 200 ? str.slice(0, 200) + '...' : str
 
     if (external.type === 'article' || res.type === 'note') {
-      const preview = excerpt.reduce((acc, e) => `${acc} ${formatContentFlat(e.content)}`, '')
-
-      return trim(preview)
+      if (excerpt) {
+        const preview = excerpt.reduce((acc, e) => `${acc} ${formatContentFlat(e.content)}`, '')
+  
+        return trim(preview)
+      } else {
+        return 'No content'
+      }
     } else if (external.type === 'tweet') {
       return trim(article.content.text)
     }

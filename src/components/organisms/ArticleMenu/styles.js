@@ -6,29 +6,19 @@ import Button from 'components/atoms/Button'
 import IconButton from 'components/atoms/IconButton'
 
 export const Container = styled.div`
-  flex-grow: .4;
-  flex-shrink: 1;
-  flex-basis: 0;
   z-index: 2;
 
   background: ${props => props.theme.colors.blueGray['50']};
   transition: width .3s ease-in-out;
   border-left: 1px solid ${props => props.theme.colors.gray['200']};
+  position: absolute;
+  right: 0;
+
+  width: 35rem;
+  height: calc(100% - 47px);
 
   ${props => props.hidden && css`
-    flex-grow: 0;
-  `}
-
-  ${props => props.hidden && !props.isSingleArticle && css`
     width: 0;
-  `}
-
-  ${props => !props.isSingleArticle && css`
-    position: absolute;
-    right: 0;
-
-    width: 35rem;
-    height: calc(100% - 47px);
   `}
 `
 
@@ -69,7 +59,7 @@ export const HeaderTitle = styled(Title)`
 
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: start;
 
   margin: 0;
 `

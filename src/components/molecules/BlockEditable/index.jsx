@@ -12,6 +12,7 @@ import {
   splitBlock
 } from 'shared/DOM/selection'
 import doubleParenthesisLink from 'shared/remark/double-parenthesis-link'
+import highlightText from 'shared/remark/highlight-text'
 
 import Block from 'components/molecules/Block'
 
@@ -295,6 +296,7 @@ function checkLinks(tree) {
 function getUpdatedBlock(markdownText, block) {
   const _mdast = parseMarkdown(markdownText)
   doubleParenthesisLink(_mdast)
+  highlightText(_mdast)
   
   const links = checkLinks(_mdast)
   const mdast = _mdast.children

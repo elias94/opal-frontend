@@ -9,9 +9,14 @@ export const Container = styled.div`
   z-index: 2;
 
   background: ${props => props.theme.colors.white};
-  border-right: 1px solid ${props => props.theme.colors.gray['200']};
+  border-right: 1px solid ${props => props.theme.colors.articleBorderRight};
 
   overflow: scroll;
+
+  ${props => props.sticky && css`
+    position: sticky;
+    left: 0;
+  `}
 `
 
 export const EditorContainer = styled.div`
@@ -96,9 +101,16 @@ export const HeaderButton = styled(Button)`
 `
 
 export const Editor = styled.div`
-  margin-top: 10rem;
+  min-width: 620px;
+  max-width: 660px;
 
-  width: 37.5rem;
+  margin: 10rem 0;
+
+  padding: 32px;
+
+  ${props => props.editable && css`
+    margin-top: 5rem;
+  `}
 `
 
 export const NoteTitle = styled(Title)`
@@ -107,15 +119,12 @@ export const NoteTitle = styled(Title)`
   line-height: 3.75rem;
 
   margin: 0;
-  margin-bottom: 6rem;
   outline: none;
 
   ${props => props.editable && css`
     font-size: ${props => props.theme.fontSize['3xl'][0]};
     line-height: 2.25rem;
     font-weight: 600;
-
-    margin-bottom: 2rem;
   `}
 `
 

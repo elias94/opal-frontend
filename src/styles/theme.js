@@ -8,7 +8,7 @@ export default {
   },
   fontFamily: {
     sans: '"Inter var", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
-    serif: ['ui-serif', 'Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
+    serif: 'ui-serif, Georgia, Cambria, "Times New Roman", Times, serif',
     mono: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
   },
   fontSize: {
@@ -101,6 +101,7 @@ export default {
     // theme colors
     text: '#1b1b1b',
     active: '#64748b',
+    articleBorderRight: 'rgba(0,0,0,0.05)',
 
     // rest of colors
     black: '#000',

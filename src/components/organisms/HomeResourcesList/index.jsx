@@ -143,7 +143,7 @@ function HomeResourcesList({ resources, ...props }) {
 
     function getExcerpt(article) {
       const [,excerpts] = resources
-      return excerpts.find(ex => ex[0].article_id === article.id)
+      return excerpts.find(ex => ex.length && ex[0].article_id === article.id)
     }
 
     if (displayMode === null) {

@@ -10,7 +10,7 @@ import {
   Container, Paragraph, LinkStyled, TitleStyled, Blockquote,
   ContainerEditable, Content, InternalHighlight, InternalBlock,
   Image, Code, ListContainer, ListContent, ListDecorationContent,
-  ListDecorationElement, TweetBlock,
+  ListDecorationElement, TweetBlock, HighlightedText,
 } from './styles'
 
 function Block({ block, editable, ...props }) {
@@ -20,7 +20,12 @@ function Block({ block, editable, ...props }) {
 
   const [mouseHover, setMouseHover] = useState(false)
   
-  const render = renderBlock(block, { url: props.url })
+  const render = renderBlock(block, { url: props.url, openResource: props.openResource })
+
+  // Not render empty block
+  if ((!block.content || !block.content.length) && !block.properties.raw) {
+    return null
+  }
 
   return (
     <Container
@@ -46,7 +51,11 @@ export default Block
 export function BlockEditableOutput({ block, ...props }) {
   // Block version customized for BlockEditable. Only for output markdown render
   // Use the editable props for customize the CSS output of the block specifically for the writing mode
-  const render = renderBlock(block, { editable: true, url: props.url })
+  const render = renderBlock(block, {
+    editable: true,
+    url: props.url,
+    openResource: props.openResource,
+  })
 
   return (
     <ContainerEditable>
@@ -55,7 +64,7 @@ export function BlockEditableOutput({ block, ...props }) {
   )
 }
 
-function renderBlock(block, otherProps={}) {
+function renderBlock(block, { openResource, ...otherProps }) {
   const { type, content, properties, indent } = block
 
   const formatted = formatContent(content, { blockId: block.id, url: otherProps.url })
@@ -91,6 +100,7 @@ function renderBlock(block, otherProps={}) {
       <InternalBlock
         key={key}
         blockId={properties.ref['block_id']}
+        openResource={openResource}
         {...sharedProps}
       />
     )
@@ -198,6 +208,10 @@ function renderToken(node, extra, deep) {
   {
     render = <del key={key}>{formatContent(children, extra, deep + 1)}</del>
   }
+  else if (type === 'highlight')
+  {
+    render = <HighlightedText key={key}>{formatContent(children, extra, deep + 1)}</HighlightedText>
+  }
   else if (type === 'inlineMath')
   {
     render = <MathBlock key={key} node={node} />
@@ -232,6 +246,7 @@ function formatRelativeUrl(url, baseUrl) {
   if (url.startsWith('/')) {
     return `${domain}${url}`
   }
+
   return `${domain}/${url}`
 }
 

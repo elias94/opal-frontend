@@ -3,7 +3,6 @@ import axios from 'axios'
 import {
   getUrl,
   fetch,
-  fetchWithToken,
   postWithToken,
 } from '../fetchers'
 

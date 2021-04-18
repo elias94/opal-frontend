@@ -14,6 +14,7 @@ import {
   hideResource,
   saveTweet,
   sendFeedback,
+  createNote,
 } from 'store'
 
 import HomePage from 'components/templates/HomePage'
@@ -21,9 +22,9 @@ import HomePage from 'components/templates/HomePage'
 /**
  * CONSTANTS
  */
-const DEFAULT_REFRESH = 20 * 1000   // Default refresh rate for resources list
-const PAGE_SIZE = 30                // Initial sizes of a page of resources
-const DEFAULT_LIST_LENGTH = 12      // Default resources list length
+export const DEFAULT_REFRESH = 20 * 1000   // Default refresh rate for resources list
+export const PAGE_SIZE = 30                // Initial sizes of a page of resources
+export const DEFAULT_LIST_LENGTH = 12      // Default resources list length
 
 export default function Signup() {
   const router = useRouter()
@@ -102,9 +103,26 @@ export default function Signup() {
         updatePaging={updatePaging}
         resetPaging={resetPaging}
         sendFeedback={sendUserFeedback}
+        addNote={addNote}
       />
     </div>
   )
+
+  function addNote() {
+    const noteTitle = 'Untitled'
+
+    createNote(noteTitle)
+    .then(({ resource_id }) => {
+      // Shallow routing adding a parameter for the new note.
+      // WARNING: If the user add a query parameter on his own?
+      // see: https://nextjs.org/docs/routing/shallow-routing
+      const routeParam = `/r/${resource_id}?editable=true`
+      router.push(routeParam)
+    })
+    .catch((e) => {
+      console.error(e)
+    })
+  }
 
   function sendUserFeedback(message) {
     sendFeedback(message)

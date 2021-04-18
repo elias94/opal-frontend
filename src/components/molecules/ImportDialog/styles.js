@@ -9,7 +9,7 @@ import IconButton from 'components/atoms/IconButton'
 export const Icon = styled(IconBase)``
 
 export const Container = styled.div`
-  padding-right: 50px;
+  padding-right: 10px;
 `
 
 export const ButtonOpen = styled(Button)`
@@ -25,6 +25,10 @@ export const ButtonOpen = styled(Button)`
   ${Icon} {
     font-size: 14px;
     padding: 0 5px;
+  }
+
+  &:hover {
+    background: ${props => props.theme.colors.blueGray['900']};
   }
 `
 
