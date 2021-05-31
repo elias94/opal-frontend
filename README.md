@@ -1,34 +1,62 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Opal
 
-## Getting Started
+**Opal.to** is a bookmarking service that enable to extend context of imported web article. The context extension is provided by two-way link system, blocks quotations and article annotations from other users.
 
-First, run the development server:
+https://opal.to/
 
-```bash
-npm run dev
-# or
-yarn dev
+### Project
+
+The goal is to try to create a network of interconnected documents, inside a centralized platform. When a user import and read an article, can find on the sidebar  other articles linking to it, annotations on the article made by other users and links to the article (with surrounding context) in other notes not directly related to the article.
+
+- Opal.to allow to import web articles. Article content is converted in *Markdown* format and the content is divided in *blocks*. ( Instapaper, Pocket and similar)
+- When an article is imported, the extracted content is compared with the previous version (if present) and in case a new version is created. (GIT)
+- Article are stored with a single unique URL. So, the article will always be available and all the quotation (or links) would not be broken in the future (Web Archive)
+- User can read and annotate articles in private or public mode. (Medium, Roam)
+  - Notes are *Markdown-blocks* formatted and are capable to embed tweet, videos, etc.
+  - Notes are also capable of interconnecting with other documents using quotation and direct links.
+- User can highlight articles portion and they will be saved. Future feature is to see the highlight on the article from other users in the community.
+
+#### Related reading
+
+- [Xanadu project by T.H. Nelson](https://www.xanadu.net/NOWMORETHANEVER/XuSum99.html)
+- [Web original proposal](https://www.w3.org/History/1989/proposal.html)
+
+![Imgur](https://imgur.com/iBOz5bf.png)
+![Imgur](https://imgur.com/6bXtky8.png)
+![Imgur](https://imgur.com/jl98SC8.png)
+
+## Technology
+
+React frontend tested with Chrome/Firefox/Safari, Python backend, Node.js service for fetching and processing web articles.
+
+### Frontend
+- React SSG - [Next.js](https://nextjs.org/)
+- Markdown - [Unified.js](https://unifiedjs.com/)
+- React Hooks data fatching and caching - [SWR](https://swr.vercel.app/)
+- Styling - [styled-components](https://styled-components.com/)
+
+## Backend
+- Python Framework - [FastAPI](https://fastapi.tiangolo.com/)
+- ORM - [SQLAlchemy](https://www.sqlalchemy.org/)
+
+## Markdown Articles Service
+- Node [node.js](https://nodejs.org/en/)
+- Custom version of [Mozilla readability library](https://github.com/mozilla/readability)
+
+## Databse
+- [PostgreSQL](https://www.postgresql.org/)
+
+## Development
+
+#### Frontend
 ```
+npm install
+npm run dev
+```
+Open `http://localhost:3000` in a browser
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+#### Backend
+Setup the requirements in a virtual env
+```
+uvicorn app:app --reload --env-file .env
+```
